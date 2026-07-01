@@ -1,0 +1,13 @@
+# BRCA1 - hereditary breast/ovarian cancer (Phase 7 cancer pack).
+# MAVE-rich: saturation genome editing (SGE) / HDR functional data -> PS3 routing.
+# AF thresholds are general placeholders pending the ClinGen ENIGMA BRCA1/2 VCEP spec.
+gene: BRCA1
+version: "cancer-pack BRCA1 draft (general ACMG; refine vs ENIGMA VCEP)"
+inheritance: AD
+mechanism: brca
+prior_p: 0.10
+af:
+  ba1: 0.001
+  bs1: 0.0001
+  pm2: 0.00001
+notes: "MAVE/SGE saturation data (Findlay et al.) provide strong functional evidence."

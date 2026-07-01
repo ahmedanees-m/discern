@@ -1,0 +1,35 @@
+# Bernard-Soulier syndrome - ClinGen Platelet Disorder VCEP (GP1BA-BSS, CSpec GN079).
+# GP1BA-BSS specification is PUBLISHED (v1.1.0); GP9/GP1BB still in progress. NOTE: this
+# spec is for BSS (loss-of-function, AR) - the PT-VWD phenotype of GP1BA (gain-of-function,
+# AD) is a separate, uncovered association.
+#
+# CORRECTION (2026-06-13): GN079 is the GP1BA spec, NOT the ITGA2B/ITGB3 (GT) spec - an
+# earlier note mislabeled it. AF + computational thresholds VERIFIED against the CSpec
+# registry (cspec.genome.network/cspec/ui/svi/svi/GN079) and cross-checked on 140 BSS-gene
+# eRepo records:
+#   BA1 >=0.001 ; BS1 0.0005-0.001 ; PM2_Supporting <=0.0001114 (Supporting in 112/112 records)
+#   PP3_Moderate REVEL>=0.773 ; PP3_Supporting REVEL>=0.644 or SpliceAI>=0.5 ; BP4 REVEL<=0.290 and SpliceAI=0
+spec_id: PD-VCEP-GP1BA
+genes: [GP1BA]
+disease: Bernard-Soulier syndrome
+inheritance: AR
+mechanism: gpib_complex
+source: "ClinGen Platelet Disorder VCEP, GP1BA-BSS v1.1.0 (CSpec GN079); thresholds from CSpec + ERepo"
+covered: true
+prior_p: 0.10
+af:
+  ba1: 0.001         # CSpec GN079 verified
+  bs1: 0.0005        # CSpec GN079 verified (0.0005 to <0.001)
+  pm2: 0.0001114     # CSpec GN079 verified
+code_strengths:
+  PM2: PP            # VERIFIED Supporting (112/112 PM2 records in ERepo)
+computational:        # CSpec GN079: PP3 REVEL>=0.644 (Sup) / >=0.773 (Mod) OR SpliceAI>=0.5 ; BP4 REVEL<=0.290 AND SpliceAI=0
+  pp3_revel: 0.644
+  pp3_revel_moderate: 0.773
+  pp3_splice: 0.5
+  bp4_revel: 0.290
+  bp4_splice: 0.0
+notes: >
+  BSS (LoF, AR). Distinct from PT-VWD (GP1BA GoF, AD), which is NOT VCEP-covered.
+  Computational: PP3 REVEL>=0.644 (Supporting) / >=0.773 (Moderate) or SpliceAI>=0.5;
+  BP4 REVEL<=0.290 and SpliceAI=0 - documented; GP9/GP1BB share the panel when published.

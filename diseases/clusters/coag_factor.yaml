@@ -1,0 +1,65 @@
+# Cluster 6 - Coagulation factor deficiencies (F8/F9/F11/F7/F10/F5/F13/fibrinogen).
+# Verified: FXIII (F13) deficiency -> intracranial haemorrhage (up to 30% spontaneous ICH,
+# leading cause of mortality) - the high-stakes miss. F8/F9 = CFD-VCEP, 3-star.
+id: coag_factor
+name: Coagulation factor deficiencies
+discriminating_features: [delayed_umbilical_separation, normal_pt_aptt, factor_activity, intracranial_hemorrhage]
+diseases:
+  - id: fxiii
+    name: Factor XIII deficiency
+    genes: [F13A1, F13B]
+    inheritance: AR
+    mechanism: clot_stabilization
+    prior: 0.15
+    p_path_given_disease: 0.88
+    treatment: fxiii_concentrate_prophylaxis
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      delayed_umbilical_separation: [0.8, 40, "24149912"]
+      intracranial_hemorrhage: [0.3, 40, "24149912"]
+      normal_pt_aptt: [0.95, 40, "24149912"]
+      delayed_bleeding: [0.85, 40, "24149912"]
+  - id: hemophilia_a
+    name: Hemophilia A (factor VIII)
+    genes: [F8]
+    inheritance: XLR
+    mechanism: coag_factor
+    prior: 0.4
+    p_path_given_disease: 0.9
+    treatment: factor8_concentrate
+    contraindications: []
+    vcep_spec: CFD-VCEP-F8
+    feature_lr:
+      prolonged_aptt: [0.95, 100, "32744769"]
+      low_factor8_activity: [0.95, 100, "32744769"]
+      hemarthrosis: [0.7, 100, "32744769"]
+  - id: hemophilia_b
+    name: Hemophilia B (factor IX)
+    genes: [F9]
+    inheritance: XLR
+    mechanism: coag_factor
+    prior: 0.3
+    p_path_given_disease: 0.9
+    treatment: factor9_concentrate
+    contraindications: []
+    vcep_spec: CFD-VCEP-F9
+    feature_lr:
+      prolonged_aptt: [0.95, 80, "32744769"]
+      low_factor9_activity: [0.95, 80, "32744769"]
+      hemarthrosis: [0.7, 80, "32744769"]
+next_observations:
+  - id: factor_panel
+    name: Factor activity panel (VIII, IX, XI, XIII)
+    kind: lab
+    informs: [D, V]
+    outcome_lr: {low_f8: {hemophilia_a: 20.0}, low_f9: {hemophilia_b: 20.0}, low_f13: {fxiii: 25.0}}
+    changes_management: true
+    accessibility: moderate
+  - id: fxiii_screen
+    name: FXIII activity (clot solubility) when PT/aPTT normal but bleeding
+    kind: lab
+    informs: [D]
+    outcome_lr: {clot_soluble: {fxiii: 25.0}}
+    changes_management: true
+    accessibility: moderate

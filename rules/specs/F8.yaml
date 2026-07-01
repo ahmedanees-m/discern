@@ -1,0 +1,17 @@
+# F8 - Hemophilia A - ClinGen Coagulation Factor Deficiency VCEP (spec GN071, v2.0.0).
+# VERIFIED rules (cspec.genome.network/cspec/ui/svi/svi/GN071, 2026-06-12):
+#   * X-linked recessive; mechanism = coagulation factor.
+#   * PVS1 includes RNA recommendations; PP3/BP4/BP7 updated to revised splice cutoffs.
+#   * PS4 is ratio-based for hemizygotes in gnomAD v4.1 (not a fixed count).
+# NOTE: the AF thresholds below are rare-disease-appropriate PLACEHOLDERS pending
+# extraction of the exact numeric cutoffs from the GN071 spec document.
+gene: F8
+version: "ClinGen-CFD-VCEP F8 v2.0.0 (GN071); AF thresholds placeholder pending spec PDF"
+inheritance: XLR
+mechanism: coag_factor
+prior_p: 0.10
+af:
+  ba1: 0.0015     # placeholder - confirm vs GN071
+  bs1: 0.0001     # placeholder
+  pm2: 0.00001    # placeholder (absent/extremely rare in a hemizygous-aware framework)
+notes: "Hemizygote PS4 rule applies (males need one allele). AF thresholds are placeholders to be replaced with the published GN071 values."

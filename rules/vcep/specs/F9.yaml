@@ -1,0 +1,30 @@
+# Hemophilia B - ClinGen Coagulation Factor Deficiency VCEP (F9, CSpec GN071 sibling).
+# X-linked; F9 classifications in ClinVar at 3-star FDA-recognized.
+#
+# AF thresholds VERIFIED 2026-06-13 from the VCEP's own 71 F9 records in the ClinGen
+# Evidence Repository (narratives state the cut-offs verbatim):
+#   BA1: MAF >=0.0000556  ("meeting the BA1 cut-off of >/= 0.0000556")
+#   BS1: MAF >=0.0000278  (= BA1/2, the CFD-VCEP pattern)
+#   PM2_Supporting: applied at Supporting in 52/52 PM2 records.
+spec_id: CFD-VCEP-F9
+genes: [F9]
+disease: Hemophilia B
+inheritance: XLR
+mechanism: coag_factor
+source: "ClinGen CFD-VCEP F9 (GN071 family); 3-star FDA-recognized; thresholds from ERepo applied records"
+covered: true
+prior_p: 0.10
+af:
+  ba1: 0.0000556     # ERepo-verified
+  bs1: 0.0000278     # ERepo-verified (BA1/2)
+  pm2: 0.00001       # proxy: hemizygote-aware, applied Supporting
+code_strengths:
+  PM2: PP            # VERIFIED Supporting (52/52 PM2 records in ERepo)
+computational:        # CFD-VCEP (shares F8 GN071 logic): PP3 REVEL>=0.6/SpliceAI>=0.2; BP4 REVEL<=0.3/SpliceAI<=0.1
+  pp3_revel: 0.6
+  pp3_splice: 0.2
+  bp4_revel: 0.3
+  bp4_splice: 0.1
+notes: >
+  Hemizygote handling as for F8; PS4 ratio-based (variant-dependent, ACMG default).
+  Computational REVEL/SpliceAI per the CFD-VCEP (not CADD).

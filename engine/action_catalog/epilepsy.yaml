@@ -1,0 +1,28 @@
+# Epilepsy / neurodevelopmental action catalog (plan Phase 7).
+# Mechanism-keyed: ion-channel and synaptic genes with their patch-clamp / electro-
+# physiology functional assays (the PS3/BS3 generators). Same engine, new pack only.
+# sens/spec/cost are literature-seeded priors, explicitly versioned.
+version: "epilepsy-pack-0.1.0-draft"
+
+mechanisms:
+  ion_channel_loss:           # SCN1A (Dravet) -- loss of function
+    PS3: [patch_clamp_voltage, automated_patch, two_electrode_voltage_clamp]
+  ion_channel_gain:           # SCN2A, SCN8A -- gain of function (channel kinetics)
+    PS3: [patch_clamp_voltage, automated_patch]
+  potassium_channel:          # KCNQ2, KCNQ3
+    PS3: [patch_clamp_voltage, two_electrode_voltage_clamp]
+  calcium_channel:            # CACNA1A
+    PS3: [patch_clamp_calcium, automated_patch]
+  synaptic:                   # STXBP1, SYNGAP1 -- protein/synaptic function
+    PS3: [protein_expression_wb, synaptic_release_assay]
+
+actions:
+  patch_clamp_voltage:        {yields: [PS3, BS3], cost_usd: 1500, days: 35, sens: 0.85, spec: 0.90, modality: functional}
+  automated_patch:            {yields: [PS3, BS3], cost_usd: 1100, days: 28, sens: 0.82, spec: 0.90, modality: functional}
+  two_electrode_voltage_clamp: {yields: [PS3],     cost_usd: 1300, days: 35, sens: 0.80, spec: 0.88, modality: functional}
+  patch_clamp_calcium:        {yields: [PS3, BS3], cost_usd: 1600, days: 35, sens: 0.83, spec: 0.90, modality: functional}
+  protein_expression_wb:      {yields: [PS3],      cost_usd: 500,  days: 14, sens: 0.75, spec: 0.88, modality: functional}
+  synaptic_release_assay:     {yields: [PS3],      cost_usd: 1800, days: 42, sens: 0.78, spec: 0.90, modality: functional}
+  rna_seq_splice:             {yields: [PS3, BS3], cost_usd: 900,  days: 28, sens: 0.78, spec: 0.92, modality: rna}
+  trio_testing:               {yields: [PS2, PM3], cost_usd: 1200, days: 21, sens: 0.72, spec: 0.99, modality: segregation}
+  family_segregation:         {yields: [PP1, BS4], cost_usd: 800,  days: 21, sens: 0.65, spec: 0.95, modality: segregation}

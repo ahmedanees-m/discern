@@ -1,0 +1,71 @@
+# Cluster 4 - Granule disorders (dense: HPS, Chediak-Higashi/LYST; alpha: Gray platelet).
+# Verified: Chediak-Higashi (LYST) -> HLH "accelerated phase" (50-85%, fatal untreated) -> HSCT.
+id: granule
+name: Granule disorders
+discriminating_features: [oculocutaneous_albinism, giant_granules, hlh_risk, absent_alpha_granules]
+diseases:
+  - id: chs
+    name: Chediak-Higashi syndrome
+    genes: [LYST]
+    inheritance: AR
+    mechanism: lysosomal_trafficking
+    prior: 0.2
+    p_path_given_disease: 0.88
+    treatment: hsct
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      oculocutaneous_albinism: [0.9, 30, "25129365"]
+      giant_granules: [0.95, 30, "25129365"]
+      hlh_risk: [0.7, 30, "25129365"]
+      recurrent_infections: [0.85, 30, "25129365"]
+  - id: hps
+    name: Hermansky-Pudlak syndrome (dense-granule)
+    genes: [HPS1, HPS3, HPS4, HPS5, HPS6, AP3B1]
+    inheritance: AR
+    mechanism: dense_granule
+    prior: 0.4
+    p_path_given_disease: 0.85
+    treatment: antifibrinolytics_ddavp
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      oculocutaneous_albinism: [0.9, 50, "20301464"]
+      reduced_dense_granules: [0.95, 50, "20301464"]
+      pulmonary_fibrosis: [0.3, 50, "20301464"]
+  - id: gps
+    name: Gray platelet syndrome (alpha-granule)
+    genes: [NBEAL2]
+    inheritance: AR
+    mechanism: alpha_granule
+    prior: 0.4
+    p_path_given_disease: 0.85
+    treatment: supportive
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      absent_alpha_granules: [0.95, 40, "21765411"]
+      gray_platelets_smear: [0.9, 40, "21765411"]
+      myelofibrosis: [0.5, 40, "21765411"]
+next_observations:
+  - id: blood_smear_granules
+    name: Blood smear (gray platelets / giant granules)
+    kind: lab
+    informs: [D]
+    outcome_lr: {gray_platelets: {gps: 8.0}, giant_granules: {chs: 10.0}}
+    changes_management: true
+    accessibility: high
+  - id: electron_microscopy
+    name: Whole-mount electron microscopy (dense/alpha granules)
+    kind: functional
+    informs: [D, V]
+    outcome_lr: {dense_absent: {hps: 12.0}, alpha_absent: {gps: 12.0}}
+    changes_management: false
+    accessibility: low
+  - id: hlh_workup
+    name: HLH workup (ferritin, sIL2R) if Chediak suspected
+    kind: lab
+    informs: [D]
+    outcome_lr: {hlh_active: {chs: 6.0}}
+    changes_management: true
+    accessibility: moderate

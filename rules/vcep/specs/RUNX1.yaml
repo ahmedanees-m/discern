@@ -1,0 +1,28 @@
+# Familial platelet disorder with myeloid malignancy - ClinGen Myeloid Malignancy VCEP.
+# VERIFIED: Luo et al., Blood Advances 2019;3(20):2962-2979 (DOI 10.1182/bloodadvances.2019000644,
+# PMID 31648317); germline RUNX1; gene-specified 28 ACMG codes; reduced CONF/VUS by 33%.
+# Includes MAF thresholds, functional-domain hotspots, semi-quantitative case counting.
+spec_id: MM-VCEP-RUNX1
+genes: [RUNX1]
+disease: RUNX1 familial platelet disorder with myeloid malignancy
+inheritance: AD
+mechanism: transcription_factor
+source: "Luo et al., Blood Adv 2019;3(20):2962-2979 (DOI 10.1182/bloodadvances.2019000644; PMID 31648317)"
+covered: true
+prior_p: 0.10
+af:
+  ba1: 0.0015        # VERIFIED MM-VCEP: BA1 stand-alone at MAF >= 0.0015 (0.15%) - Luo 2019
+  bs1: 0.00015       # VERIFIED MM-VCEP: BS1 at MAF >= 0.00015 (0.015%, one magnitude below BA1)
+  pm2: 0.00001
+code_strengths:
+  PM2: PP            # VERIFIED Supporting (1040/1054 PM2 records in ERepo, 2026-06-13)
+computational:        # MM-VCEP RUNX1 v2 revision (Blood Adv 2022;6(16):4726, PMC9631670): PP3 REVEL>=0.88 / SpliceAI>=0.38 ; BP4 REVEL<=0.50 / SpliceAI<=0.20 (replaced v1 REVEL 0.75/0.15)
+  pp3_revel: 0.88
+  pp3_splice: 0.38
+  bp4_revel: 0.50
+  bp4_splice: 0.20
+notes: >
+  Germline cancer-risk implication; surveillance + donor selection. PM2 Supporting verified from
+  eRepo. BA1 0.0015 (0.15%) / BS1 0.00015 (0.015%) VERIFIED from the MM-VCEP RUNX1 spec
+  (Luo et al., Blood Adv 2019;3(20):2962, PMID 31648317; revised 2022, Blood Adv 6(16):4726).
+  PS1/PM5 are strength-adjusted in the RUNX1 spec; PVS1/PS4 use the variant-dependent trees.

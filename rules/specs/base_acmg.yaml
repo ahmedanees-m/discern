@@ -1,0 +1,14 @@
+# General ACMG/ClinGen-SVI default specification (fallback when no gene spec exists).
+# These thresholds are documented general defaults - gene-specific VCEP specs (e.g.
+# F8.yaml from GN071) override them. PM2 is applied at Supporting strength per the
+# 2020 ClinGen SVI recommendation.
+gene: "*"
+version: "base-acmg-default-0.1"
+inheritance: ""
+mechanism: ""
+prior_p: 0.10
+af:
+  ba1: 0.05      # stand-alone benign (Richards 2015 default; most VCEPs lower this)
+  bs1: 0.0015
+  pm2: 0.0001    # absent/very rare -> PM2_Supporting
+notes: "General defaults; replace with the gene's published ClinGen CSpec thresholds."

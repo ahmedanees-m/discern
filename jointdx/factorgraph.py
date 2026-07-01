@@ -1,0 +1,68 @@
+"""The coupled disease x variant joint model - THE NOVEL CORE (plan Phase 3 / Section A.1).
+
+    P(D, V | E) proportional-to P(E_pheno | D) - P(E_geno | V) - P(E_func | D, V) - P(V | D) - P(D)
+
+Each evidence stream enters **once**: phenotype -> D, variant-intrinsic genetics -> V,
+functional -> both (D,V). `P(V | D)` is the calibrated PP4 - the disease->variant coupling
+- so phenotype's pull on V flows through D and is never double-counted. The cluster is
+small, so we enumerate D x V exactly. This is the answer to the circularity critique.
+"""
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass, field
+
+from core.dx_schemas import DiscriminationCluster, Disease, Feature, VariantState
+from evidence.genetic import variant_intrinsic_likelihood
+from evidence.lab import func_loglik
+from evidence.phenotype_lr import phenotype_loglik
+from rules.vcep.loader import get_spec
+
+
+@dataclass
+class Evidence:
+    variant_gene: str = ""
+    variant_id: str = "V"
+    genetic_codes: list[str] = field(default_factory=list)   # applied ACMG codes
+    clinical: list[Feature] = field(default_factory=list)     # CLINICAL features (+ pertinent negatives)
+    functional: list[Feature] = field(default_factory=list)   # LAB/FUNCTIONAL features
+
+
+def _couple_weights(pp: float) -> dict[VariantState, float]:
+    """Soft P(V | D) prior tilted by pp = P(variant pathogenic | disease) - the PP4 coupling."""
+    w = {
+        VariantState.PATH: pp,
+        VariantState.LP: 0.7 * pp + 0.1,
+        VariantState.VUS: 0.3,
+        VariantState.LB: 0.7 * (1 - pp) + 0.1,
+        VariantState.BEN: (1 - pp),
+    }
+    z = sum(w.values()) or 1.0
+    return {k: v / z for k, v in w.items()}
+
+
+def coupling_loglik(v: VariantState, disease: Disease, variant_gene: str) -> float:
+    # On-gene: the variant can be the cause of D -> tilt by p_path_given_disease.
+    # Off-gene: the variant is incidental to D -> a pathogenic variant argues against D.
+    pp = disease.p_path_given_disease if variant_gene in disease.genes else 0.05
+    return math.log(max(_couple_weights(pp)[v], 1e-9))
+
+
+def joint(cluster: DiscriminationCluster, ev: Evidence) -> dict[tuple[str, VariantState], float]:
+    """Normalized joint P(D, V | E) as {(disease_id, VariantState): prob}."""
+    spec = get_spec(ev.variant_gene) if ev.variant_gene else get_spec("")
+    geno_lik = variant_intrinsic_likelihood(ev.genetic_codes, spec)   # P(E_geno | V), once
+    logtbl: dict[tuple[str, VariantState], float] = {}
+    for d in cluster.diseases:
+        lp_ph = phenotype_loglik(ev.clinical, d)                       # P(E_pheno | D), once
+        lp_prior = math.log(max(d.prior, 1e-9))
+        for v in VariantState:
+            lp_ge = math.log(max(geno_lik[v], 1e-9))
+            lp_fn = func_loglik(ev.functional, d, v)                   # P(E_func | D,V), once
+            lp_cp = coupling_loglik(v, d, ev.variant_gene)            # P(V | D) = coupled PP4
+            logtbl[(d.id, v)] = lp_ph + lp_ge + lp_fn + lp_cp + lp_prior
+    # exp-normalize (shift by max for numerical stability)
+    m = max(logtbl.values())
+    exp = {k: math.exp(v - m) for k, v in logtbl.items()}
+    z = sum(exp.values()) or 1.0
+    return {k: v / z for k, v in exp.items()}

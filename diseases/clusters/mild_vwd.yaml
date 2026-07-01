@@ -1,0 +1,77 @@
+# Cluster C9 (v3.1) - Mild bleeding with normal/borderline tests: type-1 VWD / "low VWF" (VWF)
+# vs mild platelet function defect vs no disorder. High-volume, low-drama cluster used to
+# DEMONSTRATE CALIBRATION + ABSTENTION (the danger is over-/under-diagnosis). NOTE: per the
+# 2021 ASH/ISTH/NBDF/WFH guideline and the 2025 review, "low VWF" (0.30-0.50 IU/mL) is NO LONGER
+# a guideline-distinct nosology - framed descriptively as part of the type-1 spectrum.
+# feature_lr = [freq_in_disease, n_cases, pmid]. Sources (PMIDs web-verified): Bowman/James
+# Blood Adv 2025 (40845253); Gresele IPFD diagnosis JTH 2015 (25403439). LRs are calibrated
+# estimates consistent with these reviews (which report concepts/frequencies, not per-feature LRs).
+id: mild_vwd
+name: Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)
+discriminating_features: [low_vwf_level, abnormal_lta, high_bat_score, repeat_vwf_low, normal_repeat_testing]
+diseases:
+  - id: type1_lowvwf
+    name: Type 1 VWD / low VWF (type-1 spectrum)
+    genes: [VWF]
+    inheritance: AD
+    mechanism: partial_quantitative_vwf
+    prior: 0.35
+    p_path_given_disease: 0.45
+    treatment: desmopressin_tranexamic
+    contraindications: []
+    vcep_spec: VWD-VCEP-VWF
+    feature_lr:
+      low_vwf_level: [0.90, 100, "40845253"]
+      repeat_vwf_low: [0.65, 100, "40845253"]
+      high_bat_score: [0.60, 100, "40845253"]
+      normal_repeat_testing: [0.30, 100, "40845253"]
+  - id: mild_pfd
+    name: Mild platelet function defect
+    genes: []
+    inheritance: none
+    mechanism: platelet_secretion_aggregation
+    prior: 0.25
+    p_path_given_disease: 0.02
+    treatment: tranexamic_platelet_support
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      abnormal_lta: [0.70, 200, "25403439"]
+      high_bat_score: [0.55, 200, "25403439"]
+      normal_repeat_testing: [0.85, 100, "25403439"]
+  - id: normal
+    name: No bleeding disorder (normal)
+    genes: []
+    inheritance: none
+    mechanism: no_hemostatic_defect
+    prior: 0.40
+    p_path_given_disease: 0.02
+    treatment: reassurance_observation
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      low_vwf_level: [0.15, 100, "40845253"]
+      high_bat_score: [0.20, 100, "40845253"]
+      normal_repeat_testing: [0.90, 100, "40845253"]
+next_observations:
+  - id: repeat_vwf_panel
+    name: Repeat VWF antigen/activity panel (levels fluctuate; confirm persistence)
+    kind: lab
+    informs: [D]
+    outcome_lr: {persistently_low: {type1_lowvwf: 4.0}, normalized: {normal: 2.5}}
+    changes_management: true
+    accessibility: high
+  - id: lta_panel
+    name: Light-transmission aggregometry (LTA)
+    kind: functional
+    informs: [D]
+    outcome_lr: {abnormal: {mild_pfd: 7.0}, normal: {type1_lowvwf: 1.1, normal: 1.5}}
+    changes_management: true
+    accessibility: low
+  - id: bat_score
+    name: ISTH bleeding-assessment-tool (BAT) score
+    kind: lab
+    informs: [D]
+    outcome_lr: {elevated: {type1_lowvwf: 2.0, mild_pfd: 1.8}, normal: {normal: 1.6}}
+    changes_management: false
+    accessibility: high

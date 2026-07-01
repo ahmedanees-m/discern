@@ -1,0 +1,28 @@
+# Cancer-predisposition action catalog (plan Phase 7).
+# MAVE-rich domain: BRCA1/2, mismatch-repair (Lynch), TP53, PTEN, CDH1 - ideal for
+# functional-evidence (PS3) routing via saturation/MAVE assays, and for the equity
+# mechanism. Same engine, new pack only. Priors literature-seeded + versioned.
+version: "cancer-pack-0.1.0-draft"
+
+mechanisms:
+  brca:                       # BRCA1, BRCA2 -- HDR / saturation genome editing (SGE)
+    PS3: [sge_saturation, hdr_assay, mave_functional]
+  mmr:                        # MLH1, MSH2, MSH6, PMS2 (Lynch) -- MMR activity
+    PS3: [mmr_activity_assay, mave_functional]
+  tp53:                       # TP53 -- transactivation
+    PS3: [transactivation_assay, mave_functional]
+  pten:                       # PTEN -- phosphatase activity / VAMP-seq abundance
+    PS3: [vamp_seq_abundance, phosphatase_assay, mave_functional]
+  cdh1:                       # CDH1 -- splicing / expression
+    PS3: [rna_seq_splice, mave_functional]
+
+actions:
+  sge_saturation:             {yields: [PS3, BS3], cost_usd: 400,  days: 21, sens: 0.95, spec: 0.96, modality: functional}
+  mave_functional:            {yields: [PS3, BS3], cost_usd: 300,  days: 14, sens: 0.92, spec: 0.94, modality: functional}
+  hdr_assay:                  {yields: [PS3, BS3], cost_usd: 700,  days: 28, sens: 0.88, spec: 0.92, modality: functional}
+  mmr_activity_assay:         {yields: [PS3, BS3], cost_usd: 650,  days: 28, sens: 0.86, spec: 0.92, modality: functional}
+  transactivation_assay:      {yields: [PS3, BS3], cost_usd: 500,  days: 21, sens: 0.85, spec: 0.90, modality: functional}
+  vamp_seq_abundance:         {yields: [PS3, BS3], cost_usd: 350,  days: 21, sens: 0.90, spec: 0.93, modality: functional}
+  phosphatase_assay:          {yields: [PS3],      cost_usd: 600,  days: 28, sens: 0.84, spec: 0.90, modality: functional}
+  rna_seq_splice:             {yields: [PS3, BS3], cost_usd: 900,  days: 28, sens: 0.78, spec: 0.92, modality: rna}
+  family_segregation:         {yields: [PP1, BS4], cost_usd: 800,  days: 21, sens: 0.65, spec: 0.95, modality: segregation}

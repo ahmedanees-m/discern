@@ -1,0 +1,97 @@
+# Cluster C7 (v3.1) - Alpha-granule deficiency: Gray platelet syndrome (NBEAL2), GFI1B-related,
+# ARC (VPS33B), Quebec platelet disorder (PLAU). Shared alpha-granule abnormality but divergent
+# management: GPS needs myelofibrosis surveillance; QUEBEC needs ANTIFIBRINOLYTICS, NOT platelet
+# transfusion. feature_lr = [freq_in_disease, n_cases, pmid]; literature-anchored estimates.
+# Sources (PMIDs web-verified): Lentaigne Blood 2016 (27095789); NBEAL2/GPS Albers Nat Genet
+# 2011 (21765412); GFI1B Monteferrario NEJM 2014 (24325358); Quebec/PLAU Diamandis Blood 2010
+# (20007542) + Hayward review (21495923); ARC/VPS33B Bem Blood 2015 (25947942).
+id: alpha_granule
+name: Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec)
+discriminating_features: [gray_platelets_smear, alpha_granule_absent_em, myelofibrosis,
+                          urokinase_overexpression, macrothrombocytopenia, multisystem_arc_features]
+diseases:
+  - id: gray_platelet
+    name: Gray platelet syndrome (NBEAL2)
+    genes: [NBEAL2]
+    inheritance: AR
+    mechanism: alpha_granule_biogenesis
+    prior: 0.40
+    p_path_given_disease: 0.90
+    treatment: myelofibrosis_surveillance
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      gray_platelets_smear: [0.95, 24, "27095789"]
+      alpha_granule_absent_em: [0.98, 24, "21765412"]
+      myelofibrosis: [0.5, 24, "21765412"]
+      macrothrombocytopenia: [0.7, 24, "27095789"]
+  - id: gfi1b
+    name: GFI1B-related platelet disorder
+    genes: [GFI1B]
+    inheritance: AD
+    mechanism: megakaryopoiesis_tf
+    prior: 0.25
+    p_path_given_disease: 0.85
+    treatment: supportive_antifibrinolytic
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      gray_platelets_smear: [0.70, 8, "24325358"]
+      alpha_granule_absent_em: [0.85, 8, "24325358"]
+      macrothrombocytopenia: [0.90, 8, "24325358"]
+  - id: quebec
+    name: Quebec platelet disorder (PLAU duplication)
+    genes: [PLAU]
+    inheritance: AD
+    mechanism: upa_overexpression_fibrinolysis
+    prior: 0.25
+    p_path_given_disease: 0.95
+    treatment: antifibrinolytics
+    contraindications: [platelet_transfusion]
+    vcep_spec: null
+    feature_lr:
+      urokinase_overexpression: [0.98, 38, "20007542"]
+      gray_platelets_smear: [0.05, 38, "21495923"]
+      alpha_granule_absent_em: [0.10, 38, "21495923"]
+  - id: arc
+    name: ARC syndrome (VPS33B / VIPAS39)
+    genes: [VPS33B]
+    inheritance: AR
+    mechanism: alpha_granule_maturation_trafficking
+    prior: 0.10
+    p_path_given_disease: 0.90
+    treatment: multisystem_supportive
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      alpha_granule_absent_em: [0.90, 12, "25947942"]
+      multisystem_arc_features: [0.95, 12, "25947942"]
+next_observations:
+  - id: blood_smear_gray
+    name: Peripheral blood smear for gray (agranular) platelets
+    kind: lab
+    informs: [D]
+    outcome_lr: {gray_platelets: {gray_platelet: 8.0, gfi1b: 4.0}}
+    changes_management: false
+    accessibility: high
+  - id: em_alpha_granule
+    name: Electron microscopy alpha-granule count
+    kind: functional
+    informs: [D]
+    outcome_lr: {absent: {gray_platelet: 9.0, arc: 6.0, gfi1b: 5.0}}
+    changes_management: false
+    accessibility: low
+  - id: upa_assay
+    name: Platelet urokinase (uPA) overexpression assay (Quebec-specific)
+    kind: functional
+    informs: [D, V]
+    outcome_lr: {overexpressed: {quebec: 50.0}}
+    changes_management: true
+    accessibility: moderate
+  - id: marrow_fibrosis
+    name: Bone-marrow reticulin / fibrosis assessment (GPS surveillance)
+    kind: lab
+    informs: [D]
+    outcome_lr: {fibrosis_present: {gray_platelet: 6.0}}
+    changes_management: true
+    accessibility: moderate

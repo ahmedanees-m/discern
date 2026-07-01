@@ -1,0 +1,37 @@
+# von Willebrand disease - ClinGen Von Willebrand Disease VCEP (VWF, CSpec GN081).
+# Covers 2A/2B/2M. PT-VWD (GP1BA gain-of-function) is a DIFFERENT gene/phenotype and is
+# NOT covered (cluster coverage asymmetry).
+#
+# AF + computational thresholds VERIFIED 2026-06-13 against the machine-readable CSpec
+# registry (cspec.genome.network/cspec/ui/svi/svi/GN081) and cross-checked on the VCEP's
+# own 119 VWF records in the ClinGen Evidence Repository:
+#   BA1: Popmax MAF >0.1   (CSpec; eRepo narratives state the variant's FAF then "(BA1)" but
+#        do not restate the cut-off - so BA1 came from the CSpec spec, not eRepo)
+#   BS1: Popmax MAF >0.01  (CSpec + eRepo "higher than the ClinGen VWD VCEP BS1 threshold of >0.01")
+#   PM2_Supporting: Popmax MAF <0.0001 ; applied at Supporting in 73/73 PM2 records.
+#   PP3: REVEL >=0.644 OR SpliceAI >=0.5 ; BP4: REVEL <=0.290 AND SpliceAI <0.1
+#   NOTE: the VWD VCEP is "not using CADD at this time" (a draft report claiming "CADD>20" was wrong).
+spec_id: VWD-VCEP-VWF
+genes: [VWF]
+disease: von Willebrand disease (2A/2B/2M)
+inheritance: AD
+mechanism: vwf
+source: "ClinGen VWD VCEP VWF v1.0.0 (CSpec GN081); covers 2A/2B/2M; thresholds from CSpec + ERepo"
+covered: true
+prior_p: 0.10
+af:
+  ba1: 0.1           # CSpec GN081: Popmax MAF >0.1 (VWF carries common benign variation)
+  bs1: 0.01          # CSpec GN081 + eRepo verified
+  pm2: 0.0001        # CSpec GN081 + eRepo verified
+code_strengths:
+  PM2: PP            # VERIFIED Supporting (73/73 PM2 records in ERepo)
+computational:        # CSpec GN081: PP3 REVEL>=0.644 OR SpliceAI>=0.5 ; BP4 REVEL<=0.290 AND SpliceAI<0.1
+  pp3_revel: 0.644
+  pp3_splice: 0.5
+  bp4_revel: 0.290
+  bp4_splice: 0.1
+notes: >
+  Subtype-aware (2N via VWF:FVIII binding). Computational: PP3 REVEL>=0.644 or SpliceAI>=0.5;
+  BP4 REVEL<=0.290 and SpliceAI<0.1; CADD not used by this VCEP at present - documented,
+  wire into the in-silico adapter when used. PVS1/PS4 variant-dependent trees kept at ACMG
+  default (documented simplification).

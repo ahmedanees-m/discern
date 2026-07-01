@@ -1,0 +1,74 @@
+# Cluster 3 - Macrothrombocytopenia "looks like ITP" (Bernard-Soulier vs MYH9 vs ITP).
+# Verified: BSS frequently misdiagnosed as ITP -> improper steroids/splenectomy; giant
+# platelets + reduced CD42 (GPIb) distinguish BSS. GP1BA-BSS spec now published (v1.1.0).
+id: macrothrombocytopenia
+name: Macrothrombocytopenia / looks-like-ITP
+discriminating_features: [macrothrombocytopenia, giant_platelets, flow_cd42_reduced, leukocyte_inclusions]
+diseases:
+  - id: bss
+    name: Bernard-Soulier syndrome
+    genes: [GP1BA, GP1BB, GP9]
+    inheritance: AR
+    mechanism: gpib_complex
+    prior: 0.3
+    p_path_given_disease: 0.88
+    treatment: platelet_transfusion_antifibrinolytics
+    contraindications: [splenectomy, corticosteroids]
+    vcep_spec: PD-VCEP-GP1BA
+    feature_lr:
+      macrothrombocytopenia: [0.95, 50, "23929303"]
+      giant_platelets: [0.9, 50, "23929303"]
+      flow_cd42_reduced: [0.95, 50, "23929303"]
+      ripa_absent: [0.9, 50, "23929303"]
+  - id: myh9
+    name: MYH9-related disorder
+    genes: [MYH9]
+    inheritance: AD
+    mechanism: cytoskeletal
+    prior: 0.2
+    p_path_given_disease: 0.85
+    treatment: supportive
+    contraindications: [splenectomy]
+    vcep_spec: null
+    feature_lr:
+      macrothrombocytopenia: [0.9, 40, "19408192"]
+      giant_platelets: [0.9, 40, "19408192"]
+      leukocyte_inclusions: [0.85, 40, "19408192"]
+      flow_cd42_reduced: [0.1, 40, "19408192"]
+  - id: itp
+    name: Immune thrombocytopenia (acquired)
+    genes: []
+    inheritance: acquired
+    mechanism: autoimmune
+    prior: 0.5
+    p_path_given_disease: 0.05
+    treatment: corticosteroids_ivig_splenectomy
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      macrothrombocytopenia: [0.1, 200, "31794604"]
+      giant_platelets: [0.1, 200, "31794604"]
+      flow_cd42_reduced: [0.05, 200, "31794604"]
+      normal_platelet_size: [0.8, 200, "31794604"]
+next_observations:
+  - id: blood_smear
+    name: Peripheral blood smear (platelet size, leukocyte inclusions)
+    kind: lab
+    informs: [D]
+    outcome_lr: {giant_platelets: {bss: 8.0, myh9: 6.0}, leukocyte_inclusions: {myh9: 10.0}, normal: {itp: 5.0}}
+    changes_management: true
+    accessibility: high
+  - id: flow_cd42
+    name: Flow cytometry CD42a/CD42b (GPIb-IX)
+    kind: functional
+    informs: [D, V]
+    outcome_lr: {reduced: {bss: 15.0}, normal: {myh9: 4.0, itp: 4.0}}
+    changes_management: true
+    accessibility: moderate
+  - id: family_history
+    name: Family history / lifelong thrombocytopenia
+    kind: segregation
+    informs: [D]
+    outcome_lr: {lifelong_familial: {bss: 4.0, myh9: 4.0}, acquired_recent: {itp: 4.0}}
+    changes_management: true
+    accessibility: high

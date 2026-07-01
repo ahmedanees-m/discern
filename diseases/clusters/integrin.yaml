@@ -1,0 +1,96 @@
+# Cluster 1 - Integrin / aggregation (Glanzmann vs LAD-III vs RASGRP2 vs LAD-I).
+# feature_lr values are [freq_in_disease, n_cases, pmid]. Discrimination facts verified
+# 2026-06-13 (LAD-III: FERMT3/kindlin-3, leukocytosis + immunodeficiency, HSCT curative,
+# OMIM #612840; GT: Ross 2021 PMID 33496739).
+id: integrin
+name: Integrin / aggregation
+discriminating_features: [leukocytosis, recurrent_infections, aiib3_expression, aiib3_activation]
+diseases:
+  - id: gt
+    name: Glanzmann thrombasthenia
+    genes: [ITGA2B, ITGB3]
+    inheritance: AR
+    mechanism: integrin_expression
+    prior: 0.55
+    p_path_given_disease: 0.92
+    treatment: antifibrinolytics_platelet_transfusion
+    contraindications: []
+    vcep_spec: PD-VCEP-ITGA2B_ITGB3
+    feature_lr:
+      glanzmann_type_bleeding: [0.95, 70, "33496739"]
+      aiib3_expression_absent: [0.95, 70, "33496739"]
+      leukocytosis: [0.02, 70, "33496739"]
+      recurrent_infections: [0.02, 70, "33496739"]
+  - id: lad3
+    name: Leukocyte adhesion deficiency type III
+    genes: [FERMT3]
+    inheritance: AR
+    mechanism: integrin_activation
+    prior: 0.08
+    p_path_given_disease: 0.88
+    treatment: hsct
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      glanzmann_type_bleeding: [0.9, 30, "19234463"]
+      leukocytosis: [0.9, 30, "19234463"]
+      recurrent_infections: [0.85, 30, "19234463"]
+      aiib3_expression_absent: [0.05, 30, "19234463"]
+  - id: rasgrp2
+    name: RASGRP2 (CalDAG-GEFI) platelet dysfunction
+    genes: [RASGRP2]
+    inheritance: AR
+    mechanism: integrin_activation
+    prior: 0.05
+    p_path_given_disease: 0.85
+    treatment: antifibrinolytics
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      glanzmann_type_bleeding: [0.85, 20, "27235135"]
+      leukocytosis: [0.02, 20, "27235135"]
+      recurrent_infections: [0.02, 20, "27235135"]
+      aiib3_expression_absent: [0.05, 20, "27235135"]
+  - id: lad1
+    name: Leukocyte adhesion deficiency type I
+    genes: [ITGB2]
+    inheritance: AR
+    mechanism: leukocyte_adhesion
+    prior: 0.03
+    p_path_given_disease: 0.85
+    treatment: hsct
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      recurrent_infections: [0.95, 25, "35408940"]
+      leukocytosis: [0.9, 25, "35408940"]
+      glanzmann_type_bleeding: [0.1, 25, "35408940"]
+next_observations:
+  - id: wbc_count
+    name: WBC count (leukocytosis)
+    kind: lab
+    informs: [D]
+    outcome_lr: {high: {lad3: 10.0, lad1: 8.0}, normal: {gt: 4.0, rasgrp2: 4.0}}
+    changes_management: true
+    accessibility: high
+  - id: flow_aiib3_expression
+    name: Flow cytometry alphaIIb-beta3 expression (CD41/CD61)
+    kind: functional
+    informs: [D, V]
+    outcome_lr: {absent: {gt: 15.0}, present: {lad3: 8.0, rasgrp2: 8.0}}
+    changes_management: false
+    accessibility: moderate
+  - id: flow_aiib3_activation
+    name: Platelet activation assay (PAC-1 / soluble fibrinogen binding)
+    kind: functional
+    informs: [D]
+    outcome_lr: {reduced: {lad3: 6.0, rasgrp2: 6.0}, normal: {gt: 3.0}}
+    changes_management: false
+    accessibility: low
+  - id: father_segregation
+    name: Test the unaffected father for this variant (segregation)
+    kind: segregation
+    informs: [V]
+    outcome_lr: {absent_in_unaffected: {V: 8.0}}
+    changes_management: false
+    accessibility: high

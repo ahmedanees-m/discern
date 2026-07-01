@@ -1,0 +1,112 @@
+# Cluster C4 (v3.1, highest priority) - Inherited thrombocytopenia with malignancy
+# predisposition (RUNX1, ETV6, ANKRD26) vs ITP. The gravest miss: an inherited
+# thrombocytopenia mislabelled as ITP gets needless immunosuppression/splenectomy AND misses
+# leukemia surveillance + donor-selection (an affected relative must not be the HSCT donor).
+# Verified 2026-06-13: RUNX1=FPDMM (MM-VCEP, Luo 2019 PMID 31648317); WHO "myeloid neoplasms
+# with germline predisposition and pre-existing platelet disorder" = RUNX1/ANKRD26/ETV6;
+# ~9-11% of "chronic ITP" carry diagnostic-grade inherited variants (Joshi/Cooper, Blood Adv
+# 2025;9(7):1497, PMID 39808791); ANKRD26 misdiagnosed/treated as MDS (Zaninetti 2017, PMID
+# 28976612). feature_lr = [freq_in_disease, n_cases, pmid]; literature-anchored estimates.
+id: thr_leukemia
+name: Inherited thrombocytopenia + leukaemia predisposition vs ITP
+discriminating_features: [family_history_malignancy, lifelong_thrombocytopenia, normal_platelet_size,
+                          ad_inheritance_pattern, dysmegakaryopoiesis, response_to_immunosuppression]
+diseases:
+  - id: runx1
+    name: RUNX1 familial platelet disorder with myeloid malignancy
+    genes: [RUNX1]
+    inheritance: AD
+    mechanism: transcription_factor
+    prior: 0.30
+    p_path_given_disease: 0.85
+    treatment: surveillance_donor_selection
+    contraindications: [affected_related_donor_transplant, splenectomy, immunosuppression]
+    vcep_spec: MM-VCEP-RUNX1
+    feature_lr:
+      lifelong_thrombocytopenia: [0.9, 60, "31648317"]
+      family_history_malignancy: [0.6, 60, "31648317"]
+      normal_platelet_size: [0.8, 60, "31069978"]
+      ad_inheritance_pattern: [0.85, 60, "31648317"]
+      dysmegakaryopoiesis: [0.4, 60, "31069978"]
+      response_to_immunosuppression: [0.05, 30, "39808791"]
+  - id: etv6
+    name: ETV6 thrombocytopenia with malignancy predisposition
+    genes: [ETV6]
+    inheritance: AD
+    mechanism: transcription_factor
+    prior: 0.18
+    p_path_given_disease: 0.85
+    treatment: surveillance_donor_selection
+    contraindications: [affected_related_donor_transplant, splenectomy, immunosuppression]
+    vcep_spec: null
+    feature_lr:
+      lifelong_thrombocytopenia: [0.85, 30, "25581430"]
+      family_history_malignancy: [0.55, 30, "25581430"]
+      normal_platelet_size: [0.75, 30, "31069978"]
+      ad_inheritance_pattern: [0.85, 30, "25581430"]
+      response_to_immunosuppression: [0.05, 20, "39808791"]
+  - id: ankrd26
+    name: ANKRD26-related thrombocytopenia
+    genes: [ANKRD26]
+    inheritance: AD
+    mechanism: promoter
+    prior: 0.17
+    p_path_given_disease: 0.85
+    treatment: surveillance
+    contraindications: [splenectomy, immunosuppression]
+    vcep_spec: null
+    feature_lr:
+      lifelong_thrombocytopenia: [0.9, 30, "21211618"]
+      family_history_malignancy: [0.3, 30, "21211618"]
+      normal_platelet_size: [0.85, 30, "31069978"]
+      ad_inheritance_pattern: [0.85, 30, "21211618"]
+      dysmegakaryopoiesis: [0.5, 12, "28976612"]
+      response_to_immunosuppression: [0.05, 12, "28976612"]
+  - id: itp
+    name: Immune (idiopathic) thrombocytopenia
+    genes: []
+    inheritance: acquired
+    mechanism: immune_platelet_destruction
+    prior: 0.35
+    p_path_given_disease: 0.02
+    treatment: immunosuppression
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      lifelong_thrombocytopenia: [0.1, 80, "39808791"]
+      family_history_malignancy: [0.05, 80, "39808791"]
+      normal_platelet_size: [0.5, 80, "39808791"]
+      ad_inheritance_pattern: [0.02, 80, "39808791"]
+      dysmegakaryopoiesis: [0.05, 80, "39808791"]
+      response_to_immunosuppression: [0.8, 80, "39808791"]
+next_observations:
+  - id: germline_panel
+    name: Germline RUNX1/ETV6/ANKRD26 sequencing (confirmed germline, not somatic)
+    kind: lab
+    informs: [D, V]
+    outcome_lr: {runx1_germline: {runx1: 20.0}, etv6_germline: {etv6: 20.0},
+                 ankrd26_germline: {ankrd26: 20.0}, no_germline_variant: {itp: 6.0}}
+    changes_management: true
+    accessibility: moderate
+  - id: family_history_pedigree
+    name: Three-generation pedigree (thrombocytopenia + haematological malignancy)
+    kind: segregation
+    informs: [D]
+    outcome_lr: {malignancy_in_family: {runx1: 5.0, etv6: 4.0, ankrd26: 2.0},
+                 sporadic: {itp: 3.0}}
+    changes_management: true
+    accessibility: high
+  - id: platelet_size_smear
+    name: Blood smear / MPV (platelet size; ITP often large, ANKRD26/RUNX1 normal-small)
+    kind: lab
+    informs: [D]
+    outcome_lr: {normal_small: {runx1: 3.0, ankrd26: 3.0, etv6: 2.5}, large: {itp: 2.0}}
+    changes_management: false
+    accessibility: high
+  - id: marrow_dysmegakaryopoiesis
+    name: Bone-marrow dysmegakaryopoiesis review (distinguish from sporadic MDS)
+    kind: functional
+    informs: [D]
+    outcome_lr: {present: {runx1: 2.0, ankrd26: 2.0}, absent: {itp: 1.5}}
+    changes_management: false
+    accessibility: low

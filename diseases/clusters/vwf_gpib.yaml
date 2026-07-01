@@ -1,0 +1,73 @@
+# Cluster 2 - Enhanced-RIPA / VWF-GPIb (2B VWD vs platelet-type VWD vs 2A VWD).
+# Verified: RIPA mixing distinguishes 2B (plasma origin) from PT-VWD (platelet origin)
+# (ISTH/Othman 2020, JTH); opposite treatments; DDAVP may worsen thrombocytopenia in 2B.
+id: vwf_gpib
+name: Enhanced-RIPA / VWF-GPIb
+discriminating_features: [ripa_low_dose_enhanced, ripa_mixing_origin, thrombocytopenia, loss_hmw_multimers]
+diseases:
+  - id: vwd2b
+    name: Type 2B von Willebrand disease
+    genes: [VWF]
+    inheritance: AD
+    mechanism: vwf_gain_of_function
+    prior: 0.45
+    p_path_given_disease: 0.85
+    treatment: vwf_factor8_concentrate
+    contraindications: [ddavp]            # DDAVP may worsen thrombocytopenia in 2B
+    vcep_spec: VWD-VCEP-VWF
+    feature_lr:
+      ripa_low_dose_enhanced: [0.9, 100, "40845253"]
+      thrombocytopenia: [0.7, 100, "40845253"]
+      ripa_mixing_plasma_origin: [0.92, 50, "40845253"]
+      loss_hmw_multimers: [0.7, 100, "40845253"]
+  - id: ptvwd
+    name: Platelet-type (pseudo) von Willebrand disease
+    genes: [GP1BA]
+    inheritance: AD
+    mechanism: gpib_gain_of_function
+    prior: 0.10
+    p_path_given_disease: 0.85
+    treatment: platelet_transfusion
+    contraindications: []
+    vcep_spec: null                       # PT-VWD phenotype of GP1BA is NOT VCEP-covered (asymmetry)
+    feature_lr:
+      ripa_low_dose_enhanced: [0.9, 40, "22102188"]
+      thrombocytopenia: [0.8, 40, "22102188"]
+      ripa_mixing_platelet_origin: [0.92, 40, "22102188"]
+      loss_hmw_multimers: [0.6, 40, "22102188"]
+  - id: vwd2a
+    name: Type 2A von Willebrand disease
+    genes: [VWF]
+    inheritance: AD
+    mechanism: vwf_loss_of_function
+    prior: 0.45
+    p_path_given_disease: 0.85
+    treatment: vwf_factor8_concentrate
+    contraindications: []
+    vcep_spec: VWD-VCEP-VWF
+    feature_lr:
+      ripa_low_dose_enhanced: [0.1, 80, "40845253"]
+      loss_hmw_multimers: [0.9, 80, "40845253"]
+      thrombocytopenia: [0.2, 80, "40845253"]
+next_observations:
+  - id: ripa_mixing
+    name: RIPA mixing study (patient plasma vs patient platelets)
+    kind: functional
+    informs: [D]
+    outcome_lr: {plasma_origin: {vwd2b: 15.0}, platelet_origin: {ptvwd: 15.0}}
+    changes_management: true
+    accessibility: moderate
+  - id: vwf_multimers
+    name: VWF multimer analysis
+    kind: lab
+    informs: [D]
+    outcome_lr: {hmw_loss: {vwd2b: 4.0, vwd2a: 4.0}}
+    changes_management: false
+    accessibility: moderate
+  - id: gp1ba_vwf_sequencing
+    name: Targeted GP1BA vs VWF sequencing
+    kind: lab
+    informs: [D, V]
+    outcome_lr: {gp1ba_variant: {ptvwd: 20.0}, vwf_variant: {vwd2b: 20.0, vwd2a: 10.0}}
+    changes_management: true
+    accessibility: moderate

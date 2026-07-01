@@ -1,0 +1,13 @@
+# SCN1A - Dravet syndrome / epilepsy (Phase 7 epilepsy pack).
+# Demonstrates domain-agnosticism: a new gene spec is a pack addition, no core change.
+# AF thresholds are general placeholders pending the relevant VCEP spec.
+gene: SCN1A
+version: "epilepsy-pack SCN1A draft (general ACMG; refine vs VCEP)"
+inheritance: AD
+mechanism: ion_channel_loss
+prior_p: 0.10
+af:
+  ba1: 0.001
+  bs1: 0.0001
+  pm2: 0.00001
+notes: "Ion-channel loss-of-function (Dravet); patch-clamp electrophysiology -> PS3."

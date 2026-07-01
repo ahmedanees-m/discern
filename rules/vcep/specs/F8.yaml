@@ -1,0 +1,36 @@
+# Hemophilia A - ClinGen Coagulation Factor Deficiency VCEP (F8 spec GN071, v2.0.0).
+# X-linked; 3-star FDA-recognized in ClinVar (the gold-standard validation set).
+#
+# AF + computational thresholds VERIFIED 2026-06-13 against the machine-readable CSpec
+# registry (cspec.genome.network/cspec/ui/svi/svi/GN071) and cross-checked on the VCEP's
+# own 95 F8 records in the ClinGen Evidence Repository:
+#   BA1: MAF >=0.000333  (CSpec + eRepo narratives "meeting BA1 cut-off for F8 (>=0.000333)")
+#   BS1: MAF >=0.0000333 (CSpec authoritative; one eRepo record quoted 0.000167 in error)
+#   PM2_Supporting: rule is "absent in males in gnomAD" (not a simple AF) - encoded as a low
+#                   numeric proxy; applied at Supporting in 61/62 PM2 records.
+#   PP3: REVEL >=0.6 OR SpliceAI >=0.2 ; BP4: REVEL <=0.3 AND SpliceAI <=0.1
+#   NOTE: F8 uses REVEL + SpliceAI, NOT CADD (a draft report claiming "CADD>=21" was wrong).
+spec_id: CFD-VCEP-F8
+genes: [F8]
+disease: Hemophilia A
+inheritance: XLR
+mechanism: coag_factor
+source: "ClinGen CFD-VCEP F8 v2.0.0 (CSpec GN071); 3-star FDA-recognized; thresholds from CSpec + ERepo"
+covered: true
+prior_p: 0.10
+af:
+  ba1: 0.000333      # CSpec GN071 + eRepo verified
+  bs1: 0.0000333     # CSpec GN071 verified (authoritative over a single divergent eRepo record)
+  pm2: 0.00001       # proxy: real rule is "absent in hemizygous males"; applied Supporting
+code_strengths:
+  PM2: PP            # VERIFIED Supporting (61/62 PM2 records in ERepo)
+computational:        # CSpec GN071: PP3 REVEL>=0.6 OR SpliceAI>=0.2 ; BP4 REVEL<=0.3 AND SpliceAI<=0.1
+  pp3_revel: 0.6
+  pp3_splice: 0.2
+  bp4_revel: 0.3
+  bp4_splice: 0.1
+notes: >
+  Hemizygote handling (males need one allele); PS4 is ratio-based by proband count, a
+  variant-dependent rule kept at ACMG default (documented simplification, not a placeholder
+  to fill). Computational: PP3 REVEL>=0.6 or SpliceAI>=0.2; BP4 REVEL<=0.3 and SpliceAI<=0.1
+  (REVEL+SpliceAI, not CADD) - documented; wire into the in-silico adapter when used.

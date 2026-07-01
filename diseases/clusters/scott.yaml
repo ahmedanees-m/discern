@@ -1,0 +1,51 @@
+# Cluster C10 (v3.1, optional capstone) - Scott syndrome (ANO6): a procoagulant
+# (phosphatidylserine-exposure) defect EASILY MISSED because routine platelet tests (LTA,
+# count, PFA) are normal; detected only by a PS-exposure / prothrombinase (Annexin-V flow)
+# assay. The "tests normal yet bleeding" demonstrator. feature_lr = [freq, n, pmid]; estimates.
+# Sources (PMIDs web-verified): Lentaigne Blood 2016 (27095789, normal first-line tests in IPDs);
+# Suzuki Nature 2010 TMEM16F/ANO6 in Scott syndrome (21107324).
+id: scott
+name: Scott syndrome (ANO6) vs normal standard workup
+discriminating_features: [reduced_ps_exposure, abnormal_prothrombinase_assay, normal_lta,
+                          normal_platelet_count, bleeding_history]
+diseases:
+  - id: scott
+    name: Scott syndrome
+    genes: [ANO6]
+    inheritance: AR
+    mechanism: ps_scramblase_defect
+    prior: 0.10
+    p_path_given_disease: 0.90
+    treatment: supportive_transfusion_planning
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      reduced_ps_exposure: [0.95, 12, "21107324"]
+      abnormal_prothrombinase_assay: [0.95, 12, "21107324"]
+      normal_lta: [0.90, 51, "27095789"]
+      normal_platelet_count: [0.90, 51, "27095789"]
+      bleeding_history: [0.95, 12, "21107324"]
+  - id: normal_workup
+    name: Bleeding history with normal standard platelet workup
+    genes: []
+    inheritance: none
+    mechanism: no_scramblase_defect
+    prior: 0.90
+    p_path_given_disease: 0.02
+    treatment: observation
+    contraindications: []
+    vcep_spec: null
+    feature_lr:
+      reduced_ps_exposure: [0.02, 51, "21107324"]
+      abnormal_prothrombinase_assay: [0.02, 51, "21107324"]
+      normal_lta: [0.95, 51, "27095789"]
+      normal_platelet_count: [0.95, 51, "27095789"]
+      bleeding_history: [0.6, 51, "27095789"]
+next_observations:
+  - id: ps_exposure_assay
+    name: Platelet PS-exposure / prothrombinase (Annexin-V flow) assay
+    kind: functional
+    informs: [D, V]
+    outcome_lr: {reduced_ps_exposure: {scott: 47.0}, normal_ps_exposure: {normal_workup: 1.0}}
+    changes_management: true
+    accessibility: low

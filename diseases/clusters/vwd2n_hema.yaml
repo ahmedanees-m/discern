@@ -1,0 +1,67 @@
+# Cluster C5 (v3.1) - Type 2N VWD (VWF) vs mild/moderate hemophilia A (F8): isolated low FVIII:C.
+# Confusable: both give low FVIII:C with normal platelet count/PT. Divergence: inheritance
+# (2N is AR, hemophilia A X-linked -> different counseling) and treatment (VWF-containing
+# concentrate vs FVIII). DECISIVE: the VWF:FVIII-binding assay (VWF:FVIIIB). A two-gene coupled
+# story (VWF + F8 VCEPs). feature_lr = [freq_in_disease, n_cases, pmid]; literature-anchored
+# estimates. Sources (PMIDs web-verified): Bowman/James Blood Adv 2025 (40845253);
+# Seidizadeh/Peyvandi JTH 2021 type-2N update (33497541); VWF:FVIIIB assay (37204745);
+# Casonato Haemophilia 2018 (29115006); hemophilia-A carriers (34397591, 33082527).
+id: vwd2n_hema
+name: Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII)
+discriminating_features: [low_fviii_isolated, reduced_vwf_fviii_binding, fviii_vwf_ratio_low,
+                          x_linked_inheritance, female_affected]
+diseases:
+  - id: vwd2n
+    name: von Willebrand disease type 2N (Normandy)
+    genes: [VWF]
+    inheritance: AR
+    mechanism: vwf_fviii_binding
+    prior: 0.35
+    p_path_given_disease: 0.9
+    treatment: vwf_containing_concentrate
+    contraindications: [recombinant_fviii_monotherapy]
+    vcep_spec: VWD-VCEP-VWF
+    feature_lr:
+      low_fviii_isolated: [0.95, 60, "29115006"]
+      reduced_vwf_fviii_binding: [0.97, 60, "37204745"]
+      fviii_vwf_ratio_low: [0.95, 60, "29115006"]
+      x_linked_inheritance: [0.02, 60, "33497541"]
+      female_affected: [0.5, 60, "33497541"]
+  - id: mild_hema
+    name: Mild/moderate hemophilia A
+    genes: [F8]
+    inheritance: XLR
+    mechanism: coag_factor
+    prior: 0.65
+    p_path_given_disease: 0.9
+    treatment: factor8_replacement
+    contraindications: []
+    vcep_spec: CFD-VCEP-F8
+    feature_lr:
+      low_fviii_isolated: [0.98, 100, "34397591"]
+      reduced_vwf_fviii_binding: [0.03, 100, "37204745"]
+      fviii_vwf_ratio_low: [0.9, 100, "34397591"]
+      x_linked_inheritance: [0.97, 100, "34397591"]
+      female_affected: [0.2, 100, "33082527"]
+next_observations:
+  - id: vwf_fviiib_assay
+    name: VWF:FVIII-binding assay (VWF:FVIIIB / VWF:Ag ratio)
+    kind: functional
+    informs: [D, V]
+    outcome_lr: {reduced_ratio: {vwd2n: 25.0}, normal_ratio: {mild_hema: 8.0}}
+    changes_management: true
+    accessibility: moderate
+  - id: fviii_vwfag_ratio
+    name: FVIII:C / VWF:Ag ratio
+    kind: lab
+    informs: [D]
+    outcome_lr: {ratio_low: {vwd2n: 8.0}, ratio_normal: {mild_hema: 2.0}}
+    changes_management: false
+    accessibility: high
+  - id: f8_vwf_sequencing
+    name: Targeted F8 and VWF (D'/D3 region) sequencing
+    kind: lab
+    informs: [D, V]
+    outcome_lr: {f8_pathogenic: {mild_hema: 20.0}, vwf_d3_pathogenic: {vwd2n: 20.0}}
+    changes_management: true
+    accessibility: moderate
