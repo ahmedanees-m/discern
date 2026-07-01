@@ -1,0 +1,34 @@
+# HPO term -> DISCERN cluster feature crosswalk for the Coupling Proof-of-Concept.
+# Every HP id below was confirmed against the HPO ontology (OLS4) and/or is present verbatim in the
+# Phenopacket Store bleeding subset (data/processed/hpo_hist.tsv). Any HPO term not listed here is
+# DROPPED, not guessed (same no-fabrication discipline as the cluster likelihood ratios).
+#
+# kind: clinical   = a history/examination finding -> usable as a COUPLING INPUT.
+# kind: functional = a mechanism assay / morphology -> RESERVED for the Truth stream; never a coupling input.
+# (This single clinical/functional split is what keeps the coupling test from being circular.)
+crosswalk:
+  # ---- clinical (coupling inputs) ----
+  HP:0001974: {feature: leukocytosis, kind: clinical}             # Increased total leukocyte count
+  HP:0002718: {feature: recurrent_infections, kind: clinical}     # Recurrent bacterial infections
+  HP:0002788: {feature: recurrent_infections, kind: clinical}     # Recurrent upper respiratory tract infections
+  HP:0006532: {feature: recurrent_infections, kind: clinical}     # Recurrent pneumonia
+  HP:0011108: {feature: recurrent_infections, kind: clinical}     # Recurrent sinusitis
+  HP:0000403: {feature: recurrent_infections, kind: clinical}     # Recurrent otitis media
+  HP:0000421: {feature: glanzmann_type_bleeding, kind: clinical}  # Epistaxis
+  HP:0000967: {feature: glanzmann_type_bleeding, kind: clinical}  # Petechiae
+  HP:0002573: {feature: glanzmann_type_bleeding, kind: clinical}  # Hematochezia
+  HP:0031364: {feature: glanzmann_type_bleeding, kind: clinical}  # Ecchymosis
+  HP:0001873: {feature: thrombocytopenia, kind: clinical}         # Thrombocytopenia
+  HP:0011877: {feature: macrothrombocytopenia, kind: clinical}    # Increased mean platelet volume (large platelets)
+  HP:0002218: {feature: oculocutaneous_albinism, kind: clinical}  # Silver-gray hair (pigment dilution)
+  HP:0001010: {feature: oculocutaneous_albinism, kind: clinical}  # Hypopigmentation of the skin
+  HP:0002170: {feature: intracranial_hemorrhage, kind: clinical}  # Intracranial hemorrhage
+  HP:0005261: {feature: hemarthrosis, kind: clinical}             # Joint hemorrhage (hemarthrosis)
+  HP:0032434: {feature: delayed_umbilical_separation, kind: clinical}  # Delayed umbilical cord separation
+  HP:0002206: {feature: pulmonary_fibrosis, kind: clinical}       # Pulmonary fibrosis
+  # ---- functional (truth only; never a coupling input) ----
+  HP:0032499: {feature: giant_granules, kind: functional}        # Giant neutrophil granules (Chediak-Higashi hallmark)
+  HP:0033535: {feature: reduced_dense_granules, kind: functional}  # Reduced platelet dense granules
+  HP:0011871: {feature: abnormal_lta, kind: functional}          # Impaired ristocetin-induced platelet aggregation
+  HP:0008320: {feature: abnormal_lta, kind: functional}          # Impaired collagen-induced platelet aggregation
+  HP:0011870: {feature: abnormal_lta, kind: functional}          # Impaired arachidonic-acid-induced platelet aggregation

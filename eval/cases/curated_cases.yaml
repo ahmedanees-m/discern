@@ -1,0 +1,280 @@
+# Curated published-case benchmark (v3.1 Track B4; expanded 2026-06-17). REAL published cases,
+# CITATIONS ONLY - no patient identifiers (Gate G7). Each case = the presenting discriminating
+# features (as DISCERN feature ids), the cluster, the causal gene, the true diagnosis, and the
+# source PMID. Features are the documented presentation of the cited case TYPE, not any individual's
+# record. Every PMID was independently re-verified against NCBI E-utilities on 2026-06-17 (author/
+# year/journal/title match + disorder match); 2 earlier PMIDs were found misattributed (30789846 ->
+# a Glanzmann series, not LAD-III; 33496739 -> the ClinGen ITGA2B/ITGB3 guideline, not BSS) and 3
+# more cited reviews - all corrected to verified single-case/series reports below.
+cases:
+  # ---------------- Cluster: integrin (GT / LAD-III / RASGRP2 / LAD-I) ----------------
+  - id: gt_itga2b_absent_aiib3
+    cluster: integrin
+    gene: ITGA2B
+    true_dx: gt
+    source_pmid: "22513797"   # Sandrock 2012, Klin Padiatr - homozygous ITGA2B, absent GPIIb/IIIa
+    features: {glanzmann_type_bleeding: true, aiib3_expression_absent: true, leukocytosis: false, recurrent_infections: false}
+  - id: gt_itgb3_cd41_reduced
+    cluster: integrin
+    gene: ITGB3
+    true_dx: gt
+    source_pmid: "36704147"   # Wang 2023, Front Pediatr - homozygous ITGB3, reduced CD41/CD61
+    features: {glanzmann_type_bleeding: true, aiib3_expression_absent: true, leukocytosis: false, recurrent_infections: false}
+  - id: lad3_infections
+    cluster: integrin
+    gene: FERMT3
+    true_dx: lad3
+    source_pmid: "34485203"   # Yahya 2021, Front Pediatr - FERMT3 LAD-III, normal aIIbb3, lympho/granulocytosis
+    features: {glanzmann_type_bleeding: true, leukocytosis: true, recurrent_infections: true, aiib3_expression_absent: false}
+  - id: rasgrp2_gt_mimic
+    cluster: integrin
+    gene: RASGRP2
+    true_dx: rasgrp2
+    source_pmid: "24958846"   # Canault 2014, J Exp Med - RASGRP2/CalDAG-GEFI, GT-like but NORMAL aIIbb3
+    features: {glanzmann_type_bleeding: true, aiib3_expression_absent: false, leukocytosis: false, recurrent_infections: false}
+  - id: lad1_itgb2
+    cluster: integrin
+    gene: ITGB2
+    true_dx: lad1
+    source_pmid: "35281597"   # Bouhouche 2022, Biomed Res Int - ITGB2/CD18 LAD-I, leukocytosis + infections
+    features: {glanzmann_type_bleeding: false, aiib3_expression_absent: false, leukocytosis: true, recurrent_infections: true}
+
+  # ---------------- Cluster: macrothrombocytopenia (BSS / MYH9 / ITP) ----------------
+  - id: bss_as_itp
+    cluster: macrothrombocytopenia
+    gene: GP1BA
+    true_dx: bss
+    source_pmid: "38564005"   # Zhang 2024, Hematology - GP1BA BSS misdiagnosed as ITP >6y, RIPA absent
+    features: {macrothrombocytopenia: true, giant_platelets: true, ripa_absent: true, flow_cd42_reduced: true}
+  - id: bss_gp9
+    cluster: macrothrombocytopenia
+    gene: GP9
+    true_dx: bss
+    source_pmid: "39867007"   # Alasmari 2024, Cureus - GP9 BSS, absent CD42a/CD42b by flow
+    features: {macrothrombocytopenia: true, giant_platelets: true, ripa_absent: true, flow_cd42_reduced: true}
+  - id: myh9_inclusions
+    cluster: macrothrombocytopenia
+    gene: MYH9
+    true_dx: myh9
+    source_pmid: "38827217"   # Niwa 2024, Front Pediatr - MYH9 p.Ala44Pro, prior "chronic ITP", Dohle-like inclusions
+    features: {macrothrombocytopenia: true, giant_platelets: true, leukocyte_inclusions: true}
+  - id: itp_normal_size
+    cluster: macrothrombocytopenia
+    gene: ""
+    true_dx: itp
+    source_pmid: "37942396"   # Thapa Chhetri 2023, Cureus - primary ITP, isolated thrombocytopenia, normal morphology
+    features: {normal_platelet_size: true, macrothrombocytopenia: false, giant_platelets: false}
+
+  # ---------------- Cluster: thr_leukemia (RUNX1 / ETV6 / ANKRD26 vs ITP) ----------------
+  - id: runx1_fpdmm
+    cluster: thr_leukemia
+    gene: RUNX1
+    true_dx: runx1
+    source_pmid: "30083851"   # Stano Kozubik 2018, Int J Hematol - RUNX1 FPDMM family, MDS->AML
+    features: {lifelong_thrombocytopenia: true, family_history_malignancy: true, ad_inheritance_pattern: true, response_to_immunosuppression: false}
+  - id: runx1_series
+    cluster: thr_leukemia
+    gene: RUNX1
+    true_dx: runx1
+    source_pmid: "31989091"   # Tang 2020, RPTH - FPDMM case series
+    features: {lifelong_thrombocytopenia: true, family_history_malignancy: true, ad_inheritance_pattern: true}
+  - id: etv6_macrocytosis
+    cluster: thr_leukemia
+    gene: ETV6
+    true_dx: etv6
+    source_pmid: "25807284"   # Noetzli 2015, Nat Genet - ETV6 thrombocytopenia + macrocytosis + ALL
+    features: {lifelong_thrombocytopenia: true, family_history_malignancy: true, ad_inheritance_pattern: true, normal_platelet_size: true}
+  - id: etv6_all_predisposition
+    cluster: thr_leukemia
+    gene: ETV6
+    true_dx: etv6
+    source_pmid: "26102509"   # Topka 2015, PLoS Genet - germline ETV6, thrombocytopenia + ALL
+    features: {lifelong_thrombocytopenia: true, family_history_malignancy: true, ad_inheritance_pattern: true}
+  - id: ankrd26_as_mds
+    cluster: thr_leukemia
+    gene: ANKRD26
+    true_dx: ankrd26
+    source_pmid: "28976612"   # Zaninetti 2017, JTH - ANKRD26 misdiagnosed/treated as MDS
+    features: {lifelong_thrombocytopenia: true, normal_platelet_size: true, dysmegakaryopoiesis: true, family_history_malignancy: false, response_to_immunosuppression: false}
+  - id: ankrd26_family
+    cluster: thr_leukemia
+    gene: ANKRD26
+    true_dx: ankrd26
+    source_pmid: "27123948"   # Perez Botero 2016, Platelets - ANKRD26 family, AD normal-sized thrombocytopenia
+    features: {lifelong_thrombocytopenia: true, normal_platelet_size: true, ad_inheritance_pattern: true}
+  - id: itp_steroid_responsive
+    cluster: thr_leukemia
+    gene: ""
+    true_dx: itp
+    source_pmid: "37122979"   # Ghukasyan 2023, Cureus - acquired ITP, steroid-responsive (contrasts inherited)
+    features: {lifelong_thrombocytopenia: false, family_history_malignancy: false, response_to_immunosuppression: true}
+
+  # ---------------- Cluster: vwf_gpib (2B vs PT-VWD vs 2A; enhanced RIPA) ----------------
+  - id: ptvwd_platelet_ripa
+    cluster: vwf_gpib
+    gene: GP1BA
+    true_dx: ptvwd
+    source_pmid: "17916098"   # Favaloro 2007, Br J Haematol - PT-VWD vs 2B by RIPA-mixing (platelet origin)
+    features: {ripa_low_dose_enhanced: true, ripa_mixing_platelet_origin: true}
+  - id: ptvwd_gof_gp1ba
+    cluster: vwf_gpib
+    gene: GP1BA
+    true_dx: ptvwd
+    source_pmid: "37592722"   # Monteiro 2023, Br J Haematol - GP1BA GoF p.Leu194Phe PT-VWD
+    features: {ripa_low_dose_enhanced: true, ripa_mixing_platelet_origin: true, thrombocytopenia: true}
+  - id: vwd2b_plasma_ripa
+    cluster: vwf_gpib
+    gene: VWF
+    true_dx: vwd2b
+    source_pmid: "26278967"   # Hatta 2015, Thromb Res - 2B VWD p.R1308S, plasma-origin enhanced RIPA
+    features: {ripa_low_dose_enhanced: true, ripa_mixing_plasma_origin: true, loss_hmw_multimers: true, thrombocytopenia: true}
+  - id: vwd2b_infant_denovo
+    cluster: vwf_gpib
+    gene: VWF
+    true_dx: vwd2b
+    source_pmid: "32618441"   # Fan 2020, Turk J Haematol - infant severe thrombocytopenia, de novo 2B VWF p.V1316M
+    features: {thrombocytopenia: true}
+  - id: vwd2a_g1629r
+    cluster: vwf_gpib
+    gene: VWF
+    true_dx: vwd2a
+    source_pmid: "15377475"   # Hilbert 2004, Haematologica - 2A VWD G1629R, loss of HMW multimers
+    features: {loss_hmw_multimers: true}
+
+  # ---------------- Cluster: coag_factor (FXIII / haemophilia A / B) ----------------
+  - id: fxiii_ich
+    cluster: coag_factor
+    gene: F13A1
+    true_dx: fxiii
+    source_pmid: "24149912"   # Naderi 2014, Ann Hematol - FXIII deficiency ICH pattern, normal screens
+    features: {delayed_umbilical_separation: true, normal_pt_aptt: true, intracranial_hemorrhage: true, delayed_bleeding: true}
+  - id: fxiii_umbilical_newborn
+    cluster: coag_factor
+    gene: F13A1
+    true_dx: fxiii
+    source_pmid: "36207057"   # Lim 2022, BMJ Case Rep - neonatal umbilical-stump bleeding, normal PT/aPTT, FXIII def
+    features: {delayed_umbilical_separation: true, normal_pt_aptt: true, delayed_bleeding: true}
+  - id: hema_neonate_inv22
+    cluster: coag_factor
+    gene: F8
+    true_dx: hemophilia_a
+    source_pmid: "40755915"   # Peng 2025, Front Pediatr - neonatal severe HA, F8 intron-22 inversion, prolonged aPTT + ICH
+    features: {prolonged_aptt: true, intracranial_hemorrhage: true}
+  - id: hemb_pedigree
+    cluster: coag_factor
+    gene: F9
+    true_dx: hemophilia_b
+    source_pmid: "25330515"   # Cao 2014, Turk J Haematol - hemophilia B pedigree, FIX ~1%, hemarthrosis
+    features: {prolonged_aptt: true, hemarthrosis: true}
+
+  # ---------------- Cluster: vwd2n_hema (type 2N VWD vs mild/moderate haemophilia A) ----------------
+  - id: vwd2n_misdx_hema
+    cluster: vwd2n_hema
+    gene: VWF
+    true_dx: vwd2n
+    source_pmid: "21425451"   # Gupta 2011, Pediatr Blood Cancer - 2N misdiagnosed/treated as HA until VWF:FVIIIB
+    features: {low_fviii_isolated: true, reduced_vwf_fviii_binding: true, fviii_vwf_ratio_low: true, x_linked_inheritance: false}
+  - id: vwd2n_female_r816w
+    cluster: vwd2n_hema
+    gene: VWF
+    true_dx: vwd2n
+    source_pmid: "18728373"   # Lee 2008, Korean J Lab Med - affected woman homozygous VWF R816W, isolated low FVIII
+    features: {low_fviii_isolated: true, reduced_vwf_fviii_binding: true, female_affected: true, x_linked_inheritance: false}
+  - id: vwd2n_female_pregnancy
+    cluster: vwd2n_hema
+    gene: VWF
+    true_dx: vwd2n
+    source_pmid: "11122399"   # Dennis 2000, Haemophilia - 2N diagnosed in pregnancy, low FVIII disproportionate to VWF:Ag
+    features: {low_fviii_isolated: true, fviii_vwf_ratio_low: true, female_affected: true, x_linked_inheritance: false}
+  - id: mild_hema_female_chet
+    cluster: vwd2n_hema
+    gene: F8
+    true_dx: mild_hema
+    source_pmid: "24317041"   # Qiao 2014, Mol Med Rep - compound-het F8 in a female, FVIII 4.7% (true HA in a female)
+    features: {low_fviii_isolated: true, x_linked_inheritance: true, female_affected: true}
+  - id: vwd2n_type1_chet
+    cluster: vwd2n_hema
+    gene: VWF
+    true_dx: vwd2n
+    source_pmid: "26970096"   # Perez Botero 2017, Br J Haematol - type1/2N compound het, reduced FVIII + VWF:FVIIIB
+    features: {low_fviii_isolated: true, reduced_vwf_fviii_binding: true, fviii_vwf_ratio_low: true}
+
+  # ---------------- Cluster: mild_vwd (low VWF / mild PFD / normal) ----------------
+  - id: type1_lowvwf_lovic
+    cluster: mild_vwd
+    gene: VWF
+    true_dx: type1_lowvwf
+    source_pmid: "28916584"   # Lavin 2017, Blood - LoVIC low-VWF cohort (30-50 IU/dL), elevated BAT
+    features: {low_vwf_level: true, high_bat_score: true, repeat_vwf_low: true}
+  - id: mild_pfd_lta
+    cluster: mild_vwd
+    gene: ""
+    true_dx: mild_pfd
+    source_pmid: "19143930"   # Hayward 2009, JTH - LTA identifies platelet function defects in bleeding referrals
+    features: {abnormal_lta: true, high_bat_score: true}
+
+  # ---------------- Cluster: alpha_granule (GPS / GFI1B / Quebec / ARC) ----------------
+  - id: gps_nbeal2_albers
+    cluster: alpha_granule
+    gene: NBEAL2
+    true_dx: gray_platelet
+    source_pmid: "21765411"   # Albers 2011, Nat Genet - NBEAL2 causal for GPS; absent alpha-granules
+    features: {gray_platelets_smear: true, alpha_granule_absent_em: true, macrothrombocytopenia: true}
+  - id: gps_nbeal2_myelofibrosis
+    cluster: alpha_granule
+    gene: NBEAL2
+    true_dx: gray_platelet
+    source_pmid: "29869935"   # Pluthero 2018, Platelets - NBEAL2 GPS with bleeding + marrow pathology
+    features: {gray_platelets_smear: true, alpha_granule_absent_em: true, macrothrombocytopenia: true, myelofibrosis: true}
+  - id: gfi1b_dominant_negative
+    cluster: alpha_granule
+    gene: GFI1B
+    true_dx: gfi1b
+    source_pmid: "24325358"   # Monteferrario 2014, NEJM - dominant-negative GFI1B, gray-platelet phenotype
+    features: {gray_platelets_smear: true, alpha_granule_absent_em: true, macrothrombocytopenia: true}
+  - id: quebec_urokinase
+    cluster: alpha_granule
+    gene: PLAU
+    true_dx: quebec
+    source_pmid: "20007542"   # Paterson 2010, Blood - PLAU tandem duplication, urokinase overexpression
+    features: {urokinase_overexpression: true}
+  - id: arc_vps33b
+    cluster: alpha_granule
+    gene: VPS33B
+    true_dx: arc
+    source_pmid: "15052268"   # Gissen 2004, Nat Genet - VPS33B ARC syndrome (arthrogryposis-renal-cholestasis)
+    features: {multisystem_arc_features: true}
+
+  # ---------------- Cluster: granule (Chediak-Higashi / Hermansky-Pudlak) ----------------
+  - id: chs_lyst_giant_granules
+    cluster: granule
+    gene: LYST
+    true_dx: chs
+    source_pmid: "31906877"   # Song 2020, BMC Med Genet - LYST compound het, albinism + giant granules
+    features: {oculocutaneous_albinism: true, giant_granules: true}
+  - id: chs_lyst_severe
+    cluster: granule
+    gene: LYST
+    true_dx: chs
+    source_pmid: "33868243"   # Boluda-Navarro 2021, Front Immunol - severe CHS, giant granules + HLH features
+    features: {oculocutaneous_albinism: true, giant_granules: true, hlh_risk: true, recurrent_infections: true}
+  - id: hps1_albinism
+    cluster: granule
+    gene: HPS1
+    true_dx: hps
+    source_pmid: "25117010"   # Sanchez-Guiu 2014, Hamostaseologie - HPS-1, albinism + dense-granule deficiency
+    features: {oculocutaneous_albinism: true, reduced_dense_granules: true}
+  - id: hps_pulmonary_fibrosis
+    cluster: granule
+    gene: HPS1
+    true_dx: hps
+    source_pmid: "25379352"   # Kelil 2014, J Clin Imaging Sci - HPS with characteristic pulmonary fibrosis
+    features: {oculocutaneous_albinism: true, reduced_dense_granules: true, pulmonary_fibrosis: true}
+
+  # ---------------- Cluster: scott (ANO6) ----------------
+  - id: scott_ps_exposure
+    cluster: scott
+    gene: ANO6
+    true_dx: scott
+    source_pmid: "21107324"   # Suzuki 2010, Nature - TMEM16F/ANO6 scramblase; Scott syndrome patient mutation
+    features: {reduced_ps_exposure: true, abnormal_prothrombinase_assay: true, normal_lta: true}

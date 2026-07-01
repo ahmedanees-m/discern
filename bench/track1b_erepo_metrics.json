@@ -1,0 +1,165 @@
+{
+  "set": "eRepo cluster-gene expert-panel surface (GRCh38)",
+  "n_total": 2239,
+  "n_timesplit": 2111,
+  "timesplit_after": "2021-05-01",
+  "eRepo_primary": {
+    "n_missense_PB": 425,
+    "n_path": 316,
+    "n_benign": 109,
+    "discrimination": {
+      "DISCERN": {
+        "n": 425,
+        "auroc": 0.9386,
+        "auprc": 0.9634,
+        "sens@90spec": 0.9177
+      },
+      "REVEL": {
+        "n": 425,
+        "auroc": 0.9536,
+        "auprc": 0.9828,
+        "sens@90spec": 0.8987
+      },
+      "AlphaMissense": {
+        "n": 424,
+        "auroc": 0.9315,
+        "auprc": 0.9758,
+        "sens@90spec": 0.7753
+      },
+      "GeneBe_exhibit": {
+        "n": 425,
+        "auroc": 1.0,
+        "auprc": 1.0,
+        "sens@90spec": 1.0
+      }
+    },
+    "calibration": {
+      "DISCERN_isotonic_oof": {
+        "ece": 0.0168,
+        "brier": 0.0635
+      },
+      "REVEL_raw": {
+        "ece": 0.0919,
+        "brier": 0.081
+      },
+      "AlphaMissense_raw": {
+        "ece": 0.1674,
+        "brier": 0.1383
+      }
+    }
+  },
+  "time_split": {
+    "n_missense_PB": 383,
+    "n_path": 295,
+    "n_benign": 88,
+    "discrimination": {
+      "DISCERN": {
+        "n": 383,
+        "auroc": 0.9272,
+        "auprc": 0.9619,
+        "sens@90spec": 0.3322
+      },
+      "REVEL": {
+        "n": 383,
+        "auroc": 0.9511,
+        "auprc": 0.9843,
+        "sens@90spec": 0.8847
+      },
+      "AlphaMissense": {
+        "n": 382,
+        "auroc": 0.9292,
+        "auprc": 0.9783,
+        "sens@90spec": 0.7695
+      },
+      "GeneBe_exhibit": {
+        "n": 383,
+        "auroc": 1.0,
+        "auprc": 1.0,
+        "sens@90spec": 1.0
+      }
+    },
+    "calibration": {
+      "DISCERN_isotonic_oof": {
+        "ece": 0.0186,
+        "brier": 0.0646
+      },
+      "REVEL_raw": {
+        "ece": 0.091,
+        "brier": 0.0807
+      },
+      "AlphaMissense_raw": {
+        "ece": 0.1801,
+        "brier": 0.1438
+      }
+    }
+  },
+  "per_code_kappa_vs_erepo": {
+    "PVS1": {
+      "erepo_applied": 130,
+      "discern_applied": 173,
+      "kappa": 0.809
+    },
+    "PS1": {
+      "erepo_applied": 1,
+      "discern_applied": 0,
+      "kappa": null
+    },
+    "PS3": {
+      "erepo_applied": 77,
+      "discern_applied": 0,
+      "kappa": null
+    },
+    "PS4": {
+      "erepo_applied": 60,
+      "discern_applied": 0,
+      "kappa": null
+    },
+    "PM1": {
+      "erepo_applied": 27,
+      "discern_applied": 0,
+      "kappa": null
+    },
+    "PM2": {
+      "erepo_applied": 8,
+      "discern_applied": 479,
+      "kappa": 0.004
+    },
+    "PM5": {
+      "erepo_applied": 46,
+      "discern_applied": 0,
+      "kappa": null
+    },
+    "PP3": {
+      "erepo_applied": 295,
+      "discern_applied": 293,
+      "kappa": 0.925
+    },
+    "BA1": {
+      "erepo_applied": 183,
+      "discern_applied": 98,
+      "kappa": 0.64
+    },
+    "BS1": {
+      "erepo_applied": 85,
+      "discern_applied": 58,
+      "kappa": 0.297
+    },
+    "BS2": {
+      "erepo_applied": 5,
+      "discern_applied": 0,
+      "kappa": null
+    },
+    "BP4": {
+      "erepo_applied": 615,
+      "discern_applied": 91,
+      "kappa": 0.074
+    },
+    "BP7": {
+      "erepo_applied": 541,
+      "discern_applied": 0,
+      "kappa": null
+    }
+  },
+  "note_genebe": "GeneBe shown as circularity exhibit only (queries live ClinVar; cannot be time-split).",
+  "note_intervar": "InterVar (legacy anchor) added by the VM step once hg38 DBs staged; prior ClinVar-set missense AUROC 0.811."
+}

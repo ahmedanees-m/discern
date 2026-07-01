@@ -1,0 +1,100 @@
+{
+  "set": "h4set missense, ClinVar P/B truth",
+  "n_missense": 1144,
+  "n_PB": 342,
+  "n_path": 241,
+  "n_benign": 101,
+  "n_VUS": 802,
+  "discrimination": {
+    "DISCERN_points": {
+      "n": 342,
+      "auroc": 0.9355,
+      "auprc": 0.9536,
+      "sens@90spec": 0.9087
+    },
+    "DISCERN_points_freqblind": {
+      "n": 342,
+      "auroc": 0.9345,
+      "auprc": 0.9531,
+      "sens@90spec": 0.8423
+    },
+    "GeneBe_acmg_score": {
+      "n": 342,
+      "auroc": 1.0,
+      "auprc": 1.0,
+      "sens@90spec": 1.0
+    },
+    "REVEL": {
+      "n": 342,
+      "auroc": 0.9475,
+      "auprc": 0.976,
+      "sens@90spec": 0.888
+    },
+    "AlphaMissense": {
+      "n": 341,
+      "auroc": 0.921,
+      "auprc": 0.9667,
+      "sens@90spec": 0.7718
+    },
+    "InterVar_full_DB_prior": {
+      "auroc": 0.811,
+      "note": "prior committed full-DB run (eval/intervar_full_eval.py)"
+    }
+  },
+  "acmg_concordance": {
+    "DISCERN": {
+      "n_PB": 342,
+      "resolved": 73,
+      "abstention_rate": 0.7865,
+      "accuracy_on_resolved": 0.9452,
+      "mcc_on_resolved": null,
+      "path_calls": 0,
+      "benign_calls": 73
+    },
+    "GeneBe": {
+      "n_PB": 342,
+      "resolved": 337,
+      "abstention_rate": 0.0146,
+      "accuracy_on_resolved": 1.0,
+      "mcc_on_resolved": 1.0,
+      "path_calls": 236,
+      "benign_calls": 101
+    }
+  },
+  "calibration": {
+    "DISCERN_isotonic_oof": {
+      "ece": 0.0166,
+      "brier": 0.0701
+    },
+    "REVEL_raw_score": {
+      "ece": 0.0913,
+      "brier": 0.0881,
+      "note": "predictor score treated as pseudo-probability (not gene-calibrated)"
+    },
+    "AlphaMissense_raw_score": {
+      "ece": 0.1612,
+      "brier": 0.1456,
+      "note": "predictor score treated as pseudo-probability (not gene-calibrated)"
+    },
+    "GeneBe": {
+      "note": "emits an ACMG class + integer points, not a probability - not calibratable"
+    },
+    "InterVar": {
+      "note": "emits an ACMG class only - not calibratable"
+    }
+  },
+  "clinvar_circularity": {
+    "genebe_PB_calls_naming_PP5_or_BP6": 40,
+    "of_total_PB": 342,
+    "frac_named_clinvar_code": 0.117,
+    "genebe_class_matches_clinvar_direction": "337/337",
+    "genebe_auroc_overall": 1.0,
+    "genebe_auroc_named_clinvar_code_blind": {
+      "n": 302,
+      "auroc": 1.0,
+      "auprc": 1.0,
+      "sens@90spec": 1.0
+    },
+    "finding": "GeneBe reproduces the ClinVar label: its acmg_score is near-perfectly separable on this ClinVar-derived P/B set (AUROC ~1.0) and its class matches the ClinVar direction on ~98% of resolved calls, even on the subset where PP5/BP6 are NOT the named criteria. A ClinVar-consuming tool therefore cannot be fairly graded on ClinVar-derived truth - the fair surfaces are an expert-panel set (eRepo) or a time-split. DISCERN, REVEL and AlphaMissense apply no ClinVar-derived evidence, so their numbers are not inflated this way."
+  }
+}

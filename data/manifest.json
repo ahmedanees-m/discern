@@ -1,0 +1,6 @@
+{
+  "manifest_version": "0.1.0",
+  "generated": null,
+  "note": "Source registry with versions + checksums (plan Step 0.4). Entries are added by data/sources/*.py as each source is downloaded/verified. Data files are git-ignored; this manifest is committed.",
+  "sources": {}
+}

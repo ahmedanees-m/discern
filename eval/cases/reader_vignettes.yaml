@@ -1,0 +1,209 @@
+# DISCERN reader-study vignette bank (Track 4 of the coupling-proof plan; the lead "does it help"
+# validation). Each vignette is a short, citation-only clinical scenario for the randomized
+# with-vs-without reader study (non-specialist readers); NO patient identifiers (Gate G7). The
+# features, gene, true diagnosis and PMID are taken verbatim from the verified curated case bank
+# (eval/cases/curated_cases.yaml); the vignette only adds (a) the prose presentation a reader sees,
+# (b) the clinically-correct deciding test (correct_next_obs, a valid observation id in the cluster
+# KB), and (c) the management that is harmful if the confusable competitor is the truth (harmful_tx,
+# a valid contraindication token in the cluster KB) -- null when no management hazard applies.
+#
+# The reader is shown ONLY the scenario (and, in the aided arm, DISCERN's card). The gene/codes
+# reach DISCERN from sequencing; a gene-less vignette (acquired mimic) is a distractor the reader
+# must NOT over-call -- DISCERN does not route it (returns no recommendation), which is the correct
+# behaviour. The DISCERN-side ceiling is computed by eval/reader_study.py.
+#
+# Tier S = a treatment-divergent confusable pair (carries the safety endpoint). Tier T = the value
+# is the correct next test. Tier D = acquired-mimic distractor (no causal variant; abstain).
+
+vignettes:
+  # ---------------- Tier S: treatment-divergent confusable pairs ----------------
+  - id: rv_vwd2b_ddavp
+    tier: S
+    cluster: vwf_gpib
+    gene: VWF
+    true_dx: vwd2b
+    correct_next_obs: gp1ba_vwf_sequencing
+    harmful_tx: ddavp
+    source_pmid: "26278967"
+    scenario: >
+      Adolescent with lifelong mucocutaneous bleeding and intermittent mild thrombocytopenia.
+      Low-dose ristocetin aggregation is enhanced; on mixing studies the defect is plasma-origin;
+      high-molecular-weight VWF multimers are lost. A colleague proposes a DDAVP trial.
+    features: {ripa_low_dose_enhanced: true, ripa_mixing_plasma_origin: true, loss_hmw_multimers: true, thrombocytopenia: true}
+
+  - id: rv_ptvwd_mirror
+    tier: S
+    cluster: vwf_gpib
+    gene: GP1BA
+    true_dx: ptvwd
+    correct_next_obs: gp1ba_vwf_sequencing
+    harmful_tx: null
+    source_pmid: "17916098"
+    scenario: >
+      Adult with the same low-dose-ristocetin-enhanced picture and mild thrombocytopenia, but on
+      mixing studies the defect is platelet-origin. The distinction from type 2B VWD changes which
+      gene is sequenced and which replacement product is chosen.
+    features: {ripa_low_dose_enhanced: true, ripa_mixing_platelet_origin: true, thrombocytopenia: true}
+
+  - id: rv_bss_as_itp
+    tier: S
+    cluster: macrothrombocytopenia
+    gene: GP1BA
+    true_dx: bss
+    correct_next_obs: flow_cd42
+    harmful_tx: splenectomy
+    source_pmid: "38564005"
+    scenario: >
+      Young adult carried for years as chronic immune thrombocytopenia, refractory to steroids and
+      IVIG. The smear shows giant platelets and true macrothrombocytopenia; flow cytometry suggests
+      reduced GPIb-IX. Splenectomy is being scheduled for refractory ITP.
+    features: {macrothrombocytopenia: true, giant_platelets: true, ripa_absent: true, flow_cd42_reduced: true}
+
+  - id: rv_runx1_as_itp
+    tier: S
+    cluster: thr_leukemia
+    gene: RUNX1
+    true_dx: runx1
+    correct_next_obs: germline_panel
+    harmful_tx: affected_related_donor_transplant
+    source_pmid: "30083851"
+    scenario: >
+      Lifelong mild-to-moderate thrombocytopenia with an autosomal-dominant pattern and a strong
+      family history of haematological malignancy. The platelet count has been attributed to ITP. A
+      sibling is being considered as a haematopoietic stem-cell donor for an affected relative.
+    features: {lifelong_thrombocytopenia: true, family_history_malignancy: true, ad_inheritance_pattern: true, response_to_immunosuppression: false}
+
+  - id: rv_quebec_platelets
+    tier: S
+    cluster: alpha_granule
+    gene: PLAU
+    true_dx: quebec
+    correct_next_obs: upa_assay
+    harmful_tx: platelet_transfusion
+    source_pmid: "20007542"
+    scenario: >
+      Autosomal-dominant delayed bleeding with a normal platelet count and normal platelet
+      morphology; routine aggregation is near-normal but there is marked intraplatelet fibrinolysis
+      (urokinase over-expression). Platelet transfusions are planned for the next procedure.
+    features: {urokinase_overexpression: true}
+
+  - id: rv_vwd2n_as_hema
+    tier: S
+    cluster: vwd2n_hema
+    gene: VWF
+    true_dx: vwd2n
+    correct_next_obs: vwf_fviiib_assay
+    harmful_tx: recombinant_fviii_monotherapy
+    source_pmid: "18728373"
+    scenario: >
+      Isolated low factor VIII with normal VWF antigen; an affected female and a non-X-linked
+      pedigree. The patient has been labelled mild haemophilia A and started on recombinant FVIII
+      monotherapy, with a short-lived response.
+    features: {low_fviii_isolated: true, reduced_vwf_fviii_binding: true, fviii_vwf_ratio_low: true, female_affected: true, x_linked_inheritance: false}
+
+  # ---------------- Tier T: value is the correct deciding test ----------------
+  - id: rv_gt
+    tier: T
+    cluster: integrin
+    gene: ITGA2B
+    true_dx: gt
+    correct_next_obs: flow_aiib3_expression
+    harmful_tx: null
+    source_pmid: "22513797"
+    scenario: >
+      Lifelong severe mucocutaneous bleeding with a normal platelet count and size; aggregation is
+      absent to all agonists except ristocetin. Surface aIIbb3 (GPIIb/IIIa) appears reduced.
+    features: {glanzmann_type_bleeding: true, aiib3_expression_absent: true, leukocytosis: false, recurrent_infections: false}
+
+  - id: rv_lad3
+    tier: T
+    cluster: integrin
+    gene: FERMT3
+    true_dx: lad3
+    correct_next_obs: wbc_count
+    harmful_tx: null
+    source_pmid: "34485203"
+    scenario: >
+      A Glanzmann-like aggregation defect but with persistent leukocytosis and recurrent bacterial
+      infections; surface aIIbb3 expression is NORMAL (the integrins are present but cannot activate).
+    features: {glanzmann_type_bleeding: true, leukocytosis: true, recurrent_infections: true, aiib3_expression_absent: false}
+
+  - id: rv_rasgrp2
+    tier: T
+    cluster: integrin
+    gene: RASGRP2
+    true_dx: rasgrp2
+    correct_next_obs: flow_aiib3_activation
+    harmful_tx: null
+    source_pmid: "24958846"
+    scenario: >
+      A Glanzmann-like bleeding and aggregation phenotype with NORMAL surface aIIbb3 expression and
+      no infections; the inside-out activation step is the suspected lesion.
+    features: {glanzmann_type_bleeding: true, aiib3_expression_absent: false, leukocytosis: false, recurrent_infections: false}
+
+  - id: rv_fxiii
+    tier: T
+    cluster: coag_factor
+    gene: F13A1
+    true_dx: fxiii
+    correct_next_obs: fxiii_screen
+    harmful_tx: null
+    source_pmid: "24149912"
+    scenario: >
+      Neonate with delayed umbilical-stump separation and later an intracranial haemorrhage; PT and
+      aPTT are both normal, and bleeding is characteristically delayed after initial haemostasis.
+    features: {delayed_umbilical_separation: true, normal_pt_aptt: true, intracranial_hemorrhage: true, delayed_bleeding: true}
+
+  - id: rv_chs
+    tier: T
+    cluster: granule
+    gene: LYST
+    true_dx: chs
+    correct_next_obs: blood_smear_granules
+    harmful_tx: null
+    source_pmid: "31906877"
+    scenario: >
+      Partial oculocutaneous albinism with a mild platelet-type bleeding tendency and recurrent
+      infections; the blood film is reported to show abnormally large granules in leukocytes.
+    features: {oculocutaneous_albinism: true, giant_granules: true}
+
+  - id: rv_gps
+    tier: T
+    cluster: alpha_granule
+    gene: NBEAL2
+    true_dx: gray_platelet
+    correct_next_obs: em_alpha_granule
+    harmful_tx: null
+    source_pmid: "21765411"
+    scenario: >
+      Lifelong mild bleeding with macrothrombocytopenia; the platelets appear large and pale (grey)
+      on the smear. Confirmation of absent alpha-granules would secure the diagnosis.
+    features: {gray_platelets_smear: true, alpha_granule_absent_em: true, macrothrombocytopenia: true}
+
+  - id: rv_hema_neonate
+    tier: T
+    cluster: coag_factor
+    gene: F8
+    true_dx: hemophilia_a
+    correct_next_obs: factor_panel
+    harmful_tx: null
+    source_pmid: "40755915"
+    scenario: >
+      Male neonate with an isolated prolonged aPTT (normal PT) and an early intracranial haemorrhage;
+      the mixing study corrects, pointing to a factor deficiency rather than an inhibitor.
+    features: {prolonged_aptt: true, intracranial_hemorrhage: true}
+
+  # ---------------- Tier D: acquired-mimic distractor (no causal variant; correct action = abstain) -------
+  - id: rv_acquired_itp
+    tier: D
+    cluster: macrothrombocytopenia
+    gene: ""
+    true_dx: itp
+    correct_next_obs: null
+    harmful_tx: null
+    source_pmid: ""
+    scenario: >
+      Previously well adult with abrupt isolated thrombocytopenia, NORMAL platelet size, no giant
+      platelets, no family history, and a prompt response to corticosteroids -- a presentation
+      typical of acquired immune thrombocytopenia. There is no causal germline variant to act on.
+    features: {normal_platelet_size: true, macrothrombocytopenia: false, giant_platelets: false}
