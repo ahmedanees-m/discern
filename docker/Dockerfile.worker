@@ -1,0 +1,18 @@
+# DISCERN worker image - async long jobs (batch validation, reanalysis
+# sweeps, simulator runs). Plan Phase 9. Shares the engine code with the API image.
+FROM python:3.11-slim
+WORKDIR /app
+ENV PYTHONUNBUFFERED=1 PYTHONPATH=/app
+RUN pip install --no-cache-dir numpy scipy pandas pydantic pyyaml requests httpx openai
+COPY core ./core
+COPY rules ./rules
+COPY adapters ./adapters
+COPY engine ./engine
+COPY equity ./equity
+COPY learn ./learn
+COPY eval ./eval
+COPY sim ./sim
+COPY llm ./llm
+COPY data/sources ./data/sources
+# entrypoint is the job runner; override per job (e.g. python -m eval.validate_erepo ...)
+CMD ["python", "-c", "print('discern worker ready')"]

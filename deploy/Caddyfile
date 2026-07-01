@@ -1,0 +1,19 @@
+# Caddy reverse proxy - TLS + basic auth in front of the DISCERN API.
+# The compute host sits behind a private network; reach the API via an SSH tunnel
+# for development, or expose it on the institutional network behind this auth. No
+# PHI in logs. Replace the host and the bcrypt hash (generate: `caddy hash-password`).
+{$DISCERN_HOST:localhost} {
+	encode gzip
+	handle /api/* {
+		uri strip_prefix /api
+		reverse_proxy api:8000
+	}
+	basic_auth {
+		# user  <bcrypt-hash>   (set via `caddy hash-password`; never commit a real hash)
+		{$DISCERN_USER:mdt} {$DISCERN_PASSWORD_HASH}
+	}
+	log {
+		output stdout
+		# do not log request bodies (no PHI)
+	}
+}

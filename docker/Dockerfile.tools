@@ -1,0 +1,26 @@
+# DISCERN external-tools image (plan section 2.4). The Docker-only rule means
+# every external tool is baked here, not installed on the VM host. Reached via the
+# adapters (autopvs1.py, splice.py, mave.py, ...), which keep the engine tool-agnostic.
+#
+# NOTE on Pangolin: install the SPLICE predictor from source (github.com/tkzeng/
+# Pangolin, GPL-3.0) - do NOT `pip install pangolin` (that PyPI name is the SARS-CoV-2
+# lineage tool). dbNSFP is fetched from https://www.dbnsfp.org (v5.0a; academic build
+# carries REVEL/CADD/BayesDel/VEST4/MutPred2).
+FROM python:3.11-slim
+WORKDIR /opt/tools
+ENV PYTHONUNBUFFERED=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git build-essential samtools tabix curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# VEP, autoPVS1, somalier, Pangolin are installed here at execution (pinned versions).
+# Pangolin (splice) from source:
+#   RUN git clone https://github.com/tkzeng/Pangolin.git && pip install ./Pangolin
+# autoPVS1 (needs a VEP refseq cache mounted read-only):
+#   RUN git clone https://github.com/JiguangPeng/autopvs1.git && pip install -e ./autopvs1
+# somalier (ancestry/relatedness):
+#   RUN curl -L -o /usr/local/bin/somalier <release-url> && chmod +x /usr/local/bin/somalier
+RUN pip install --no-cache-dir cyvcf2 pysam mavedb requests
+
+CMD ["bash"]

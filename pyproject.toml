@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "discern"
+version = "0.0.1"
+description = "DISCERN: a coupled disease and variant engine for differential diagnosis, misdiagnosis prevention, and VUS resolution in inherited bleeding and platelet disorders."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Anees Ahmed Mahaboob Ali", email = "ahmedaneesm@gmail.com" }]
+keywords = ["clinical-genomics", "ACMG", "ClinGen", "differential-diagnosis", "VUS", "inherited-bleeding-disorders", "calibration"]
+dependencies = [
+  "numpy",
+  "scipy",
+  "pandas",
+  "scikit-learn",
+  "pydantic",
+  "pyyaml",
+  "requests",
+  "httpx",
+  "paramiko",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff==0.15.12"]
+llm = ["openai"]
+service = ["fastapi", "uvicorn"]
+
+# Auto-discover every package so a clean editable install (pip install -e .) exposes
+# all of DISCERN, not just the original subset. Directories without an __init__.py
+# (tests, docs, docker, figures, data) are not packages and are skipped.
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests*", "docs*", "docker*", "figures*", "data*", "deploy.data*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

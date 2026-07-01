@@ -1,0 +1,20 @@
+# Codecov configuration. Enable the repo at https://app.codecov.io and add a
+# CODECOV_TOKEN repo secret (required for private repos) - then the badge goes live.
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 2%        # allow small dips without failing
+    patch:
+      default:
+        target: 80%
+ignore:
+  - "tests/**"
+  - "figures/**"
+  - "deploy/**"
+  - "docker/**"
+  - "**/__init__.py"
+comment:
+  layout: "reach, diff, flags, files"
+  require_changes: true

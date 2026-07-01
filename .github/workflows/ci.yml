@@ -1,0 +1,34 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install (lightweight, no heavy bio deps)
+        run: |
+          python -m pip install --upgrade pip
+          # pyyaml is required at import time (engine/action_map, rules/vcep_loader);
+          # numpy/scipy for stats. Heavy bio/LLM/service deps stay out of CI.
+          # ruff is pinned for reproducible CI (unpinned linters drift and can turn
+          # a previously-green build red on an unrelated push).
+          pip install numpy scipy pyyaml pytest pytest-cov ruff==0.15.12
+      - name: Lint (ruff)
+        run: ruff check .
+      - name: Test + coverage
+        run: pytest -q --cov=. --cov-report=xml --cov-report=term-missing
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false

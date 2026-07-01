@@ -1,0 +1,37 @@
+# Conda environment for DISCERN.
+# Pinned at execution time; re-verify versions. This file defines the laptop dev
+# env AND the contents of the API image (one source of truth).
+name: discern
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - pandas
+  - scikit-learn          # calibration, ancestry classifier, baselines
+  - cyvcf2                # VCF/variant I/O
+  - pysam
+  - htslib
+  - pyhpo                 # HPO semantic similarity (PP4)
+  - requests
+  - httpx                 # gnomAD/ClinVar/MaveDB/eRepo APIs
+  - pyyaml
+  - matplotlib
+  - seaborn
+  - pydantic
+  - fastapi
+  - uvicorn
+  - paramiko              # VM orchestration over SSH/SFTP
+  - pytest
+  - ruff
+  - pip
+  - pip:
+      - openai                # cloud Nemotron (NVIDIA NIM, OpenAI-compatible)
+      - mavedb                # MaveDB API client (PyPI package name verified)
+      - somalier              # or peddy - ancestry/relatedness from VCF
+      # NOTE: do NOT `pip install pangolin` - that PyPI name is the SARS-CoV-2
+      # lineage tool. The splice predictor Pangolin (github.com/tkzeng/Pangolin,
+      # GPL-3.0) installs from source and is baked into docker/Dockerfile.tools,
+      # wrapped via adapters (like autoPVS1, AutoPM3, Exomiser, VEP).

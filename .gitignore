@@ -1,0 +1,77 @@
+# ---- Secrets & credentials (NEVER commit) ----
+*token*.txt
+*Token*.txt
+*API_key*.txt
+*api_key*.txt
+*.key
+*.pem
+.env
+.env.*
+!.env.example
+
+# ---- Private / pre-publication (keep local, do not push) ----
+manuscript/
+secrets/
+**/nvidia_api_key*
+**/GitHub_Access_Token*
+
+# ---- Data (lives on the VM 1TB disk + G: drive, synced via SFTP) ----
+data/raw/
+data/processed/
+data/cache/
+*.parquet
+*.vcf
+*.vcf.gz
+*.bcf
+*.bam
+*.cram
+*.tbi
+*.csi
+*.npy
+*.pdb
+# keep small fixtures and the manifest
+!tests/fixtures/**
+!data/manifest.json
+!data/sources/.gitkeep
+
+# ---- Models / large artifacts ----
+models/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# ---- Notebooks / editors / OS ----
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Logs ----
+logs/
+*.log
+
+# ---- Local-only (kept on disk, not published) ----
+# The web application and internal process/planning documents are maintained
+# locally but are intentionally not part of the public repository.
+/_local/
+/app/
+/Dockerfile
+/tests/test_app.py

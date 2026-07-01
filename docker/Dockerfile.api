@@ -1,0 +1,24 @@
+# DISCERN API image (FastAPI engine endpoints). Plan Phase 8/9.
+FROM python:3.11-slim
+WORKDIR /app
+ENV PYTHONUNBUFFERED=1 PYTHONPATH=/app
+
+# Lightweight runtime deps (engine + service + cloud LLM client). Heavy bio tools
+# (VEP, autoPVS1, Pangolin, somalier) live in Dockerfile.tools and are reached via
+# adapters, keeping this image small.
+RUN pip install --no-cache-dir \
+    numpy scipy pandas pydantic pyyaml requests httpx \
+    fastapi "uvicorn[standard]" openai
+
+COPY core ./core
+COPY rules ./rules
+COPY adapters ./adapters
+COPY engine ./engine
+COPY equity ./equity
+COPY learn ./learn
+COPY eval ./eval
+COPY llm ./llm
+COPY api ./api
+
+EXPOSE 8000
+CMD ["uvicorn", "api.main:build_app", "--factory", "--host", "0.0.0.0", "--port", "8000"]
