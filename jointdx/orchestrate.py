@@ -19,13 +19,21 @@ from safety.interlock import flags
 
 
 def _best_cluster(clusters, ev: Evidence):
-    """When a gene maps to multiple clusters, pick the one that best fits the evidence:
-    most recognized features, then highest leading-disease posterior."""
-    feat_ids = {f.id for f in ev.clinical} | {f.id for f in ev.functional}
+    """When a gene maps to more than one cluster, pick the one that best fits the evidence.
+
+    Routing keys on the PRESENT (positive) findings the patient actually exhibits, not on
+    every feature the user was asked about. A pertinent negative (an explicitly *absent*
+    feature) must not pull the case toward the cluster that happens to define it: ruling out
+    the macrothrombocytopenia findings for a GP1BA case whose phenotype is enhanced-RIPA
+    must route to the platelet-type-VWD cluster, not to the macrothrombocytopenia/ITP
+    cluster. Ties break on the leading-disease posterior, which already reflects the full
+    evidence (present and absent)."""
+    present_ids = ({f.id for f in ev.clinical if f.observed}
+                   | {f.id for f in ev.functional if f.observed})
 
     def score(c):
         known = {fid for d in c.diseases for fid in d.feature_lr}
-        return (len(feat_ids & known), leading_disease(joint(c, ev))[1])
+        return (len(present_ids & known), leading_disease(joint(c, ev))[1])
 
     return max(clusters, key=score)
 

@@ -2,9 +2,17 @@
 # feature_lr values are [freq_in_disease, n_cases, pmid]. Discrimination facts verified
 # 2026-06-13 (LAD-III: FERMT3/kindlin-3, leukocytosis + immunodeficiency, HSCT curative,
 # OMIM #612840; GT: Ross 2021 PMID 33496739).
+# 2026-07-01: wired the platelet aIIbb3 activation assay (PAC-1 / soluble-fibrinogen
+# binding) into the LR model. It is the key lab test that separates LAD-I (platelet
+# integrin activation intact, because ITGB2 is a leukocyte beta2 defect and platelet
+# beta3 is normal) from LAD-III / RASGRP2 / GT (activation impaired: kindlin-3 and
+# CalDAG-GEFI are inside-out signalling defects; GT lacks the receptor). aiib3_activation
+# is present=normal-activation; each frequency is the mechanistic phenotype for the
+# disease, sourced to that disease's own reference. Also replaced the dead
+# `aiib3_expression` panel token with the real `aiib3_expression_absent` key.
 id: integrin
 name: Integrin / aggregation
-discriminating_features: [leukocytosis, recurrent_infections, aiib3_expression, aiib3_activation]
+discriminating_features: [leukocytosis, recurrent_infections, aiib3_expression_absent, aiib3_activation]
 diseases:
   - id: gt
     name: Glanzmann thrombasthenia
@@ -19,6 +27,7 @@ diseases:
     feature_lr:
       glanzmann_type_bleeding: [0.95, 70, "33496739"]
       aiib3_expression_absent: [0.95, 70, "33496739"]
+      aiib3_activation: [0.03, 70, "33496739"]        # receptor absent -> cannot activate
       leukocytosis: [0.02, 70, "33496739"]
       recurrent_infections: [0.02, 70, "33496739"]
   - id: lad3
@@ -35,7 +44,8 @@ diseases:
       glanzmann_type_bleeding: [0.9, 30, "19234463"]
       leukocytosis: [0.9, 30, "19234463"]
       recurrent_infections: [0.85, 30, "19234463"]
-      aiib3_expression_absent: [0.05, 30, "19234463"]
+      aiib3_expression_absent: [0.05, 30, "19234463"]   # expression normal; activation is the defect
+      aiib3_activation: [0.05, 30, "19234463"]          # kindlin-3 inside-out defect -> impaired
   - id: rasgrp2
     name: RASGRP2 (CalDAG-GEFI) platelet dysfunction
     genes: [RASGRP2]
@@ -50,7 +60,8 @@ diseases:
       glanzmann_type_bleeding: [0.85, 20, "27235135"]
       leukocytosis: [0.02, 20, "27235135"]
       recurrent_infections: [0.02, 20, "27235135"]
-      aiib3_expression_absent: [0.05, 20, "27235135"]
+      aiib3_expression_absent: [0.05, 20, "27235135"]   # expression normal; activation is the defect
+      aiib3_activation: [0.05, 20, "27235135"]          # CalDAG-GEFI inside-out defect -> impaired
   - id: lad1
     name: Leukocyte adhesion deficiency type I
     genes: [ITGB2]
@@ -65,6 +76,8 @@ diseases:
       recurrent_infections: [0.95, 25, "35408940"]
       leukocytosis: [0.9, 25, "35408940"]
       glanzmann_type_bleeding: [0.1, 25, "35408940"]
+      aiib3_expression_absent: [0.05, 25, "35408940"]   # platelet integrin normal in LAD-I
+      aiib3_activation: [0.95, 25, "35408940"]          # platelet activation intact (beta2, not beta3, defect)
 next_observations:
   - id: wbc_count
     name: WBC count (leukocytosis)
