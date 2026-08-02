@@ -1,0 +1,80 @@
+{
+  "id": "lad3_infections",
+  "subject": {
+    "id": "lad3_infections"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0000403"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0000421"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0000967"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001974"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002573"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002718"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002788"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0006532"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0011108"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0031364"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "lad3_infections",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "FERMT3"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:34485203"
+      }
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "gt_itgb3_cd41_reduced",
+  "subject": {
+    "id": "gt_itgb3_cd41_reduced"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0000421"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0000967"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002573"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0031364"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "gt_itgb3_cd41_reduced",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "ITGB3"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:36704147"
+      }
+    ]
+  }
+}

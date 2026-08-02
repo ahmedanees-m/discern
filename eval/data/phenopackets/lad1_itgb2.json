@@ -1,0 +1,60 @@
+{
+  "id": "lad1_itgb2",
+  "subject": {
+    "id": "lad1_itgb2"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0000403"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001974"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002718"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002788"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0006532"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0011108"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "lad1_itgb2",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "ITGB2"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:35281597"
+      }
+    ]
+  }
+}

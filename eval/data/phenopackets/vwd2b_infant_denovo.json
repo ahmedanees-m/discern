@@ -1,0 +1,35 @@
+{
+  "id": "vwd2b_infant_denovo",
+  "subject": {
+    "id": "vwd2b_infant_denovo"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0001873"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "vwd2b_infant_denovo",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "VWF"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:32618441"
+      }
+    ]
+  }
+}

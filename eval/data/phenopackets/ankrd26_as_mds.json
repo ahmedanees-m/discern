@@ -1,0 +1,29 @@
+{
+  "id": "ankrd26_as_mds",
+  "subject": {
+    "id": "ankrd26_as_mds"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "ankrd26_as_mds",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "ANKRD26"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:28976612"
+      }
+    ]
+  }
+}

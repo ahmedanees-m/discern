@@ -1,0 +1,50 @@
+{
+  "id": "rasgrp2_gt_mimic",
+  "subject": {
+    "id": "rasgrp2_gt_mimic"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0000421"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0000967"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002573"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0031364"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "rasgrp2_gt_mimic",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "RASGRP2"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:24958846"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "itp_steroid_responsive",
+  "subject": {
+    "id": "itp_steroid_responsive"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "itp_steroid_responsive",
+      "diagnosis": {
+        "genomicInterpretations": []
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:37122979"
+      }
+    ]
+  }
+}

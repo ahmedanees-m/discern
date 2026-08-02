@@ -1,0 +1,29 @@
+{
+  "id": "ptvwd_platelet_ripa",
+  "subject": {
+    "id": "ptvwd_platelet_ripa"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "ptvwd_platelet_ripa",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "GP1BA"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:17916098"
+      }
+    ]
+  }
+}

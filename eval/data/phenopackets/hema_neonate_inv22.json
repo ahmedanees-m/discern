@@ -1,0 +1,35 @@
+{
+  "id": "hema_neonate_inv22",
+  "subject": {
+    "id": "hema_neonate_inv22"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0002170"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "hema_neonate_inv22",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "F8"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:40755915"
+      }
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "hpo_coverage": {
+    "n_cases": 42,
+    "distinct_features_used": 48,
+    "features_expressible_as_hpo": 13,
+    "features_with_no_hpo_term": [
+      "abnormal_prothrombinase_assay",
+      "ad_inheritance_pattern",
+      "aiib3_expression_absent",
+      "alpha_granule_absent_em",
+      "delayed_bleeding",
+      "dysmegakaryopoiesis",
+      "family_history_malignancy",
+      "female_affected",
+      "flow_cd42_reduced",
+      "fviii_vwf_ratio_low",
+      "giant_platelets",
+      "gray_platelets_smear",
+      "high_bat_score",
+      "hlh_risk",
+      "leukocyte_inclusions",
+      "lifelong_thrombocytopenia",
+      "loss_hmw_multimers",
+      "low_fviii_isolated",
+      "low_vwf_level",
+      "multisystem_arc_features",
+      "myelofibrosis",
+      "normal_lta",
+      "normal_platelet_size",
+      "normal_pt_aptt",
+      "prolonged_aptt",
+      "reduced_ps_exposure",
+      "reduced_vwf_fviii_binding",
+      "repeat_vwf_low",
+      "response_to_immunosuppression",
+      "ripa_absent",
+      "ripa_low_dose_enhanced",
+      "ripa_mixing_plasma_origin",
+      "ripa_mixing_platelet_origin",
+      "urokinase_overexpression",
+      "x_linked_inheritance"
+    ],
+    "hpo_terms_per_case": {
+      "median": 1.0,
+      "mean": 1.5,
+      "max": 10,
+      "zero": 19,
+      "distribution": {
+        "0": 19,
+        "1": 12,
+        "2": 1,
+        "3": 3,
+        "4": 4,
+        "6": 1,
+        "8": 1,
+        "10": 1
+      }
+    },
+    "runnable_cases": 23,
+    "finding": "Only a minority of the benchmark's discriminating features have any HPO representation, and the ones that do not are the laboratory assays that actually separate these diseases. A phenotype-driven ranker is not equally handicapped - it is left with the gene, which the gene-only baseline already shows carries most of this benchmark."
+  },
+  "phenopackets_written": 42,
+  "phenopacket_dir": "eval\\data\\phenopackets",
+  "DISCERN_on_hpo_runnable_subset": {
+    "n": 23,
+    "recall@1": 1.0,
+    "recall@3": 1.0,
+    "recall@5": 1.0,
+    "mrr": 1.0
+  },
+  "DISCERN_on_all_cases": {
+    "n": 42,
+    "recall@1": 1.0,
+    "recall@3": 1.0,
+    "recall@5": 1.0,
+    "mrr": 1.0
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ptvwd_gof_gp1ba",
+  "subject": {
+    "id": "ptvwd_gof_gp1ba"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0001873"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "ptvwd_gof_gp1ba",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "GP1BA"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:37592722"
+      }
+    ]
+  }
+}

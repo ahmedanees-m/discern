@@ -1,0 +1,29 @@
+{
+  "id": "runx1_fpdmm",
+  "subject": {
+    "id": "runx1_fpdmm"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "runx1_fpdmm",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "RUNX1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:30083851"
+      }
+    ]
+  }
+}

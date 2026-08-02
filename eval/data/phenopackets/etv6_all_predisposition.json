@@ -1,0 +1,29 @@
+{
+  "id": "etv6_all_predisposition",
+  "subject": {
+    "id": "etv6_all_predisposition"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "etv6_all_predisposition",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "ETV6"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:26102509"
+      }
+    ]
+  }
+}

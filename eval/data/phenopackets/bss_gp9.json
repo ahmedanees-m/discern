@@ -1,0 +1,35 @@
+{
+  "id": "bss_gp9",
+  "subject": {
+    "id": "bss_gp9"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0011877"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "bss_gp9",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "GP9"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:39867007"
+      }
+    ]
+  }
+}

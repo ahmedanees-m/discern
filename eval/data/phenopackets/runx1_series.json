@@ -1,0 +1,29 @@
+{
+  "id": "runx1_series",
+  "subject": {
+    "id": "runx1_series"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "runx1_series",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "RUNX1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:31989091"
+      }
+    ]
+  }
+}

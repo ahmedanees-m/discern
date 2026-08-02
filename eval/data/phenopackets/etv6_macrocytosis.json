@@ -1,0 +1,29 @@
+{
+  "id": "etv6_macrocytosis",
+  "subject": {
+    "id": "etv6_macrocytosis"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "etv6_macrocytosis",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "ETV6"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:25807284"
+      }
+    ]
+  }
+}

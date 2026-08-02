@@ -1,0 +1,35 @@
+{
+  "id": "gfi1b_dominant_negative",
+  "subject": {
+    "id": "gfi1b_dominant_negative"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0011877"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "gfi1b_dominant_negative",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "GFI1B"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:24325358"
+      }
+    ]
+  }
+}

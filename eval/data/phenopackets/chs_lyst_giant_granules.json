@@ -1,0 +1,45 @@
+{
+  "id": "chs_lyst_giant_granules",
+  "subject": {
+    "id": "chs_lyst_giant_granules"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0001010"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002218"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0032499"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "chs_lyst_giant_granules",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "LYST"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:31906877"
+      }
+    ]
+  }
+}

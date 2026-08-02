@@ -1,0 +1,29 @@
+{
+  "id": "scott_ps_exposure",
+  "subject": {
+    "id": "scott_ps_exposure"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "scott_ps_exposure",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "ANO6"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:21107324"
+      }
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "hps_pulmonary_fibrosis",
+  "subject": {
+    "id": "hps_pulmonary_fibrosis"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0001010"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002206"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002218"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0033535"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "hps_pulmonary_fibrosis",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "HPS1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:25379352"
+      }
+    ]
+  }
+}

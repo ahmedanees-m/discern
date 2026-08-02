@@ -1,0 +1,29 @@
+{
+  "id": "arc_vps33b",
+  "subject": {
+    "id": "arc_vps33b"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "arc_vps33b",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "VPS33B"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:15052268"
+      }
+    ]
+  }
+}

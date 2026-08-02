@@ -1,0 +1,35 @@
+{
+  "id": "gps_nbeal2_albers",
+  "subject": {
+    "id": "gps_nbeal2_albers"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0011877"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "gps_nbeal2_albers",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "NBEAL2"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:21765411"
+      }
+    ]
+  }
+}

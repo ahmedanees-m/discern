@@ -1,0 +1,50 @@
+{
+  "id": "gt_itga2b_absent_aiib3",
+  "subject": {
+    "id": "gt_itga2b_absent_aiib3"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0000421"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0000967"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002573"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0031364"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "gt_itga2b_absent_aiib3",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "ITGA2B"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:22513797"
+      }
+    ]
+  }
+}

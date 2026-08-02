@@ -1,0 +1,29 @@
+{
+  "id": "vwd2n_misdx_hema",
+  "subject": {
+    "id": "vwd2n_misdx_hema"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "vwd2n_misdx_hema",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "VWF"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:21425451"
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "type1_lowvwf_lovic",
+  "subject": {
+    "id": "type1_lowvwf_lovic"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "type1_lowvwf_lovic",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "VWF"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:28916584"
+      }
+    ]
+  }
+}

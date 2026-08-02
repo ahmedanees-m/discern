@@ -1,0 +1,23 @@
+{
+  "id": "itp_normal_size",
+  "subject": {
+    "id": "itp_normal_size"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "itp_normal_size",
+      "diagnosis": {
+        "genomicInterpretations": []
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:37942396"
+      }
+    ]
+  }
+}

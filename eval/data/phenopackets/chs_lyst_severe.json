@@ -1,0 +1,70 @@
+{
+  "id": "chs_lyst_severe",
+  "subject": {
+    "id": "chs_lyst_severe"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0000403"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0001010"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002218"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002718"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002788"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0006532"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0011108"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0032499"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "chs_lyst_severe",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "LYST"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:33868243"
+      }
+    ]
+  }
+}

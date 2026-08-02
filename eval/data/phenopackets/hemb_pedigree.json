@@ -1,0 +1,35 @@
+{
+  "id": "hemb_pedigree",
+  "subject": {
+    "id": "hemb_pedigree"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0005261"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "hemb_pedigree",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "F9"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:25330515"
+      }
+    ]
+  }
+}

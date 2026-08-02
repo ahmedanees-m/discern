@@ -1,0 +1,29 @@
+{
+  "id": "vwd2n_type1_chet",
+  "subject": {
+    "id": "vwd2n_type1_chet"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "vwd2n_type1_chet",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "VWF"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:26970096"
+      }
+    ]
+  }
+}

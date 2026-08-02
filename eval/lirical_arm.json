@@ -1,0 +1,260 @@
+{
+  "scoring_resolution": "gene / disease-family: a LIRICAL hit counts if its top-k contains any HPO-annotated disease identifier for the case's causal gene",
+  "LIRICAL_genome_wide": {
+    "n": 23,
+    "recall@1": 0.1304,
+    "recall@3": 0.2609,
+    "recall@5": 0.3478,
+    "recall@10": 0.3913,
+    "mrr": 0.215
+  },
+  "LIRICAL_restricted_to_cluster": {
+    "n": 23,
+    "recall@1": 0.5652,
+    "recall@3": 0.9565,
+    "recall@5": 0.9565,
+    "recall@10": 0.9565,
+    "mrr": 0.7536
+  },
+  "DISCERN_same_subset": {
+    "n": 23,
+    "recall@1": 1.0,
+    "recall@3": 1.0,
+    "recall@5": 1.0,
+    "recall@10": 1.0,
+    "mrr": 1.0
+  },
+  "caveat": "The genome-wide row is not a like-for-like contest: LIRICAL ranks roughly 8,600 diseases from HPO terms and is not given the gene, while DISCERN ranks the three to eight members of one cluster and is. The restricted row is the fair comparison - both tools ordering the same cluster - and it is the one to quote. Even there the tools optimise different objectives, and the reason LIRICAL does poorly is not that it is a weak ranker but that the findings which separate these diseases are laboratory assays the Human Phenotype Ontology does not encode. That is a fact about the domain, not a win.",
+  "rows": [
+    {
+      "id": "bss_as_itp",
+      "gene": "GP1BA",
+      "true_dx": "bss",
+      "lirical_rank": 4,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:314050",
+      "n_truth_ids": 8
+    },
+    {
+      "id": "bss_gp9",
+      "gene": "GP9",
+      "true_dx": "bss",
+      "lirical_rank": 4,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:314050",
+      "n_truth_ids": 8
+    },
+    {
+      "id": "chs_lyst_giant_granules",
+      "gene": "LYST",
+      "true_dx": "chs",
+      "lirical_rank": 1,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:214500",
+      "n_truth_ids": 3
+    },
+    {
+      "id": "chs_lyst_severe",
+      "gene": "LYST",
+      "true_dx": "chs",
+      "lirical_rank": 1,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:214500",
+      "n_truth_ids": 3
+    },
+    {
+      "id": "fxiii_ich",
+      "gene": "F13A1",
+      "true_dx": "fxiii",
+      "lirical_rank": 53,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:618886",
+      "n_truth_ids": 4
+    },
+    {
+      "id": "fxiii_umbilical_newborn",
+      "gene": "F13A1",
+      "true_dx": "fxiii",
+      "lirical_rank": 1529,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:608203",
+      "n_truth_ids": 4
+    },
+    {
+      "id": "gfi1b_dominant_negative",
+      "gene": "GFI1B",
+      "true_dx": "gfi1b",
+      "lirical_rank": 22,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:314050",
+      "n_truth_ids": 2
+    },
+    {
+      "id": "gps_nbeal2_albers",
+      "gene": "NBEAL2",
+      "true_dx": "gray_platelet",
+      "lirical_rank": 107,
+      "lirical_within_cluster_rank": 2,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:314050",
+      "n_truth_ids": 2
+    },
+    {
+      "id": "gps_nbeal2_myelofibrosis",
+      "gene": "NBEAL2",
+      "true_dx": "gray_platelet",
+      "lirical_rank": 107,
+      "lirical_within_cluster_rank": 2,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:314050",
+      "n_truth_ids": 2
+    },
+    {
+      "id": "gt_itga2b_absent_aiib3",
+      "gene": "ITGA2B",
+      "true_dx": "gt",
+      "lirical_rank": 3,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:187900",
+      "n_truth_ids": 7
+    },
+    {
+      "id": "gt_itgb3_cd41_reduced",
+      "gene": "ITGB3",
+      "true_dx": "gt",
+      "lirical_rank": 3,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:187900",
+      "n_truth_ids": 7
+    },
+    {
+      "id": "hema_neonate_inv22",
+      "gene": "F8",
+      "true_dx": "hemophilia_a",
+      "lirical_rank": 96,
+      "lirical_within_cluster_rank": 3,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:603284",
+      "n_truth_ids": 5
+    },
+    {
+      "id": "hemb_pedigree",
+      "gene": "F9",
+      "true_dx": "hemophilia_b",
+      "lirical_rank": 10,
+      "lirical_within_cluster_rank": 2,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:605735",
+      "n_truth_ids": 2
+    },
+    {
+      "id": "hps1_albinism",
+      "gene": "HPS1",
+      "true_dx": "hps",
+      "lirical_rank": 3,
+      "lirical_within_cluster_rank": 2,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:619172",
+      "n_truth_ids": 6
+    },
+    {
+      "id": "hps_pulmonary_fibrosis",
+      "gene": "HPS1",
+      "true_dx": "hps",
+      "lirical_rank": 1,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:608233",
+      "n_truth_ids": 6
+    },
+    {
+      "id": "lad1_itgb2",
+      "gene": "ITGB2",
+      "true_dx": "lad1",
+      "lirical_rank": 42,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:621233",
+      "n_truth_ids": 1
+    },
+    {
+      "id": "lad3_infections",
+      "gene": "FERMT3",
+      "true_dx": "lad3",
+      "lirical_rank": 13,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:301000",
+      "n_truth_ids": 1
+    },
+    {
+      "id": "mild_pfd_lta",
+      "gene": "",
+      "true_dx": "mild_pfd",
+      "lirical_rank": null,
+      "lirical_within_cluster_rank": null,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:601399",
+      "n_truth_ids": 0
+    },
+    {
+      "id": "myh9_inclusions",
+      "gene": "MYH9",
+      "true_dx": "myh9",
+      "lirical_rank": 11,
+      "lirical_within_cluster_rank": 2,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:314050",
+      "n_truth_ids": 3
+    },
+    {
+      "id": "ptvwd_gof_gp1ba",
+      "gene": "GP1BA",
+      "true_dx": "ptvwd",
+      "lirical_rank": 51,
+      "lirical_within_cluster_rank": 1,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:314050",
+      "n_truth_ids": 7
+    },
+    {
+      "id": "rasgrp2_gt_mimic",
+      "gene": "RASGRP2",
+      "true_dx": "rasgrp2",
+      "lirical_rank": 40,
+      "lirical_within_cluster_rank": 2,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:187900",
+      "n_truth_ids": 1
+    },
+    {
+      "id": "vwd2b_infant_denovo",
+      "gene": "VWF",
+      "true_dx": "vwd2b",
+      "lirical_rank": 144,
+      "lirical_within_cluster_rank": 2,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:314050",
+      "n_truth_ids": 3
+    },
+    {
+      "id": "vwd2b_plasma_ripa",
+      "gene": "VWF",
+      "true_dx": "vwd2b",
+      "lirical_rank": 144,
+      "lirical_within_cluster_rank": 2,
+      "discern_rank": 1,
+      "lirical_top1": "OMIM:314050",
+      "n_truth_ids": 3
+    }
+  ]
+}

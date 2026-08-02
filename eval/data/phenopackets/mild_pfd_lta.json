@@ -1,0 +1,39 @@
+{
+  "id": "mild_pfd_lta",
+  "subject": {
+    "id": "mild_pfd_lta"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0008320"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0011870"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0011871"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "mild_pfd_lta",
+      "diagnosis": {
+        "genomicInterpretations": []
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:19143930"
+      }
+    ]
+  }
+}

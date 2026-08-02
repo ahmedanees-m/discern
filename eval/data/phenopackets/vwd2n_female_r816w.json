@@ -1,0 +1,29 @@
+{
+  "id": "vwd2n_female_r816w",
+  "subject": {
+    "id": "vwd2n_female_r816w"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "vwd2n_female_r816w",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "VWF"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:18728373"
+      }
+    ]
+  }
+}

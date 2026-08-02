@@ -1,0 +1,35 @@
+{
+  "id": "myh9_inclusions",
+  "subject": {
+    "id": "myh9_inclusions"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0011877"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "myh9_inclusions",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "MYH9"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:38827217"
+      }
+    ]
+  }
+}

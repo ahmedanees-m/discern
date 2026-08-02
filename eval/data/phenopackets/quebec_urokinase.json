@@ -1,0 +1,29 @@
+{
+  "id": "quebec_urokinase",
+  "subject": {
+    "id": "quebec_urokinase"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "quebec_urokinase",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "PLAU"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:20007542"
+      }
+    ]
+  }
+}

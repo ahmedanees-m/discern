@@ -1,0 +1,40 @@
+{
+  "id": "fxiii_ich",
+  "subject": {
+    "id": "fxiii_ich"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0002170"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0032434"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "fxiii_ich",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "F13A1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:24149912"
+      }
+    ]
+  }
+}

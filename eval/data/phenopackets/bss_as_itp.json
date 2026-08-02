@@ -1,0 +1,35 @@
+{
+  "id": "bss_as_itp",
+  "subject": {
+    "id": "bss_as_itp"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0011877"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "bss_as_itp",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "GP1BA"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:38564005"
+      }
+    ]
+  }
+}

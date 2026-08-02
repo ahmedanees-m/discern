@@ -1,0 +1,35 @@
+{
+  "id": "fxiii_umbilical_newborn",
+  "subject": {
+    "id": "fxiii_umbilical_newborn"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0032434"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "fxiii_umbilical_newborn",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "F13A1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:36207057"
+      }
+    ]
+  }
+}

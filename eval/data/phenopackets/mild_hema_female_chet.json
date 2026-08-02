@@ -1,0 +1,29 @@
+{
+  "id": "mild_hema_female_chet",
+  "subject": {
+    "id": "mild_hema_female_chet"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "mild_hema_female_chet",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "F8"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:24317041"
+      }
+    ]
+  }
+}

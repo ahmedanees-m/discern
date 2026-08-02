@@ -1,0 +1,29 @@
+{
+  "id": "vwd2n_female_pregnancy",
+  "subject": {
+    "id": "vwd2n_female_pregnancy"
+  },
+  "phenotypicFeatures": [],
+  "interpretations": [
+    {
+      "id": "vwd2n_female_pregnancy",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "VWF"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:11122399"
+      }
+    ]
+  }
+}

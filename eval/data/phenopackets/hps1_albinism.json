@@ -1,0 +1,45 @@
+{
+  "id": "hps1_albinism",
+  "subject": {
+    "id": "hps1_albinism"
+  },
+  "phenotypicFeatures": [
+    {
+      "type": {
+        "id": "HP:0001010"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0002218"
+      }
+    },
+    {
+      "type": {
+        "id": "HP:0033535"
+      }
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "hps1_albinism",
+      "diagnosis": {
+        "genomicInterpretations": [
+          {
+            "gene": {
+              "symbol": "HPS1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "metaData": {
+    "createdBy": "DISCERN curated benchmark",
+    "externalReferences": [
+      {
+        "id": "PMID:25117010"
+      }
+    ]
+  }
+}
