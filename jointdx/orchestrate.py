@@ -57,7 +57,11 @@ def diagnose(ev: Evidence, planned_tx: str | None = None,
         cluster=cluster, p_disease=p_disease, p_variant=p_variant,
         leading=dec.leading, confidence=round(dec.p, 4), decided=dec.decided)
 
-    safety = flags(cluster, j, planned_tx=planned_tx)
+    # Safety is judged gene-blind against the engine's own leading call: a variant in one gene does
+    # not exclude a treatment-divergent disease of another gene, which may simply never have been
+    # sequenced (see joint()). The leading diagnosis stays the one the clinician was shown.
+    safety = flags(cluster, joint(cluster, ev, gene_evidence=False),
+                   planned_tx=planned_tx, lead_id=dec.leading)
     next_obs = best_observation(cluster, ev)
     old, new, drivers = reclassify(j, old_state)
     text = explain(cluster, p_disease, (old, new, drivers), safety, next_obs, dec.decided)

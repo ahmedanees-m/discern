@@ -36,9 +36,16 @@ def _resolving_obs(cluster: DiscriminationCluster):
 
 
 def flags(cluster: DiscriminationCluster, joint: dict, planned_tx: str | None = None,
-          tau: float = 0.05) -> list[SafetyFlag]:
+          tau: float = 0.05, lead_id: str | None = None) -> list[SafetyFlag]:
+    """Safety flags for a leading call, judged against the competitors this joint leaves open.
+
+    `lead_id` lets the caller pin the leading diagnosis to the engine's actual call while passing a
+    gene-blind joint for the competitor probabilities, so the flags are always reported against the
+    diagnosis the clinician was shown and a competitor is only retired by evidence that excludes it.
+    """
     md = marginal_disease(joint)
-    lead_id, _ = leading_disease(joint)
+    if lead_id is None:
+        lead_id, _ = leading_disease(joint)
     by_id = {d.id: d for d in cluster.diseases}
     d_star = by_id.get(lead_id)
     out: list[SafetyFlag] = []
