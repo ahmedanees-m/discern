@@ -1,0 +1,319 @@
+{
+  "set": "eRepo cluster-gene expert-panel surface (GRCh38), Phase R re-analysis",
+  "n_total": 2239,
+  "n_timesplit": 2111,
+  "timesplit_after": "2021-05-01",
+  "eRepo_primary": {
+    "n_missense_PB": 425,
+    "n_path": 316,
+    "n_benign": 109,
+    "calibration_protocol": {
+      "method": "isotonic regression",
+      "folds": "5-fold stratified, shuffled, seed 0",
+      "fit_on": "training folds only",
+      "reported_on": "held-out folds only (out-of-fold), pooled",
+      "leakage_check": "asserted in oof_isotonic: folds are disjoint and cover every variant once",
+      "bootstrap": "1000 resamples, percentile 95% CI"
+    },
+    "discrimination": {
+      "DISCERN": {
+        "n": 425,
+        "auroc": 0.9386,
+        "auroc_ci95": [
+          0.9064,
+          0.9665
+        ]
+      },
+      "REVEL": {
+        "n": 425,
+        "auroc": 0.9536,
+        "auroc_ci95": [
+          0.9315,
+          0.9717
+        ]
+      },
+      "AlphaMissense": {
+        "n": 424,
+        "auroc": 0.9315,
+        "auroc_ci95": [
+          0.9058,
+          0.9531
+        ]
+      }
+    },
+    "calibration": {
+      "DISCERN_isotonic_oof": {
+        "ece": 0.0168,
+        "brier": 0.0635,
+        "ece_ci95": [
+          0.0105,
+          0.0466
+        ],
+        "brier_ci95": [
+          0.0475,
+          0.0813
+        ]
+      },
+      "REVEL_isotonic_oof": {
+        "ece": 0.0429,
+        "brier": 0.0732,
+        "ece_ci95": [
+          0.0298,
+          0.0732
+        ],
+        "brier_ci95": [
+          0.0552,
+          0.0925
+        ]
+      },
+      "REVEL_raw": {
+        "ece": 0.0919,
+        "brier": 0.081,
+        "ece_ci95": [
+          0.0791,
+          0.1215
+        ],
+        "brier_ci95": [
+          0.0685,
+          0.0947
+        ]
+      },
+      "AlphaMissense_isotonic_oof": {
+        "ece": 0.0288,
+        "brier": 0.0939,
+        "ece_ci95": [
+          0.0239,
+          0.0652
+        ],
+        "brier_ci95": [
+          0.076,
+          0.112
+        ]
+      },
+      "AlphaMissense_raw": {
+        "ece": 0.1674,
+        "brier": 0.1383,
+        "ece_ci95": [
+          0.1345,
+          0.1996
+        ],
+        "brier_ci95": [
+          0.1169,
+          0.1586
+        ]
+      }
+    },
+    "discern_vs_revel": {
+      "n_paired": 425,
+      "delong": {
+        "auroc_a": 0.9386,
+        "auroc_b": 0.9536,
+        "delta": -0.015,
+        "z": -1.0644,
+        "p_value": 0.287156
+      },
+      "paired_bootstrap": {
+        "delta": -0.015,
+        "delta_ci95": [
+          -0.0435,
+          0.0118
+        ],
+        "frac_bootstraps_favouring_a": 0.15
+      }
+    }
+  },
+  "time_split": {
+    "n_missense_PB": 383,
+    "n_path": 295,
+    "n_benign": 88,
+    "calibration_protocol": {
+      "method": "isotonic regression",
+      "folds": "5-fold stratified, shuffled, seed 0",
+      "fit_on": "training folds only",
+      "reported_on": "held-out folds only (out-of-fold), pooled",
+      "leakage_check": "asserted in oof_isotonic: folds are disjoint and cover every variant once",
+      "bootstrap": "1000 resamples, percentile 95% CI"
+    },
+    "discrimination": {
+      "DISCERN": {
+        "n": 383,
+        "auroc": 0.9272,
+        "auroc_ci95": [
+          0.8825,
+          0.9606
+        ]
+      },
+      "REVEL": {
+        "n": 383,
+        "auroc": 0.9511,
+        "auroc_ci95": [
+          0.924,
+          0.9728
+        ]
+      },
+      "AlphaMissense": {
+        "n": 382,
+        "auroc": 0.9292,
+        "auroc_ci95": [
+          0.9012,
+          0.9547
+        ]
+      }
+    },
+    "calibration": {
+      "DISCERN_isotonic_oof": {
+        "ece": 0.0186,
+        "brier": 0.0646,
+        "ece_ci95": [
+          0.0117,
+          0.0485
+        ],
+        "brier_ci95": [
+          0.047,
+          0.0843
+        ]
+      },
+      "REVEL_isotonic_oof": {
+        "ece": 0.0339,
+        "brier": 0.0768,
+        "ece_ci95": [
+          0.0255,
+          0.0676
+        ],
+        "brier_ci95": [
+          0.0563,
+          0.0981
+        ]
+      },
+      "REVEL_raw": {
+        "ece": 0.091,
+        "brier": 0.0807,
+        "ece_ci95": [
+          0.0802,
+          0.1246
+        ],
+        "brier_ci95": [
+          0.0682,
+          0.095
+        ]
+      },
+      "AlphaMissense_isotonic_oof": {
+        "ece": 0.031,
+        "brier": 0.0883,
+        "ece_ci95": [
+          0.0235,
+          0.0668
+        ],
+        "brier_ci95": [
+          0.0696,
+          0.1072
+        ]
+      },
+      "AlphaMissense_raw": {
+        "ece": 0.1801,
+        "brier": 0.1438,
+        "ece_ci95": [
+          0.1464,
+          0.2156
+        ],
+        "brier_ci95": [
+          0.1201,
+          0.1689
+        ]
+      }
+    },
+    "discern_vs_revel": {
+      "n_paired": 383,
+      "delong": {
+        "auroc_a": 0.9272,
+        "auroc_b": 0.9511,
+        "delta": -0.0239,
+        "z": -1.425,
+        "p_value": 0.154163
+      },
+      "paired_bootstrap": {
+        "delta": -0.0239,
+        "delta_ci95": [
+          -0.0598,
+          0.0076
+        ],
+        "frac_bootstraps_favouring_a": 0.066
+      }
+    }
+  },
+  "added_value_over_ranking_score": {
+    "acmg_band_assignment": {
+      "DISCERN": {
+        "emits_class": true,
+        "n_resolved": 80,
+        "kappa_vs_erepo_band_direction": null,
+        "accuracy_on_resolved": 0.9375,
+        "kappa_note": "undefined when the resolved calls are all one direction - which is itself the finding below"
+      },
+      "REVEL": {
+        "emits_class": false,
+        "note": "a ranking score; a class exists only once a human picks a threshold"
+      },
+      "AlphaMissense": {
+        "emits_class": false,
+        "note": "same"
+      }
+    },
+    "decision_quality": {
+      "DISCERN_acmg_class": {
+        "coverage": 0.1882,
+        "n_resolved": 80,
+        "accuracy_on_resolved": 0.9375,
+        "called_pathogenic": 0,
+        "called_benign": 80,
+        "pathogenic_recall": 0.0,
+        "benign_recall": 0.6881
+      },
+      "DISCERN_calibrated_prob_matched_coverage": {
+        "coverage": 0.1624,
+        "n_resolved": 69,
+        "accuracy_on_resolved": 0.913,
+        "called_pathogenic": 33,
+        "called_benign": 36,
+        "pathogenic_recall": 0.0981,
+        "benign_recall": 0.2936,
+        "benign_threshold": 0.0741,
+        "pathogenic_threshold": 0.988
+      },
+      "REVEL_clingen_thresholds": {
+        "coverage": 0.8071,
+        "n_resolved": 343,
+        "accuracy_on_resolved": 0.9563,
+        "called_pathogenic": 277,
+        "called_benign": 66,
+        "pathogenic_recall": 0.8513,
+        "benign_recall": 0.5413,
+        "benign_threshold": 0.29,
+        "pathogenic_threshold": 0.644
+      },
+      "REVEL_matched_coverage": {
+        "coverage": 0.1859,
+        "n_resolved": 79,
+        "accuracy_on_resolved": 0.9747,
+        "called_pathogenic": 39,
+        "called_benign": 40,
+        "pathogenic_recall": 0.1234,
+        "benign_recall": 0.3486,
+        "benign_threshold": 0.183,
+        "pathogenic_threshold": 0.9688
+      }
+    },
+    "intrinsic_only_ceiling": {
+      "max_discern_points_on_missense": 3.0,
+      "lp_threshold_points": 6.0,
+      "n_reaching_lp_or_p": 0,
+      "finding": "On intrinsic sequence evidence alone the ACMG point system cannot reach a pathogenic band for a missense variant: PM2 plus PP3 tops out well below the 6 points Likely Pathogenic requires. Every band DISCERN resolves on this surface is therefore benign-side, and the pathogenic side is left explicitly uncertain. That is the partition behaving as specified - the criteria that carry missense pathogenicity (PS3 functional, PS4 case-control, PM1 hotspot, PM5, PP4 phenotype) are owned by the functional, disease and coupling factors and are not derivable from sequence. It is also, stated plainly, the reason the coupling matters: the missing evidence is exactly what a disease model supplies."
+    },
+    "expert_vus_movement": {
+      "n_expert_vus_missense": 830,
+      "DISCERN_assigns_non_vus_band": 188,
+      "REVEL_clingen_rule_assigns_direction": 518,
+      "note": "a rate, not an accuracy: eRepo VUS carry no independent truth, so neither number says the movement was correct. This is the gap the pre-registered coupling endpoint exists to close."
+    }
+  }
+}

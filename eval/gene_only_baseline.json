@@ -1,0 +1,650 @@
+{
+  "n_cases": 42,
+  "strata_sizes": {
+    "no_gene": 3,
+    "shared_gene": 3,
+    "unique_gene": 36
+  },
+  "pooled": {
+    "stratum": "pooled",
+    "n": 42,
+    "DISCERN": {
+      "top1": 1.0,
+      "top3": 1.0
+    },
+    "gene_lookup": {
+      "top1": 0.9286,
+      "top3": 1.0
+    },
+    "prior_only": {
+      "top1": 0.2143
+    },
+    "random_within_cluster": {
+      "top1": {
+        "expected": 0.3234,
+        "sim_ci95": [
+          0.1905,
+          0.4762
+        ]
+      },
+      "top3": {
+        "expected": 0.8988,
+        "sim_ci95": [
+          0.8095,
+          0.9762
+        ]
+      }
+    },
+    "discern_minus_gene_lookup_top1": {
+      "delta": 0.0714,
+      "delta_ci95": [
+        0.0,
+        0.1667
+      ]
+    },
+    "mcnemar_top1": {
+      "discern_only_correct": 3,
+      "baseline_only_correct": 0,
+      "discordant_pairs": 3,
+      "p_value_exact": 0.25
+    }
+  },
+  "by_stratum": {
+    "no_gene": {
+      "stratum": "no_gene",
+      "n": 3,
+      "DISCERN": {
+        "top1": 1.0,
+        "top3": 1.0
+      },
+      "gene_lookup": {
+        "top1": 0.6667,
+        "top3": 1.0
+      },
+      "prior_only": {
+        "top1": 0.6667
+      },
+      "random_within_cluster": {
+        "top1": {
+          "expected": 0.3056,
+          "sim_ci95": [
+            0.0,
+            1.0
+          ]
+        },
+        "top3": {
+          "expected": 0.9167,
+          "sim_ci95": [
+            0.6667,
+            1.0
+          ]
+        }
+      },
+      "discern_minus_gene_lookup_top1": {
+        "delta": 0.3333,
+        "delta_ci95": [
+          0.0,
+          1.0
+        ]
+      },
+      "mcnemar_top1": {
+        "discern_only_correct": 1,
+        "baseline_only_correct": 0,
+        "discordant_pairs": 1,
+        "p_value_exact": 1.0
+      }
+    },
+    "shared_gene": {
+      "stratum": "shared_gene",
+      "n": 3,
+      "DISCERN": {
+        "top1": 1.0,
+        "top3": 1.0
+      },
+      "gene_lookup": {
+        "top1": 0.3333,
+        "top3": 1.0
+      },
+      "prior_only": {
+        "top1": 0.3333
+      },
+      "random_within_cluster": {
+        "top1": {
+          "expected": 0.3333,
+          "sim_ci95": [
+            0.0,
+            1.0
+          ]
+        },
+        "top3": {
+          "expected": 1.0,
+          "sim_ci95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "discern_minus_gene_lookup_top1": {
+        "delta": 0.6667,
+        "delta_ci95": [
+          0.0,
+          1.0
+        ]
+      },
+      "mcnemar_top1": {
+        "discern_only_correct": 2,
+        "baseline_only_correct": 0,
+        "discordant_pairs": 2,
+        "p_value_exact": 0.5
+      }
+    },
+    "unique_gene": {
+      "stratum": "unique_gene",
+      "n": 36,
+      "DISCERN": {
+        "top1": 1.0,
+        "top3": 1.0
+      },
+      "gene_lookup": {
+        "top1": 1.0,
+        "top3": 1.0
+      },
+      "prior_only": {
+        "top1": 0.1667
+      },
+      "random_within_cluster": {
+        "top1": {
+          "expected": 0.3241,
+          "sim_ci95": [
+            0.1667,
+            0.4722
+          ]
+        },
+        "top3": {
+          "expected": 0.8889,
+          "sim_ci95": [
+            0.7778,
+            0.9722
+          ]
+        }
+      },
+      "discern_minus_gene_lookup_top1": {
+        "delta": 0.0,
+        "delta_ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "mcnemar_top1": {
+        "discern_only_correct": 0,
+        "baseline_only_correct": 0,
+        "discordant_pairs": 0,
+        "p_value_exact": 1.0
+      }
+    }
+  },
+  "per_case": [
+    {
+      "id": "gt_itga2b_absent_aiib3",
+      "cluster": "integrin",
+      "gene": "ITGA2B",
+      "stratum": "unique_gene",
+      "true_dx": "gt",
+      "discern_lead": "gt",
+      "gene_lookup_lead": "gt",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "gt_itgb3_cd41_reduced",
+      "cluster": "integrin",
+      "gene": "ITGB3",
+      "stratum": "unique_gene",
+      "true_dx": "gt",
+      "discern_lead": "gt",
+      "gene_lookup_lead": "gt",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "lad3_infections",
+      "cluster": "integrin",
+      "gene": "FERMT3",
+      "stratum": "unique_gene",
+      "true_dx": "lad3",
+      "discern_lead": "lad3",
+      "gene_lookup_lead": "lad3",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "rasgrp2_gt_mimic",
+      "cluster": "integrin",
+      "gene": "RASGRP2",
+      "stratum": "unique_gene",
+      "true_dx": "rasgrp2",
+      "discern_lead": "rasgrp2",
+      "gene_lookup_lead": "rasgrp2",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "lad1_itgb2",
+      "cluster": "integrin",
+      "gene": "ITGB2",
+      "stratum": "unique_gene",
+      "true_dx": "lad1",
+      "discern_lead": "lad1",
+      "gene_lookup_lead": "lad1",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "bss_as_itp",
+      "cluster": "macrothrombocytopenia",
+      "gene": "GP1BA",
+      "stratum": "unique_gene",
+      "true_dx": "bss",
+      "discern_lead": "bss",
+      "gene_lookup_lead": "bss",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "bss_gp9",
+      "cluster": "macrothrombocytopenia",
+      "gene": "GP9",
+      "stratum": "unique_gene",
+      "true_dx": "bss",
+      "discern_lead": "bss",
+      "gene_lookup_lead": "bss",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "myh9_inclusions",
+      "cluster": "macrothrombocytopenia",
+      "gene": "MYH9",
+      "stratum": "unique_gene",
+      "true_dx": "myh9",
+      "discern_lead": "myh9",
+      "gene_lookup_lead": "myh9",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "itp_normal_size",
+      "cluster": "macrothrombocytopenia",
+      "gene": "",
+      "stratum": "no_gene",
+      "true_dx": "itp",
+      "discern_lead": "itp",
+      "gene_lookup_lead": "itp",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "runx1_fpdmm",
+      "cluster": "thr_leukemia",
+      "gene": "RUNX1",
+      "stratum": "unique_gene",
+      "true_dx": "runx1",
+      "discern_lead": "runx1",
+      "gene_lookup_lead": "runx1",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "runx1_series",
+      "cluster": "thr_leukemia",
+      "gene": "RUNX1",
+      "stratum": "unique_gene",
+      "true_dx": "runx1",
+      "discern_lead": "runx1",
+      "gene_lookup_lead": "runx1",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "etv6_macrocytosis",
+      "cluster": "thr_leukemia",
+      "gene": "ETV6",
+      "stratum": "unique_gene",
+      "true_dx": "etv6",
+      "discern_lead": "etv6",
+      "gene_lookup_lead": "etv6",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "etv6_all_predisposition",
+      "cluster": "thr_leukemia",
+      "gene": "ETV6",
+      "stratum": "unique_gene",
+      "true_dx": "etv6",
+      "discern_lead": "etv6",
+      "gene_lookup_lead": "etv6",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "ankrd26_as_mds",
+      "cluster": "thr_leukemia",
+      "gene": "ANKRD26",
+      "stratum": "unique_gene",
+      "true_dx": "ankrd26",
+      "discern_lead": "ankrd26",
+      "gene_lookup_lead": "ankrd26",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "ankrd26_family",
+      "cluster": "thr_leukemia",
+      "gene": "ANKRD26",
+      "stratum": "unique_gene",
+      "true_dx": "ankrd26",
+      "discern_lead": "ankrd26",
+      "gene_lookup_lead": "ankrd26",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "itp_steroid_responsive",
+      "cluster": "thr_leukemia",
+      "gene": "",
+      "stratum": "no_gene",
+      "true_dx": "itp",
+      "discern_lead": "itp",
+      "gene_lookup_lead": "itp",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "ptvwd_platelet_ripa",
+      "cluster": "vwf_gpib",
+      "gene": "GP1BA",
+      "stratum": "unique_gene",
+      "true_dx": "ptvwd",
+      "discern_lead": "ptvwd",
+      "gene_lookup_lead": "ptvwd",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "ptvwd_gof_gp1ba",
+      "cluster": "vwf_gpib",
+      "gene": "GP1BA",
+      "stratum": "unique_gene",
+      "true_dx": "ptvwd",
+      "discern_lead": "ptvwd",
+      "gene_lookup_lead": "ptvwd",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "vwd2b_plasma_ripa",
+      "cluster": "vwf_gpib",
+      "gene": "VWF",
+      "stratum": "shared_gene",
+      "true_dx": "vwd2b",
+      "discern_lead": "vwd2b",
+      "gene_lookup_lead": "vwd2a",
+      "discern_top1": 1,
+      "gene_lookup_top1": 0
+    },
+    {
+      "id": "vwd2b_infant_denovo",
+      "cluster": "vwf_gpib",
+      "gene": "VWF",
+      "stratum": "shared_gene",
+      "true_dx": "vwd2b",
+      "discern_lead": "vwd2b",
+      "gene_lookup_lead": "vwd2a",
+      "discern_top1": 1,
+      "gene_lookup_top1": 0
+    },
+    {
+      "id": "vwd2a_g1629r",
+      "cluster": "vwf_gpib",
+      "gene": "VWF",
+      "stratum": "shared_gene",
+      "true_dx": "vwd2a",
+      "discern_lead": "vwd2a",
+      "gene_lookup_lead": "vwd2a",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "fxiii_ich",
+      "cluster": "coag_factor",
+      "gene": "F13A1",
+      "stratum": "unique_gene",
+      "true_dx": "fxiii",
+      "discern_lead": "fxiii",
+      "gene_lookup_lead": "fxiii",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "fxiii_umbilical_newborn",
+      "cluster": "coag_factor",
+      "gene": "F13A1",
+      "stratum": "unique_gene",
+      "true_dx": "fxiii",
+      "discern_lead": "fxiii",
+      "gene_lookup_lead": "fxiii",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "hema_neonate_inv22",
+      "cluster": "coag_factor",
+      "gene": "F8",
+      "stratum": "unique_gene",
+      "true_dx": "hemophilia_a",
+      "discern_lead": "hemophilia_a",
+      "gene_lookup_lead": "hemophilia_a",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "hemb_pedigree",
+      "cluster": "coag_factor",
+      "gene": "F9",
+      "stratum": "unique_gene",
+      "true_dx": "hemophilia_b",
+      "discern_lead": "hemophilia_b",
+      "gene_lookup_lead": "hemophilia_b",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "vwd2n_misdx_hema",
+      "cluster": "vwd2n_hema",
+      "gene": "VWF",
+      "stratum": "unique_gene",
+      "true_dx": "vwd2n",
+      "discern_lead": "vwd2n",
+      "gene_lookup_lead": "vwd2n",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "vwd2n_female_r816w",
+      "cluster": "vwd2n_hema",
+      "gene": "VWF",
+      "stratum": "unique_gene",
+      "true_dx": "vwd2n",
+      "discern_lead": "vwd2n",
+      "gene_lookup_lead": "vwd2n",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "vwd2n_female_pregnancy",
+      "cluster": "vwd2n_hema",
+      "gene": "VWF",
+      "stratum": "unique_gene",
+      "true_dx": "vwd2n",
+      "discern_lead": "vwd2n",
+      "gene_lookup_lead": "vwd2n",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "mild_hema_female_chet",
+      "cluster": "vwd2n_hema",
+      "gene": "F8",
+      "stratum": "unique_gene",
+      "true_dx": "mild_hema",
+      "discern_lead": "mild_hema",
+      "gene_lookup_lead": "mild_hema",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "vwd2n_type1_chet",
+      "cluster": "vwd2n_hema",
+      "gene": "VWF",
+      "stratum": "unique_gene",
+      "true_dx": "vwd2n",
+      "discern_lead": "vwd2n",
+      "gene_lookup_lead": "vwd2n",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "type1_lowvwf_lovic",
+      "cluster": "mild_vwd",
+      "gene": "VWF",
+      "stratum": "unique_gene",
+      "true_dx": "type1_lowvwf",
+      "discern_lead": "type1_lowvwf",
+      "gene_lookup_lead": "type1_lowvwf",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "mild_pfd_lta",
+      "cluster": "mild_vwd",
+      "gene": "",
+      "stratum": "no_gene",
+      "true_dx": "mild_pfd",
+      "discern_lead": "mild_pfd",
+      "gene_lookup_lead": "normal",
+      "discern_top1": 1,
+      "gene_lookup_top1": 0
+    },
+    {
+      "id": "gps_nbeal2_albers",
+      "cluster": "alpha_granule",
+      "gene": "NBEAL2",
+      "stratum": "unique_gene",
+      "true_dx": "gray_platelet",
+      "discern_lead": "gray_platelet",
+      "gene_lookup_lead": "gray_platelet",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "gps_nbeal2_myelofibrosis",
+      "cluster": "alpha_granule",
+      "gene": "NBEAL2",
+      "stratum": "unique_gene",
+      "true_dx": "gray_platelet",
+      "discern_lead": "gray_platelet",
+      "gene_lookup_lead": "gray_platelet",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "gfi1b_dominant_negative",
+      "cluster": "alpha_granule",
+      "gene": "GFI1B",
+      "stratum": "unique_gene",
+      "true_dx": "gfi1b",
+      "discern_lead": "gfi1b",
+      "gene_lookup_lead": "gfi1b",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "quebec_urokinase",
+      "cluster": "alpha_granule",
+      "gene": "PLAU",
+      "stratum": "unique_gene",
+      "true_dx": "quebec",
+      "discern_lead": "quebec",
+      "gene_lookup_lead": "quebec",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "arc_vps33b",
+      "cluster": "alpha_granule",
+      "gene": "VPS33B",
+      "stratum": "unique_gene",
+      "true_dx": "arc",
+      "discern_lead": "arc",
+      "gene_lookup_lead": "arc",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "chs_lyst_giant_granules",
+      "cluster": "granule",
+      "gene": "LYST",
+      "stratum": "unique_gene",
+      "true_dx": "chs",
+      "discern_lead": "chs",
+      "gene_lookup_lead": "chs",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "chs_lyst_severe",
+      "cluster": "granule",
+      "gene": "LYST",
+      "stratum": "unique_gene",
+      "true_dx": "chs",
+      "discern_lead": "chs",
+      "gene_lookup_lead": "chs",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "hps1_albinism",
+      "cluster": "granule",
+      "gene": "HPS1",
+      "stratum": "unique_gene",
+      "true_dx": "hps",
+      "discern_lead": "hps",
+      "gene_lookup_lead": "hps",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "hps_pulmonary_fibrosis",
+      "cluster": "granule",
+      "gene": "HPS1",
+      "stratum": "unique_gene",
+      "true_dx": "hps",
+      "discern_lead": "hps",
+      "gene_lookup_lead": "hps",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    },
+    {
+      "id": "scott_ps_exposure",
+      "cluster": "scott",
+      "gene": "ANO6",
+      "stratum": "unique_gene",
+      "true_dx": "scott",
+      "discern_lead": "scott",
+      "gene_lookup_lead": "scott",
+      "discern_top1": 1,
+      "gene_lookup_top1": 1
+    }
+  ]
+}

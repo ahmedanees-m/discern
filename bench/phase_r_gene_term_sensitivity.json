@@ -1,0 +1,101 @@
+{
+  "gene_lookup_top1_baseline": 0.9286,
+  "committed_value": {
+    "on_gene": 0.8,
+    "off_gene": 0.2,
+    "likelihood_ratio": 4.0
+  },
+  "selection_rule": "the largest likelihood ratio that still lets a cluster's deciding observation overturn the gene; the sharpest assay in the knowledge base carries a ratio near 11, so the gene term is held well below it",
+  "grid": [
+    {
+      "on_gene": 0.5,
+      "off_gene": 0.5,
+      "likelihood_ratio": 1.0,
+      "curated_top1": 0.8095,
+      "curated_top1_by_stratum": {
+        "no_gene": 1.0,
+        "shared_gene": 1.0,
+        "unique_gene": 0.7778
+      },
+      "hardstop_sensitivity": 1.0,
+      "hardstop_specificity": 1.0,
+      "deciding_assay_can_overturn_gene": true,
+      "committed": false
+    },
+    {
+      "on_gene": 0.6,
+      "off_gene": 0.4,
+      "likelihood_ratio": 1.5,
+      "curated_top1": 0.881,
+      "curated_top1_by_stratum": {
+        "no_gene": 1.0,
+        "shared_gene": 1.0,
+        "unique_gene": 0.8611
+      },
+      "hardstop_sensitivity": 1.0,
+      "hardstop_specificity": 1.0,
+      "deciding_assay_can_overturn_gene": true,
+      "committed": false
+    },
+    {
+      "on_gene": 0.7,
+      "off_gene": 0.3,
+      "likelihood_ratio": 2.33,
+      "curated_top1": 0.9048,
+      "curated_top1_by_stratum": {
+        "no_gene": 1.0,
+        "shared_gene": 1.0,
+        "unique_gene": 0.8889
+      },
+      "hardstop_sensitivity": 1.0,
+      "hardstop_specificity": 1.0,
+      "deciding_assay_can_overturn_gene": true,
+      "committed": false
+    },
+    {
+      "on_gene": 0.8,
+      "off_gene": 0.2,
+      "likelihood_ratio": 4.0,
+      "curated_top1": 1.0,
+      "curated_top1_by_stratum": {
+        "no_gene": 1.0,
+        "shared_gene": 1.0,
+        "unique_gene": 1.0
+      },
+      "hardstop_sensitivity": 1.0,
+      "hardstop_specificity": 1.0,
+      "deciding_assay_can_overturn_gene": true,
+      "committed": true
+    },
+    {
+      "on_gene": 0.9,
+      "off_gene": 0.1,
+      "likelihood_ratio": 9.0,
+      "curated_top1": 1.0,
+      "curated_top1_by_stratum": {
+        "no_gene": 1.0,
+        "shared_gene": 1.0,
+        "unique_gene": 1.0
+      },
+      "hardstop_sensitivity": 1.0,
+      "hardstop_specificity": 1.0,
+      "deciding_assay_can_overturn_gene": false,
+      "committed": false
+    },
+    {
+      "on_gene": 0.95,
+      "off_gene": 0.05,
+      "likelihood_ratio": 19.0,
+      "curated_top1": 1.0,
+      "curated_top1_by_stratum": {
+        "no_gene": 1.0,
+        "shared_gene": 1.0,
+        "unique_gene": 1.0
+      },
+      "hardstop_sensitivity": 1.0,
+      "hardstop_specificity": 1.0,
+      "deciding_assay_can_overturn_gene": false,
+      "committed": false
+    }
+  ]
+}
