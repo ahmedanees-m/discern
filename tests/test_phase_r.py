@@ -80,6 +80,62 @@ def test_safety_flags_are_reported_against_the_engines_own_leading_call():
     assert all(f.leading_id == rec.posterior.leading for f in rec.safety_flags)
 
 
+def test_safety_uses_the_gene_blind_view_not_the_gene_aware_one():
+    """The re-validation the gene term made necessary, asserted rather than assumed.
+
+    An ITGB3 case with recurrent infections must still flag LAD-III, whose gene is FERMT3. Under a
+    gene-aware posterior LAD-III falls below the divergence threshold; under the gene-blind view the
+    interlock still sees it. This pins the adjudication path, so the reported sensitivity and
+    specificity cannot silently revert to the pre-Phase-R logic.
+    """
+    from jointdx.infer import marginal_disease
+    ev = Evidence(variant_gene="ITGB3", genetic_codes=["PVS1", "PM2"],
+                  clinical=[_clin("glanzmann_type_bleeding", True),
+                            _clin("recurrent_infections", True)])
+    cluster = cluster_for("integrin")
+    p_aware = marginal_disease(joint(cluster, ev))["lad3"]
+    p_blind = marginal_disease(joint(cluster, ev, gene_evidence=False))["lad3"]
+    assert p_blind > p_aware                       # the gene would otherwise shrink the competitor
+    rec = diagnose(ev, n_mc=40)
+    assert rec is not None
+    assert any(f.competitor_id == "lad3" for f in rec.safety_flags)
+
+
+def test_safety_metrics_are_regenerated_under_current_logic():
+    """Recompute rather than trust the committed snapshot."""
+    from bench.track3_trustworthiness import safety_interlock
+    s = safety_interlock()
+    assert s["n_scenarios"] == 5
+    assert s["hardstop_sensitivity"] == 1.0
+    assert s["hardstop_specificity"] == 1.0
+    snap = os.path.join(HERE, "..", "bench", "track3_metrics.json")
+    if os.path.exists(snap):
+        committed = json.load(open(snap, encoding="utf-8"))["safety_interlock"]
+        assert committed["hardstop_sensitivity"] == s["hardstop_sensitivity"]
+        assert committed["hardstop_specificity"] == s["hardstop_specificity"]
+        assert committed["n_scenarios"] == s["n_scenarios"]
+
+
+def test_variant_arm_is_independent_of_the_gene_term():
+    """R1/R2/R3/R6 must be untouched by a disease-model change - proved, not assumed."""
+    from jointdx import factorgraph
+    from rules.variant_scoring import Annotations, score_variant
+
+    probe = [("ITGB3", Annotations(af=1e-6, revel=0.9, consequence="missense")),
+             ("F8", Annotations(af=None, revel=0.1, consequence="missense")),
+             ("VWF", Annotations(af=1e-3, revel=0.5, consequence="nonsense"))]
+    before = [(score_variant(g, g, a).points, score_variant(g, g, a).classification.name)
+              for g, a in probe]
+    on, off = factorgraph.ON_GENE, factorgraph.OFF_GENE
+    try:
+        factorgraph.ON_GENE, factorgraph.OFF_GENE = 0.99, 0.01
+        after = [(score_variant(g, g, a).points, score_variant(g, g, a).classification.name)
+                 for g, a in probe]
+    finally:
+        factorgraph.ON_GENE, factorgraph.OFF_GENE = on, off
+    assert before == after
+
+
 # ---- committed Phase R numbers ----
 @pytest.mark.skipif(not os.path.exists(PR_VARIANT), reason="phase_r_variant_metrics.json not generated")
 def test_calibration_is_out_of_sample_and_beaten_by_nobody():
@@ -113,11 +169,35 @@ def test_discern_tracks_revel_rather_than_beating_it():
 
 @pytest.mark.skipif(not os.path.exists(PR_VARIANT), reason="phase_r_variant_metrics.json not generated")
 def test_intrinsic_evidence_cannot_reach_a_pathogenic_missense_band():
-    """The partition's most consequential consequence, and the argument for the coupling."""
+    """The most consequential finding, and the argument for the coupling."""
     m = json.load(open(PR_VARIANT, encoding="utf-8"))
     c = m["added_value_over_ranking_score"]["intrinsic_only_ceiling"]
     assert c["n_reaching_lp_or_p"] == 0
     assert c["max_discern_points_on_missense"] < c["lp_threshold_points"]
+
+
+def test_pm1_and_pm5_are_variant_intrinsic_not_routed_away():
+    """Guards the corrected claim: the partition does not move the hotspot and same-residue codes.
+
+    The ceiling is not produced by routing PM1/PM5/PS1/PS4 elsewhere - they are variant-intrinsic
+    and simply have no input in this pipeline. Saying otherwise was wrong in v1 of the manuscript
+    and this test exists so it cannot be reintroduced.
+    """
+    from rules.vcep.partition import owner
+    for code in ("PM1", "PM5", "PS1", "PS4"):
+        assert owner(code) == "variant_intrinsic", code
+    assert owner("PS3") == "functional"
+    assert owner("PP4") == "disease_pp4"
+
+
+@pytest.mark.skipif(not os.path.exists(PR_VARIANT), reason="phase_r_variant_metrics.json not generated")
+def test_ceiling_attribution_separates_partition_from_missing_inputs():
+    m = json.load(open(PR_VARIANT, encoding="utf-8"))["ceiling_attribution"]
+    assert m["reach_lp_as_scored"] == 0
+    # both streams contribute, and neither explains the ceiling on its own
+    assert m["reach_lp_if_intrinsic_codes_were_available"] > 0
+    assert m["reach_lp_if_routed_codes_were_re_added"] > 0
+    assert m["reach_lp_with_both"] < m["n"] / 2       # still nowhere near resolving the set
 
 
 @pytest.mark.skipif(not os.path.exists(PR_GENE), reason="gene_only_baseline.json not generated")

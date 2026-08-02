@@ -14,7 +14,7 @@ differential diagnosis, misdiagnosis prevention, and variant-of-uncertain-signif
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-active%20development-orange.svg)](#project-status)
-[![Tests](https://img.shields.io/badge/tests-178%20passing-brightgreen.svg)](tests)
+[![Tests](https://img.shields.io/badge/tests-183%20passing-brightgreen.svg)](tests)
 
 Built on a disciplined engineering foundation: a rule-grounded ACMG point engine,
 swappable evidence adapters, an equity layer, full audit trails, and reproducible
@@ -30,8 +30,8 @@ concrete and treatment changing: Glanzmann thrombasthenia versus LAD-III (which 
 stem-cell transplant); type 2B von Willebrand disease versus platelet-type VWD (opposite
 treatments, where DDAVP can harm 2B); Bernard-Soulier mistaken for ITP (leading to
 needless steroids or splenectomy); Factor XIII deficiency missed until a fatal brain bleed.
-More than 60 percent of variants in these genes are classified as uncertain (VUS), and the
-settings that most need disambiguation have the least access to specialist labs.
+On the expert-panel surface used here, 974 of 2,239 classified variants (43.5 percent) are
+uncertain, and the settings that most need disambiguation have the least access to specialist labs.
 
 DISCERN treats diagnosis, misdiagnosis safety, and VUS resolution as three readouts of one
 model. It computes a single joint posterior over disease and variant, then reports the
@@ -110,19 +110,20 @@ templated explanation, and a full audit trail.
 
 Worked examples (actual engine output):
 
-* Glanzmann vs LAD-III, ITGB3 VUS with recurrent infections. Leading: LAD-III at 73 percent
-  (95 percent CI 55 to 91). Flag: if Glanzmann instead, management changes from HSCT to
-  antifibrinolytics. Cheapest next step: white cell count for leukocytosis.
+* Glanzmann vs LAD-III, ITGB3 VUS with recurrent infections. Leading: LAD-III at 63 percent.
+  Flag: if Glanzmann instead, management changes from HSCT to antifibrinolytics. Cheapest next
+  step: white cell count for leukocytosis.
 * 2B vs platelet-type VWD, GP1BA with platelet-origin RIPA and planned DDAVP. Leading:
-  platelet-type VWD at 84 percent. Hard stop: DDAVP is contraindicated if type 2B
-  (probability 0.14); resolve first. Cheapest next step: targeted GP1BA versus VWF
-  sequencing.
+  platelet-type VWD at 93 percent. Hard stop: DDAVP is contraindicated if type 2B
+  (probability 0.12); resolve first. Cheapest next step: targeted GP1BA versus VWF sequencing.
+  The hard stop fires even though the variant is in GP1BA and type 2B is a VWF disease: safety
+  is judged gene-blind, because sequencing one gene does not exclude the other disease.
 
 ## Quick start
 
 ```bash
 conda env create -f environment.yml        # or: pip install -e ".[dev]"
-make test                                   # ruff and pytest (178 tests)
+make test                                   # ruff and pytest (183 tests)
 ```
 
 ```python
@@ -206,9 +207,11 @@ valuable (OUT). No patient data is used in any public result.
  WHY       Checks that DISCERN reproduces expert decisions and counts each piece
            of evidence only once (its core anti-double-counting claim).
  INPUT     A variant and the expert-applied ACMG evidence codes.
- OUTPUT    Reproduces the expert label at 93.0% exact and 100% within one bin.
-           Routes every code to exactly one factor (0 unknown). A naive tool that
-           reused bundled labels would over-classify 33.2% of variants; DISCERN does not.
+ OUTPUT    On the 2,653 bleeding-panel variants, reproduces the expert label at
+           93.0% exact and 100% within one bin from the experts' own applied codes.
+           Across all 12,240, routes every code to exactly one factor (0 unknown),
+           and a naive tool reusing bundled labels would over-classify 33.2%
+           (95% CI 32.4-34.1); DISCERN does not.
 +--------------------------------------------------------------------------------+
 
 +--------------------------------------------------------------------------------+
@@ -383,8 +386,10 @@ Real-data results (Tier A, open data; see `docs/DISCERN_Validation_Results.md`):
   found that the gene was not reaching the disease posterior at all and fixed the missing P(G|D)
   term; before that fix the same benchmark scored 81 percent. See
   [docs/DISCERN_PhaseR_Results_v1.md](docs/DISCERN_PhaseR_Results_v1.md).
-* Gate G1: the reused rule engine reproduces ClinGen eRepo at 94.9 percent exact and 99.9
-  percent within-one-bin concordance on 12,499 records.
+* Gate G1: on the full 12,499-record eRepo export the reused rule engine reproduces the expert
+  bottom line at 94.9 percent exact and 99.9 percent within-one-bin. The 93.0 / 100 percent figures
+  above are the same check restricted to the 2,653 bleeding-panel variants; the two differ by
+  evaluation set, not by method.
 
 The public-data validation plan is complete (all results above). The disease-coupling layer
 (the joint model's novel core) is evaluated in a separate, pre-registered study that requires
@@ -420,9 +425,13 @@ AlphaMissense 0.029 against DISCERN's 0.017, and the intervals overlap. The diff
 calibrated, auditable classification system, not calibration alone. The AUROC gap to REVEL is not
 statistically significant (DeLong p=0.29), so DISCERN tracks REVEL rather than trailing it, which
 is the expected relationship given REVEL is its own PP3 input. LIRICAL was run rather than
-deferred: on the 23 curated cases carrying any HPO term it reaches Recall@1 57 percent restricted
-to the same cluster, against DISCERN's 100 percent, and the reason it trails is that only 13 of the
-benchmark's 48 discriminating features have any HPO representation. A fair BIAS-2015 re-run remains
+deferred. On the 23 curated cases carrying any HPO term it reaches Recall@1 57 percent restricted
+to the same cluster. The comparable DISCERN arm is the phenotype-only one, which withholds the gene
+so both tools receive the same inputs, and which is unaffected by the Phase R gene-term fix by
+construction: it reaches Recall@1 91 percent. DISCERN's 100 percent on those cases is in-sample,
+because these are the cases that exposed the fix, and is not quoted as a head-to-head. The reason
+LIRICAL trails is that only 13 of the benchmark's 48 discriminating features have any HPO
+representation at all. A fair BIAS-2015 re-run remains
 deferred for tooling and disk reasons, documented in the results.
 
 The disease-variant coupling remains cohort-gated and is not claimed until its paired-data

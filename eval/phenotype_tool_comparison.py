@@ -108,9 +108,20 @@ def export_phenopackets() -> int:
     return n
 
 
-def discern_ranking(case) -> list[str]:
+def discern_ranking(case, gene_term: bool = True, drop_gene: bool = False) -> list[str]:
+    """Rank the cluster for a case.
+
+    `gene_term=False` reproduces the engine as it behaved before Phase R added P(G|D) - the state
+    in which these cases had not yet informed the model, and therefore the only state in which
+    performance on them is comparable to a tool that never saw them.
+
+    `drop_gene=True` withholds the gene entirely, matching what a phenotype-driven ranker receives.
+    """
     cluster = cluster_for(case["cluster"])
-    md = marginal_disease(joint(cluster, _evidence(case)))
+    ev = _evidence(case)
+    if drop_gene:
+        ev.variant_gene = ""
+    md = marginal_disease(joint(cluster, ev, gene_evidence=gene_term))
     return [d for d, _ in sorted(md.items(), key=lambda kv: kv[1], reverse=True)]
 
 

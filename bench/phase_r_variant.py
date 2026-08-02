@@ -34,11 +34,13 @@ from sklearn.model_selection import StratifiedKFold
 
 from bench.track1_variant_headtohead import _ece
 from bench.track1b_erepo_headtohead import TIMESPLIT_AFTER, load_rows
+from rules.acmg_codes import code_points
 
 HERE = os.path.dirname(__file__)
 OUT_JSON = os.path.join(HERE, "phase_r_variant_metrics.json")
 
 N_BOOT = 1000
+LP_POINTS = 6.0
 N_FOLDS = 5
 SEED = 0
 
@@ -248,6 +250,84 @@ def _band_at_coverage(scores, y, target_coverage):
     return dq
 
 
+def ceiling_attribution(mis_pb):
+    """Why does nothing reach a pathogenic band - the partition, or missing inputs?
+
+    This separates two causes that are easy to conflate and that carry very different weight in a
+    manuscript. Under the committed partition, only PS3 (functional) and PP4 (phenotype) leave the
+    variant-intrinsic factor. PM1, PM5, PS1 and PS4 are variant-intrinsic and are *not* routed away;
+    they are unapplied because this evaluation supplies no input for them - no hotspot or functional
+    domain annotation, no same-residue ClinVar lookup under the ClinVar-blinded protocol, and no
+    case-control counts. Saying the partition causes the ceiling would be wrong.
+
+    Method: take DISCERN's own points for each variant, then add the points for codes the expert
+    panel applied but DISCERN did not, grouped by owning factor, and re-band. The counts below are
+    therefore an upper bound on what each stream would contribute if it were perfectly available.
+    """
+    routed = {"PS3", "BS3", "PP4", "PP1", "BS4", "PM3", "BP2", "PS2", "PM6"}
+    intrinsic_unavailable = {"PM1", "PM5", "PS1", "PS4"}
+
+    def band_reached(pts):
+        return pts >= LP_POINTS
+
+    base = sum(1 for r in mis_pb if band_reached(r["discern_points"]))
+    plus_intrinsic = plus_routed = plus_both = 0
+    n_with_intrinsic = n_with_routed = 0
+    for r in mis_pb:
+        missing = r["erepo_codes"] - r["discern_codes"]
+        pts_intrinsic = sum(code_points(c)[0] for c in missing if c in intrinsic_unavailable)
+        pts_routed = sum(code_points(c)[0] for c in missing if c in routed)
+        n_with_intrinsic += bool(missing & intrinsic_unavailable)
+        n_with_routed += bool(missing & routed)
+        p = r["discern_points"]
+        plus_intrinsic += band_reached(p + pts_intrinsic)
+        plus_routed += band_reached(p + pts_routed)
+        plus_both += band_reached(p + pts_intrinsic + pts_routed)
+
+    return {
+        "n": len(mis_pb),
+        "lp_threshold_points": LP_POINTS,
+        "partition_routes_away": sorted(routed),
+        "intrinsic_but_no_input_here": sorted(intrinsic_unavailable),
+        "why_each_intrinsic_code_has_no_input": {
+            "PS1": ("implemented (adapters/clinvar.py) but deliberately not wired in: this benchmark "
+                    "runs ClinVar-blinded, and PS1 needs a same-amino-acid-change ClinVar lookup. "
+                    "Supplying it would reintroduce exactly the circularity the GeneBe exhibit "
+                    "demonstrates, so its absence here is a protocol choice, not a gap."),
+            "PM5": ("same as PS1 - implemented, and withheld for the same ClinVar-blinding reason "
+                    "(different missense at the same residue)."),
+            "PS4": ("implemented as a decision tree in rules/variant_scoring.py, but it requires "
+                    "case-control inputs - proband counts against expectation, or an odds ratio with "
+                    "its confidence bound - and the eRepo annotation cache carries none of them. A "
+                    "data-availability limit."),
+            "PM1": ("genuinely not implemented: no scorer emits PM1, and no VCEP specification in "
+                    "rules/vcep/specs/ encodes hotspot or critical-domain regions for the in-scope "
+                    "genes. The in_functional_domain annotation that exists feeds the PVS1 tree, not "
+                    "PM1. This is a scope limitation and the one item on this list that is a genuine "
+                    "engine gap rather than a protocol or data constraint."),
+        },
+        "reach_lp_as_scored": base,
+        "reach_lp_if_intrinsic_codes_were_available": plus_intrinsic,
+        "reach_lp_if_routed_codes_were_re_added": plus_routed,
+        "reach_lp_with_both": plus_both,
+        "variants_where_experts_applied_an_unavailable_intrinsic_code": n_with_intrinsic,
+        "variants_where_experts_applied_a_routed_code": n_with_routed,
+        "reading": ("The ceiling has two separable causes and only one of them is the partition. "
+                    "Restoring the intrinsic codes this pipeline cannot derive (hotspot, "
+                    "same-residue, case-control) is an annotation problem, not a design choice. "
+                    "Restoring the routed codes is what the partition deliberately prevents, and "
+                    "is exactly the evidence the coupling is meant to supply through the disease "
+                    "factor instead of by re-addition. Neither stream alone, nor both together, "
+                    "comes close to the 316 variants the panel called pathogenic, so the binding "
+                    "constraint is the evidence the ACMG framework demands for missense rather "
+                    "than any one routing decision."),
+        "caveat": ("Points for the restored codes use default ACMG strengths, because stripping a "
+                   "strength suffix is how the code vocabulary is compared. VCEPs frequently apply "
+                   "gene-specific strengths above the default, so every count here is a lower "
+                   "bound on what the expert evidence would actually contribute."),
+    }
+
+
 def added_value(rows_all, mis_pb, discern_oof):
     """Outputs DISCERN produces that a ranking score structurally cannot - and, honestly, the
     places where the ACMG framework's own conservatism costs it against a free-running score."""
@@ -391,6 +471,7 @@ def run():
         "eRepo_primary": primary,
         "time_split": timesplit,
         "added_value_over_ranking_score": added_value(rows, mis_pb, discern_oof),
+        "ceiling_attribution": ceiling_attribution(mis_pb),
     }
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=2)
@@ -436,6 +517,13 @@ def main():
     print(f"   intrinsic-only ceiling: max points on missense = {ic['max_discern_points_on_missense']:.0f} "
           f"against {ic['lp_threshold_points']:.0f} for Likely Pathogenic; "
           f"{ic['n_reaching_lp_or_p']} missense variants reach a pathogenic band.")
+    ca = o["ceiling_attribution"]
+    print(f"   why: partition routes away {ca['partition_routes_away']}")
+    print(f"        intrinsic but unavailable here {ca['intrinsic_but_no_input_here']}")
+    print(f"        reaching LP  as scored={ca['reach_lp_as_scored']}  "
+          f"+intrinsic-if-available={ca['reach_lp_if_intrinsic_codes_were_available']}  "
+          f"+routed-if-re-added={ca['reach_lp_if_routed_codes_were_re_added']}  "
+          f"both={ca['reach_lp_with_both']}  (of {ca['n']})")
     v = av["expert_vus_movement"]
     print(f"   expert-called VUS (n={v['n_expert_vus_missense']}): DISCERN assigns a band to "
           f"{v['DISCERN_assigns_non_vus_band']}, the REVEL rule to {v['REVEL_clingen_rule_assigns_direction']} "

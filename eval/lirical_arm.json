@@ -1,5 +1,8 @@
 {
   "scoring_resolution": "gene / disease-family: a LIRICAL hit counts if its top-k contains any HPO-annotated disease identifier for the case's causal gene",
+  "headline_arm": "DISCERN_phenotype_only_no_gene",
+  "why": "These 42 cases are what exposed the missing P(G|D) term, so post-fix DISCERN has seen them and LIRICAL has not. Two arms escape that problem. The phenotype-only arm withholds the gene entirely, which makes P(G|D) inert - it is therefore identical before and after the fix, uncontaminated by construction, and it is also the only arm whose inputs match what LIRICAL receives. It is the headline. The pre-fix arm reproduces the engine as it stood before these cases informed it, and is reported as a second uncontaminated reference. The post-fix arm is labelled in-sample and must never be quoted as a head-to-head result.",
+  "phenotype_only_arm_is_fix_invariant": true,
   "LIRICAL_genome_wide": {
     "n": 23,
     "recall@1": 0.1304,
@@ -16,7 +19,23 @@
     "recall@10": 0.9565,
     "mrr": 0.7536
   },
-  "DISCERN_same_subset": {
+  "DISCERN_pre_gene_term_fix": {
+    "n": 23,
+    "recall@1": 0.8261,
+    "recall@3": 1.0,
+    "recall@5": 1.0,
+    "recall@10": 1.0,
+    "mrr": 0.913
+  },
+  "DISCERN_phenotype_only_no_gene": {
+    "n": 23,
+    "recall@1": 0.913,
+    "recall@3": 1.0,
+    "recall@5": 1.0,
+    "recall@10": 1.0,
+    "mrr": 0.9565
+  },
+  "DISCERN_post_fix_IN_SAMPLE": {
     "n": 23,
     "recall@1": 1.0,
     "recall@3": 1.0,
@@ -24,7 +43,13 @@
     "recall@10": 1.0,
     "mrr": 1.0
   },
-  "caveat": "The genome-wide row is not a like-for-like contest: LIRICAL ranks roughly 8,600 diseases from HPO terms and is not given the gene, while DISCERN ranks the three to eight members of one cluster and is. The restricted row is the fair comparison - both tools ordering the same cluster - and it is the one to quote. Even there the tools optimise different objectives, and the reason LIRICAL does poorly is not that it is a weak ranker but that the findings which separate these diseases are laboratory assays the Human Phenotype Ontology does not encode. That is a fact about the domain, not a win.",
+  "input_parity": {
+    "LIRICAL_receives": "HPO terms only (observed and negated); no gene",
+    "DISCERN_phenotype_only_receives": "the same findings, no gene - the matched-input arm",
+    "DISCERN_pre_and_post_fix_receive": "the same findings plus the causal gene",
+    "note": "The gene is worth most of this benchmark: a phenotype-blind gene lookup scores 93 percent on the full 42. Any arm that receives the gene is therefore not comparable to LIRICAL, which does not. Read DISCERN_phenotype_only_no_gene against LIRICAL_restricted_to_cluster."
+  },
+  "caveat": "The genome-wide row is not a like-for-like contest: LIRICAL ranks roughly 8,600 diseases from HPO terms, while DISCERN ranks the three to eight members of one cluster. The restricted row is the fair ranking surface. Even there the tools optimise different objectives, and the reason LIRICAL does poorly is not that it is a weak ranker but that the findings which separate these diseases are laboratory assays the Human Phenotype Ontology does not encode. That is a fact about the domain, not a win.",
   "rows": [
     {
       "id": "bss_as_itp",

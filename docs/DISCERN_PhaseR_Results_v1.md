@@ -18,9 +18,9 @@ headline values are locked by `tests/test_phase_r.py`.
 |---|---|---|---|---|---|
 | R1 | Out-of-sample calibration | G-R1 | Already out-of-fold; now with CIs and a leakage assertion | Yes | State the protocol in Methods; add CIs |
 | R2 | Calibrated comparators | G-R2 | Post-hoc calibration closes most of the gap; CIs overlap | **No** | **Retire "only calibrated tool"**; reframe on the classification system |
-| R3 | AUROC CIs and paired test | G-R3 | Gap to REVEL is not significant (p=0.29); added-value analysis added | Mixed | "Tracks REVEL" now defensible; report the intrinsic-only ceiling |
+| R3 | AUROC CIs and paired test | G-R3 | Gap to REVEL is not significant (p=0.29). Ceiling: 0/425 reach a pathogenic band; attribution shows 27 from missing intrinsic inputs, 52 from partition-routed codes, 89 from both | Mixed | "Tracks REVEL" now defensible; report the ceiling with its attribution and the PM1/PM5 correction |
 | R4 | Gene-only baseline | G-R4 | Baseline 93%; exposed a missing model term, now fixed | **No** (as a claim) | Diagnosis arm cannot carry an accuracy claim; report the confound |
-| R5 | LIRICAL on the curated cases | G-R5 | Run; DISCERN 100% vs 57% within-cluster on n=23 | Yes, weakly | Report with the HPO-coverage caveat |
+| R5 | LIRICAL on the curated cases | G-R5 | Run. Matched-input arm (no gene, fix-invariant): DISCERN 91% vs LIRICAL 57% on n=23. Post-fix 100% quarantined as in-sample. | Yes, on the fair arm | Lead with the matched-input arm; state what each tool received |
 | R6 | Reproduce the ~33% figure | G-R6 | Reproduces exactly with CI | Yes | Keep, with an explicit denominator |
 | R7 | Partition novelty framing | - | n/a | n/a | Intro and Discussion edit |
 
@@ -101,10 +101,34 @@ of 425 variants.**
 | REVEL at ClinGen thresholds | 80.7% | 0.956 | 0.851 | 0.541 |
 | REVEL, coverage-matched to DISCERN | 18.6% | 0.975 | 0.123 | 0.349 |
 
-Every band DISCERN resolves on this surface is benign-side. This is not a defect: PM2 plus PP3
-cannot reach 6 points, and the criteria that carry missense pathogenicity - PS3 functional, PS4
-case-control, PM1 hotspot, PM5, PP4 phenotype - are owned by the functional, disease and coupling
-factors and are not derivable from sequence. It is the partition behaving exactly as specified.
+Every band DISCERN resolves on this surface is benign-side. **A correction to how v1 of the
+manuscript explained this.** It stated that the criteria carrying missense pathogenicity are routed
+away by the partition. That is wrong for three of them. Under the committed partition
+(`rules/vcep/partition.py`) **PM1, PM5, PS1 and PS4 are variant-intrinsic and are not routed
+anywhere**; only PS3 (functional) and PP4 (phenotype), along with PP1, PM3, PS2 and PM6, leave the
+intrinsic factor. PM1 and PM5 go unapplied for a different and more mundane reason: this evaluation
+supplies no input for them - there is no hotspot or functional-domain annotation, no same-residue
+ClinVar lookup under the ClinVar-blinded protocol, and no case-control counts.
+
+The two causes are separable and were measured (`ceiling_attribution` in the harness). Taking each
+variant's DISCERN points and adding the codes the expert panel applied but DISCERN did not:
+
+| Restored stream | variants reaching Likely Pathogenic (of 425) |
+|---|---|
+| none, as scored | 0 |
+| intrinsic codes this pipeline cannot derive (PM1, PM5, PS1, PS4) | 27 |
+| codes the partition routes away (PS3, PP4, PP1, PM3, ...) | 52 |
+| both | 89 |
+
+So the partition-owned streams are the larger contributor, but neither cause explains the ceiling
+alone, and even both together reach only 89 of the 316 variants the panel called pathogenic. The
+binding constraint is what the ACMG framework demands for missense evidence, not any single routing
+decision. (These counts use default code strengths, since strength suffixes are stripped for
+vocabulary comparison, and VCEPs often apply strengths above default - so each is a lower bound.)
+
+Framed correctly: this is a property of ACMG's evidence requirements for missense variants, not a
+defect of DISCERN, and it is precisely why abstention plus a next-test recommendation is the right
+output rather than a forced call.
 
 It is also the clearest argument the paper has for the coupling. The evidence the intrinsic surface
 is missing is precisely the evidence a disease model supplies. On the 830 missense variants the
@@ -190,22 +214,40 @@ flow cytometry for CD42 and alphaIIbbeta3, multimer patterns, light transmission
 prothrombinase assay. Nineteen of 42 cases therefore carry no HPO term at all and LIRICAL cannot
 rank them; median terms per case is 1, mean 1.5.
 
-On the 23 cases it can accept:
+**The contamination problem, and how it is handled.** These 42 cases are what exposed the missing
+`P(G|D)` term. Post-fix DISCERN has therefore seen them and LIRICAL has not, so the post-fix number
+cannot be quoted as a head-to-head. Two arms escape that:
 
-| Arm | n | Recall@1 | Recall@3 | Recall@5 | MRR |
+- **Phenotype-only (the headline).** The gene is withheld entirely, which also makes `P(G|D)` inert,
+  so this arm is *identical before and after the fix* - uncontaminated by construction, and asserted
+  as such in the harness. It is also the only arm whose inputs match what LIRICAL receives.
+- **Pre-fix.** The engine as it stood before these cases informed it, reported as a second
+  uncontaminated reference.
+
+| Arm | n | Recall@1 | Recall@3 | MRR | receives |
 |---|---|---|---|---|---|
-| LIRICAL, genome-wide | 23 | 13% | 26% | 35% | 0.215 |
-| LIRICAL, restricted to the cluster | 23 | 57% | 96% | 96% | 0.754 |
-| DISCERN, same 23 cases | 23 | 100% | 100% | 100% | 1.000 |
+| LIRICAL, genome-wide | 23 | 13% | 26% | 0.215 | HPO terms only |
+| LIRICAL, restricted to the cluster | 23 | 57% | 96% | 0.754 | HPO terms only |
+| **DISCERN, phenotype-only (headline)** | 23 | **91%** | 100% | 0.957 | same findings, no gene |
+| DISCERN, pre-fix | 23 | 83% | 100% | 0.913 | findings + gene |
+| DISCERN, post-fix (IN-SAMPLE, not a head-to-head) | 23 | 100% | 100% | 1.000 | findings + gene |
 
-**Only the restricted row is a fair comparison** - it is the one where both tools order the same
-three to eight diseases. The genome-wide row is not: LIRICAL ranks roughly 8,600 diseases without
-being given the gene, while DISCERN ranks within one cluster and is given it.
+The matched-input comparison is therefore **91% against 57%**, and it holds without relying on any
+model state that these cases informed. The genome-wide row is not a contest at all: LIRICAL ranks
+roughly 8,600 diseases without the gene while DISCERN ranks within one cluster.
 
-**Disposition: favourable but weakly.** DISCERN is ahead on the like-for-like arm (23/23 against
-13/23), and the reason LIRICAL trails is not that it is a weak ranker but that the discriminating
-channel in this domain has no HPO encoding. That is a fact about the domain, and it is the same
-finding as R4 and as the coupling negative, arriving from a third direction.
+**A held-out set was sought and does not exist in public data.** The GA4GH Phenopacket Store
+bleeding subset has 31 cases, but only 12 fall in a modelled gene, and 8 of those 12 are F8
+*thrombophilia* (elevated factor VIII), not haemophilia A - a different disease that the coag-factor
+cluster does not model. That leaves 4 usable cases (1 FERMT3, 3 LYST), too few to carry anything.
+Curating a genuinely held-out set of 10-15 new published cases is the correct next step and is
+author work: it requires reading primary literature and verifying PMIDs, which must not be
+synthesised.
+
+**Disposition: favourable on the matched-input arm, with the in-sample number quarantined.** DISCERN
+leads where the comparison is fair. The reason LIRICAL trails is not that it is a weak ranker but
+that the discriminating channel in this domain has no HPO encoding. That is a fact about the domain,
+and it is the same finding as R4 and the coupling negative, arriving from a third direction.
 
 ## R6 - the ~33% inflation figure reproduces
 

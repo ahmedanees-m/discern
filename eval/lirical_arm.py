@@ -100,7 +100,8 @@ def score(path: str) -> dict:
     cases = {c["id"]: c for c in load_cases()}
     g2d = gene_to_disease_ids()
 
-    lirical_hits, lirical_cluster_hits, discern_hits, rows = [], [], [], []
+    lirical_hits, lirical_cluster_hits = [], []
+    discern_hits, discern_prefix_hits, discern_nogene_hits, rows = [], [], [], []
     with open(path, encoding="utf-8") as fh:
         for line in fh:
             line = line.strip()
@@ -131,6 +132,13 @@ def score(path: str) -> dict:
             d_rank = discern_ranking(c)
             d_hit = d_rank.index(c["true_dx"]) + 1 if c["true_dx"] in d_rank else None
             discern_hits.append(d_hit)
+
+            # the two arms that make this reportable (see the module docstring)
+            pre = discern_ranking(c, gene_term=False)
+            discern_prefix_hits.append(pre.index(c["true_dx"]) + 1 if c["true_dx"] in pre else None)
+            ng = discern_ranking(c, drop_gene=True)
+            discern_nogene_hits.append(ng.index(c["true_dx"]) + 1 if c["true_dx"] in ng else None)
+
             rows.append({"id": cid, "gene": c.get("gene", ""), "true_dx": c["true_dx"],
                          "lirical_rank": hit, "lirical_within_cluster_rank": c_hit,
                          "discern_rank": d_hit, "lirical_top1": ranked[0] if ranked else None,
@@ -139,17 +147,43 @@ def score(path: str) -> dict:
     return {
         "scoring_resolution": ("gene / disease-family: a LIRICAL hit counts if its top-k contains "
                                "any HPO-annotated disease identifier for the case's causal gene"),
+        "headline_arm": "DISCERN_phenotype_only_no_gene",
+        "why": ("These 42 cases are what exposed the missing P(G|D) term, so post-fix DISCERN has "
+                "seen them and LIRICAL has not. Two arms escape that problem. The phenotype-only "
+                "arm withholds the gene entirely, which makes P(G|D) inert - it is therefore "
+                "identical before and after the fix, uncontaminated by construction, and it is also "
+                "the only arm whose inputs match what LIRICAL receives. It is the headline. The "
+                "pre-fix arm reproduces the engine as it stood before these cases informed it, and "
+                "is reported as a second uncontaminated reference. The post-fix arm is labelled "
+                "in-sample and must never be quoted as a head-to-head result."),
+        "phenotype_only_arm_is_fix_invariant": (
+            _metrics(discern_nogene_hits) == _metrics(
+                [discern_ranking(cases[r["id"]], gene_term=False, drop_gene=True).index(
+                    cases[r["id"]]["true_dx"]) + 1
+                 if cases[r["id"]]["true_dx"] in discern_ranking(
+                     cases[r["id"]], gene_term=False, drop_gene=True) else None
+                 for r in rows])),
         "LIRICAL_genome_wide": _metrics(lirical_hits),
         "LIRICAL_restricted_to_cluster": _metrics(lirical_cluster_hits),
-        "DISCERN_same_subset": _metrics(discern_hits),
+        "DISCERN_pre_gene_term_fix": _metrics(discern_prefix_hits),
+        "DISCERN_phenotype_only_no_gene": _metrics(discern_nogene_hits),
+        "DISCERN_post_fix_IN_SAMPLE": _metrics(discern_hits),
+        "input_parity": {
+            "LIRICAL_receives": "HPO terms only (observed and negated); no gene",
+            "DISCERN_phenotype_only_receives": "the same findings, no gene - the matched-input arm",
+            "DISCERN_pre_and_post_fix_receive": "the same findings plus the causal gene",
+            "note": ("The gene is worth most of this benchmark: a phenotype-blind gene lookup "
+                     "scores 93 percent on the full 42. Any arm that receives the gene is therefore "
+                     "not comparable to LIRICAL, which does not. Read "
+                     "DISCERN_phenotype_only_no_gene against LIRICAL_restricted_to_cluster."),
+        },
         "caveat": ("The genome-wide row is not a like-for-like contest: LIRICAL ranks roughly 8,600 "
-                   "diseases from HPO terms and is not given the gene, while DISCERN ranks the three "
-                   "to eight members of one cluster and is. The restricted row is the fair "
-                   "comparison - both tools ordering the same cluster - and it is the one to quote. "
-                   "Even there the tools optimise different objectives, and the reason LIRICAL does "
-                   "poorly is not that it is a weak ranker but that the findings which separate "
-                   "these diseases are laboratory assays the Human Phenotype Ontology does not "
-                   "encode. That is a fact about the domain, not a win."),
+                   "diseases from HPO terms, while DISCERN ranks the three to eight members of one "
+                   "cluster. The restricted row is the fair ranking surface. Even there the tools "
+                   "optimise different objectives, and the reason LIRICAL does poorly is not that "
+                   "it is a weak ranker but that the findings which separate these diseases are "
+                   "laboratory assays the Human Phenotype Ontology does not encode. That is a fact "
+                   "about the domain, not a win."),
         "rows": rows,
     }
 
@@ -165,9 +199,11 @@ def main():
             json.dump(o, fh, indent=2)
         print("== PHASE R: LIRICAL (phenotype-only) vs DISCERN, identical case subset ==")
         print(f"   scoring at {o['scoring_resolution']}")
-        for k in ("LIRICAL_genome_wide", "LIRICAL_restricted_to_cluster", "DISCERN_same_subset"):
+        for k in ("LIRICAL_genome_wide", "LIRICAL_restricted_to_cluster",
+                  "DISCERN_phenotype_only_no_gene", "DISCERN_pre_gene_term_fix",
+                  "DISCERN_post_fix_IN_SAMPLE"):
             m = o[k]
-            print(f"   {k:30} n={m['n']}  R@1={m['recall@1']:.0%}  R@3={m['recall@3']:.0%}  "
+            print(f"   {k:32} n={m['n']}  R@1={m['recall@1']:.0%}  R@3={m['recall@3']:.0%}  "
                   f"R@5={m['recall@5']:.0%}  R@10={m['recall@10']:.0%}  MRR={m['mrr']:.3f}")
         print(f"\n   {o['caveat']}")
         print(f"   wrote {os.path.relpath(OUT_JSON)}")

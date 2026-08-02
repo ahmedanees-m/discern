@@ -315,5 +315,40 @@
       "REVEL_clingen_rule_assigns_direction": 518,
       "note": "a rate, not an accuracy: eRepo VUS carry no independent truth, so neither number says the movement was correct. This is the gap the pre-registered coupling endpoint exists to close."
     }
+  },
+  "ceiling_attribution": {
+    "n": 425,
+    "lp_threshold_points": 6.0,
+    "partition_routes_away": [
+      "BP2",
+      "BS3",
+      "BS4",
+      "PM3",
+      "PM6",
+      "PP1",
+      "PP4",
+      "PS2",
+      "PS3"
+    ],
+    "intrinsic_but_no_input_here": [
+      "PM1",
+      "PM5",
+      "PS1",
+      "PS4"
+    ],
+    "why_each_intrinsic_code_has_no_input": {
+      "PS1": "implemented (adapters/clinvar.py) but deliberately not wired in: this benchmark runs ClinVar-blinded, and PS1 needs a same-amino-acid-change ClinVar lookup. Supplying it would reintroduce exactly the circularity the GeneBe exhibit demonstrates, so its absence here is a protocol choice, not a gap.",
+      "PM5": "same as PS1 - implemented, and withheld for the same ClinVar-blinding reason (different missense at the same residue).",
+      "PS4": "implemented as a decision tree in rules/variant_scoring.py, but it requires case-control inputs - proband counts against expectation, or an odds ratio with its confidence bound - and the eRepo annotation cache carries none of them. A data-availability limit.",
+      "PM1": "genuinely not implemented: no scorer emits PM1, and no VCEP specification in rules/vcep/specs/ encodes hotspot or critical-domain regions for the in-scope genes. The in_functional_domain annotation that exists feeds the PVS1 tree, not PM1. This is a scope limitation and the one item on this list that is a genuine engine gap rather than a protocol or data constraint."
+    },
+    "reach_lp_as_scored": 0,
+    "reach_lp_if_intrinsic_codes_were_available": 27,
+    "reach_lp_if_routed_codes_were_re_added": 52,
+    "reach_lp_with_both": 89,
+    "variants_where_experts_applied_an_unavailable_intrinsic_code": 100,
+    "variants_where_experts_applied_a_routed_code": 177,
+    "reading": "The ceiling has two separable causes and only one of them is the partition. Restoring the intrinsic codes this pipeline cannot derive (hotspot, same-residue, case-control) is an annotation problem, not a design choice. Restoring the routed codes is what the partition deliberately prevents, and is exactly the evidence the coupling is meant to supply through the disease factor instead of by re-addition. Neither stream alone, nor both together, comes close to the 316 variants the panel called pathogenic, so the binding constraint is the evidence the ACMG framework demands for missense rather than any one routing decision.",
+    "caveat": "Points for the restored codes use default ACMG strengths, because stripping a strength suffix is how the code vocabulary is compared. VCEPs frequently apply gene-specific strengths above the default, so every count here is a lower bound on what the expert evidence would actually contribute."
   }
 }
