@@ -14,7 +14,7 @@ differential diagnosis, misdiagnosis prevention, and variant-of-uncertain-signif
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-active%20development-orange.svg)](#project-status)
-[![Tests](https://img.shields.io/badge/tests-160%20passing-brightgreen.svg)](tests)
+[![Tests](https://img.shields.io/badge/tests-178%20passing-brightgreen.svg)](tests)
 
 Built on a disciplined engineering foundation: a rule-grounded ACMG point engine,
 swappable evidence adapters, an equity layer, full audit trails, and reproducible
@@ -122,7 +122,7 @@ Worked examples (actual engine output):
 
 ```bash
 conda env create -f environment.yml        # or: pip install -e ".[dev]"
-make test                                   # ruff and pytest (160 tests)
+make test                                   # ruff and pytest (178 tests)
 ```
 
 ```python
@@ -264,9 +264,13 @@ valuable (OUT). No patient data is used in any public result.
  WHY       Tests whether DISCERN picks the correct diagnosis from the presenting
            features, including the confusable look-alike diseases.
  INPUT     A case's gene plus its presenting clinical and laboratory features.
- OUTPUT    Correct diagnosis ranked first 81% of the time and within the top three
-           100% of the time, abstaining on 10%. Every non-first case is a genuine
-           same-gene look-alike that is correctly kept in the top-three shortlist.
+ OUTPUT    Correct diagnosis ranked first 100% of the time and within the top three
+           100% of the time, abstaining on 7%. Read this against its baseline, not on
+           its own: a static gene-to-disease lookup that sees no phenotype at all
+           scores 93% on the same cases, the difference is not significant, and the
+           subset where the gene does not already settle the answer is only 3 cases.
+           The diagnosis arm rests on abstention, zero confident errors, and the
+           safety interlock, not on this number.
 +--------------------------------------------------------------------------------+
 
 +--------------------------------------------------------------------------------+
@@ -370,13 +374,15 @@ Real-data results (Tier A, open data; see `docs/DISCERN_Validation_Results.md`):
   (50-72 percent) stay VUS by point arithmetic. This is intrinsic to ACMG (InterVar hits the same
   ceiling), not a DISCERN limitation, and quantifies on real disease alleles how much of novel-missense
   resolution is left to the functional / segregation / disease-coupling (PP4) layers.
-* Curated published-case diagnosis (v3.1, expanded): Top-1 81 percent, Top-3 100 percent,
-  abstention 10 percent on 42 real published cases spanning all 10 clusters (every PMID
-  independently verified against NCBI E-utilities). Every non-Top-1 is a genuine same-gene or
-  same-cluster confusable (ETV6/ANKRD26 vs RUNX1, haemophilia A vs B, RASGRP2 vs GT, GFI1B vs gray
-  platelet syndrome) correctly retained in the Top-3 differential, where the deciding variant gene
-  or assay resolves it. The expansion also caught and fixed a latent pertinent-negative bug in the
-  benchmark harness and two misattributed PMIDs in the original set. Cohort-scale accuracy is gated below.
+* Curated published-case diagnosis: Top-1 100 percent, Top-3 100 percent, abstention 7 percent on
+  42 real published cases spanning all 10 clusters (every PMID independently verified against NCBI
+  E-utilities). This number is reported with its baseline and should not be quoted without it: a
+  static gene-to-most-common-disease lookup, seeing no phenotype and using no likelihood ratios,
+  scores Top-1 93 percent on the same cases (delta +7 percent, 95 percent CI 0 to +17, McNemar
+  p=0.25). The cases where the gene does not by itself determine the disease number 3. Phase R also
+  found that the gene was not reaching the disease posterior at all and fixed the missing P(G|D)
+  term; before that fix the same benchmark scored 81 percent. See
+  [docs/DISCERN_PhaseR_Results_v1.md](docs/DISCERN_PhaseR_Results_v1.md).
 * Gate G1: the reused rule engine reproduces ClinGen eRepo at 94.9 percent exact and 99.9
   percent within-one-bin concordance on 12,499 records.
 
@@ -404,13 +410,20 @@ safety map and a source-verified likelihood-ratio audit, and Mondrian conformal 
 prediction.
 
 Paper 1 positioning adds a current-tool variant head-to-head (DISCERN vs GeneBe, REVEL,
-AlphaMissense, InterVar), in which DISCERN is the only tool emitting a calibrated
-probability; an eRepo-primary, time-split re-run on the FDA-recognized expert-panel surface
-(missense AUROC 0.939, calibration ECE 0.017, with the per-code partition shown against the
-experts); and a trustworthiness layer (calibration, a safety hard-stop at 100 percent
-sensitivity and specificity, and a monotone risk-coverage curve). The LIRICAL/Exomiser
-diagnosis head-to-head and a fair BIAS-2015 re-run are deferred for public-data and tooling
-reasons, documented in the results.
+AlphaMissense, InterVar); an eRepo-primary, time-split re-run on the FDA-recognized expert-panel
+surface (missense AUROC 0.939, 95 percent CI 0.906 to 0.967, calibration ECE 0.017, with the
+per-code partition shown against the experts); and a trustworthiness layer with a safety hard-stop
+at 100 percent sensitivity and specificity. Phase R re-examined all of it before submission and
+changed two claims. DISCERN is no longer described as the only tool emitting a calibrated
+probability: put through the same folds and the same isotonic protocol, REVEL reaches ECE 0.043 and
+AlphaMissense 0.029 against DISCERN's 0.017, and the intervals overlap. The differentiator is the
+calibrated, auditable classification system, not calibration alone. The AUROC gap to REVEL is not
+statistically significant (DeLong p=0.29), so DISCERN tracks REVEL rather than trailing it, which
+is the expected relationship given REVEL is its own PP3 input. LIRICAL was run rather than
+deferred: on the 23 curated cases carrying any HPO term it reaches Recall@1 57 percent restricted
+to the same cluster, against DISCERN's 100 percent, and the reason it trails is that only 13 of the
+benchmark's 48 discriminating features have any HPO representation. A fair BIAS-2015 re-run remains
+deferred for tooling and disk reasons, documented in the results.
 
 The disease-variant coupling remains cohort-gated and is not claimed until its paired-data
 endpoint is reported (Gate G13). Remaining work is cohort-gated or user-owned: the

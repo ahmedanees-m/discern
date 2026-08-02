@@ -1,5 +1,18 @@
 # DISCERN v3.1 - Claims Map (claim -> evidence -> status)
 
+
+> **Phase R amendment (pre-submission re-analysis).** Several values below are superseded. Read
+> [DISCERN_PhaseR_Results_v1.md](DISCERN_PhaseR_Results_v1.md) first; it records what changed and
+> why, including the results that cost the paper a claim. In short: the "only tool emitting a
+> calibrated probability" claim is **retired** (put through identical folds, REVEL reaches ECE
+> 0.043 and AlphaMissense 0.029 against DISCERN's 0.017, with overlapping intervals); the AUROC gap
+> to REVEL is **not significant** (DeLong p=0.29); the curated diagnosis benchmark now reads Top-1
+> **100%** after Phase R fixed a missing `P(G|D)` term, but must always be quoted against its
+> **93%** gene-only baseline, which it does not significantly beat; the monotone risk-coverage
+> claim is **withdrawn** (accuracy is now 100% at full coverage, leaving no headroom); and LIRICAL
+> was **run** rather than deferred.
+
+
 **Purpose (Track D1):** lock every public claim to its evidence and its status, and split
 the **defensible-now methods+variant paper** from the **cohort-gated coupling/clinical paper**.
 Scope language is audited against Execution Plan Section A. Gate G13: no "the coupling works"
@@ -22,8 +35,8 @@ claim until paired-cohort data reports the pre-registered endpoint.
 | Full confusable-cluster coverage C1-C10 | 10 clusters; every discrimination LR PMID-sourced (CI-guarded) **and source-verified 2026-06-17** (all ~95 values verified or plausible; 10 misattributed citations corrected); per-cluster safety/contraindication map | **DONE (B)** - LR *calibration* (vs a labeled cohort) is Paper 2 |
 | Management-aware safety incl. leading-call hard-stop | interlock fix + per-cluster contraindications (DDAVP/2B, splenectomy/inherited-IT, rFXIII-A2/F13B, platelets/Quebec, HSCT) + regression tests | **DONE (B)** |
 | Selective/conformal prediction (machinery) | Mondrian split-conformal implemented (`jointdx/conformal.py`) + mechanics test (synthetic-sampling guarantee) | **IMPLEMENTED (Paper 1)** - the *empirical coverage guarantee* (held-out coverage = nominal 1-alpha) is **NOT claimed in Paper 1**; scoped to **Paper 2** (needs a labeled diagnosis cohort; the curated n=42 is too small for per-class calibration) |
-| Variant arm vs the current ACMG/predictor tool set (Track 1) | On the missense P/B axis (n=342, GeneBe-annotated, ClinVar-blinded): DISCERN AUROC 0.935 tracks REVEL 0.948 (its PP3 input) and clears InterVar 0.811 / AlphaMissense 0.921. **The differentiator: DISCERN is the only tool emitting a calibrated probability (isotonic ECE 0.017 vs REVEL 0.091 / AlphaMissense 0.161; GeneBe + InterVar are class-only).** GeneBe's apparent AUROC 1.0 is ClinVar reproduction (class matches ClinVar direction 337/337), demonstrating empirically why ClinVar is not a fair truth surface for ClinVar-consuming tools. | **DONE (open data)** - `bench/track1_*`, `DISCERN_Benchmark_Results_v1.md` (Gate G-T1) |
-| Trustworthiness layer as named contributions (Track 3) | Calibration (variant ECE 0.017; diagnosis ECE 0.141 on n=42 with **0 confidently-wrong**); safety hard-stop **sensitivity 100% AND specificity 100%** on 5 treatment-divergent scenarios; monotone risk-coverage (81% full -> 100% on the most-confident half). | **DONE (open data)** - `bench/track3_*`, `DISCERN_Benchmark_Results_v1.md` (Gate G-T3) |
+| Variant arm vs the current ACMG/predictor tool set (Track 1) | On the missense P/B axis (n=342, GeneBe-annotated, ClinVar-blinded): DISCERN AUROC 0.935 tracks REVEL 0.948 (its PP3 input) and clears InterVar 0.811 / AlphaMissense 0.921. **RETIRED by Phase R R2** (was: "the only tool emitting a calibrated probability"). Under an identical fold and isotonic protocol the comparators calibrate too - REVEL ECE 0.043, AlphaMissense 0.029, DISCERN 0.017, intervals overlapping. GeneBe and InterVar remain class-only and uncalibratable. The differentiator is the calibrated, auditable **classification system** (band + criterion trail + partition + abstention + safety hard-stop), not calibration alone. GeneBe's apparent AUROC 1.0 is ClinVar reproduction (class matches ClinVar direction 337/337), demonstrating empirically why ClinVar is not a fair truth surface for ClinVar-consuming tools. | **DONE (open data)** - `bench/track1_*`, `DISCERN_Benchmark_Results_v1.md` (Gate G-T1) |
+| Trustworthiness layer as named contributions (Track 3) | Calibration (variant ECE 0.017; diagnosis ECE 0.141 on n=42 with **0 confidently-wrong**); safety hard-stop **sensitivity 100% AND specificity 100%** on 5 treatment-divergent scenarios; risk-coverage **withdrawn by Phase R R4**: with the diagnosis arm now at 100% at full coverage there is no headroom for abstention to demonstrate, so the curve is uninformative on n=42. | **DONE (open data)** - `bench/track3_*`, `DISCERN_Benchmark_Results_v1.md` (Gate G-T3) |
 
 ## Paper 2 - Coupling + Clinical (COHORT-GATED; pre-registered)
 
@@ -32,7 +45,7 @@ claim until paired-cohort data reports the pre-registered endpoint.
 | The coupling improves VUS reclassification over intrinsic-only | Pre-registered endpoint H6 (+ explicit falsification), on a controlled-access paired phenotype-genotype cohort | **NOT CLAIMED** until paired data (G12 reg, G13 gate) |
 | Public coupling proof-of-concept (precursor; de-risks, not confirmatory) | `eval/coupling_poc.py` on the Phenopacket Store bleeding subset: circularity-safe matched-vs-mismatched lift. Public working set n=2; binary lift 0.0; continuous lift +0.126 (matched 0.208 vs mismatched 0.082, directionally consistent). Endpoint pre-specified in the OSF protocol before running. | **DONE (open data); reported** - public corpus too thin to power the endpoint, motivating the cohort study; does not claim the coupling works (G13 unchanged) |
 | Misdiagnosis rescue (label-hidden case-control) | `eval/misdx_rescue.py` on the ITP cohort / BRIDGE-BPD | gated (DAC) |
-| Diagnosis accuracy at scale | curated cases **Top-1 81% / Top-3 100% / abstention 10% (n=42, expanded 2026-06-17; all PMIDs NCBI-verified, all 10 clusters)** + Phenopacket 4/4; every non-Top-1 is a same-gene/same-cluster confusable correctly held in the Top-3 (ETV6/ANKRD26 vs RUNX1, hem A<->B, RASGRP2 vs GT, GFI1B vs GPS). Cohorts carry the headline. | **partial (A); gated (B/C)** |
+| Diagnosis accuracy at scale | curated cases **Top-1 100% / Top-3 100% / abstention 7% (n=42)** after the Phase R `P(G|D)` fix (81% before it). **Not quotable alone:** a phenotype-blind gene lookup scores **93%** on the same cases, delta +7% (95% CI 0 to +17), McNemar p=0.25, and the subset where the gene does not settle the answer is **n=3**. LIRICAL restricted to the same cluster reaches Recall@1 57% on the 23 HPO-runnable cases. Cohorts carry the headline. | **partial (A); gated (B/C)** - the arm rests on abstention, zero confident errors and the safety interlock, not on Top-1 |
 | Per-patient VUS-reclassification rate vs 3-star truth | needs paired phenotype+variant | gated (B/C) |
 | Reader study (usefulness) | pre-registered vignette protocol + **built/tested instrument** (`eval/reader_study.py`, 14-vignette citation-only bank, `tests/test_reader_study.py`); DISCERN-side ceiling disease 85% / harmful-management flagged 100% / deciding test 62% | **own (pre-reg)** - instrument DONE; randomized reader arms are user-run after OSF lock |
 

@@ -1,5 +1,18 @@
 # DISCERN - Benchmark Results v1 (Tracks 1 and 3)
 
+
+> **Phase R amendment (pre-submission re-analysis).** Several values below are superseded. Read
+> [DISCERN_PhaseR_Results_v1.md](DISCERN_PhaseR_Results_v1.md) first; it records what changed and
+> why, including the results that cost the paper a claim. In short: the "only tool emitting a
+> calibrated probability" claim is **retired** (put through identical folds, REVEL reaches ECE
+> 0.043 and AlphaMissense 0.029 against DISCERN's 0.017, with overlapping intervals); the AUROC gap
+> to REVEL is **not significant** (DeLong p=0.29); the curated diagnosis benchmark now reads Top-1
+> **100%** after Phase R fixed a missing `P(G|D)` term, but must always be quoted against its
+> **93%** gene-only baseline, which it does not significantly beat; the monotone risk-coverage
+> claim is **withdrawn** (accuracy is now 100% at full coverage, leaving no headroom); and LIRICAL
+> was **run** rather than deferred.
+
+
 **DISCERN = Diagnostic Inference from Shared-mechanism Coupling of Evidence in Rare Nosology.**
 
 **Date:** 2026-06-19 - **Author:** Anees Ahmed
