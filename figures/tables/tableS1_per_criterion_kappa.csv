@@ -1,0 +1,14 @@
+ACMG_criterion,erepo_applied,discern_applied,kappa,zero_application_cause
+PVS1,130,173,0.809,applied
+PS1,1,0,,variant-intrinsic; no input in this pipeline
+PS3,77,0,,routed to another factor by the partition
+PS4,60,0,,variant-intrinsic; no input in this pipeline
+PM1,27,0,,variant-intrinsic; no input in this pipeline
+PM2,8,479,0.004,applied
+PM5,46,0,,variant-intrinsic; no input in this pipeline
+PP3,295,293,0.925,applied
+BA1,183,98,0.64,applied
+BS1,85,58,0.297,applied
+BS2,5,0,,variant-intrinsic; no input in this pipeline
+BP4,615,91,0.074,applied
+BP7,541,0,,variant-intrinsic; no input in this pipeline

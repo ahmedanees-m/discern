@@ -1,0 +1,8 @@
+scenario,planned_management,expected_on_contraindicated,observed_on_contraindicated,expected_on_harmless,observed_on_harmless
+rv_vwd2b_ddavp,ddavp,fire,fired,stay silent,silent
+rv_bss_as_itp,splenectomy,fire,fired,stay silent,silent
+rv_runx1_as_itp,affected_related_donor_transplant,fire,fired,stay silent,silent
+rv_quebec_platelets,platelet_transfusion,fire,fired,stay silent,silent
+rv_vwd2n_as_hema,recombinant_fviii_monotherapy,fire,fired,stay silent,silent
+
+"NOTE: sensitivity 100%, specificity 100% over 5 scenarios; adjudicated gene-blind against the engine's own leading call."

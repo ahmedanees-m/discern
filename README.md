@@ -14,7 +14,7 @@ differential diagnosis, misdiagnosis prevention, and variant-of-uncertain-signif
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-active%20development-orange.svg)](#project-status)
-[![Tests](https://img.shields.io/badge/tests-185%20passing-brightgreen.svg)](tests)
+[![Tests](https://img.shields.io/badge/tests-199%20passing-brightgreen.svg)](tests)
 
 Built on a disciplined engineering foundation: a rule-grounded ACMG point engine,
 swappable evidence adapters, an equity layer, full audit trails, and reproducible
@@ -123,7 +123,7 @@ Worked examples (actual engine output):
 
 ```bash
 conda env create -f environment.yml        # or: pip install -e ".[dev]"
-make test                                   # ruff and pytest (185 tests)
+make test                                   # ruff and pytest (199 tests)
 ```
 
 ```python

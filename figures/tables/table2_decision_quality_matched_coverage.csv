@@ -1,0 +1,7 @@
+rule,coverage,accuracy_on_resolved,pathogenic_recall,benign_recall,n_resolved,calls_pathogenic,calls_benign
+DISCERN ACMG class (its own operating point),0.1882,0.9375,0.0,0.6881,80,0,80
+"DISCERN calibrated probability, coverage-matched",0.1624,0.913,0.0981,0.2936,69,33,36
+REVEL at ClinGen thresholds,0.8071,0.9563,0.8513,0.5413,343,277,66
+"REVEL, coverage-matched to DISCERN",0.1859,0.9747,0.1234,0.3486,79,39,40
+
+"NOTE: The risk-coverage claim is withdrawn (the diagnosis arm is at ceiling at n=42); this table reports coverage-matched decision quality only. Every band DISCERN resolves on this surface is benign-side, which Table S2 and Figure 4 explain."

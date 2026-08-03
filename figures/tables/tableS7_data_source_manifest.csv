@@ -1,0 +1,12 @@
+source,file(s) used,url,version_or_snapshot,role
+ClinGen Evidence Repository (eRepo),erepo_classifications.tab,https://erepo.clinicalgenome.org/evrepo/,2026 snapshot,expert-panel truth surface
+ClinVar,clinvar_20260503.vcf.gz + variant_summary.txt.gz,https://ftp.ncbi.nlm.nih.gov/pub/clinvar/,20260503,supporting surface; blinded in the primary protocol
+gnomAD,gnomad.v4.0.constraint_metrics.tsv,https://gnomad.broadinstitute.org/downloads,v4.0,population frequency
+Human Phenotype Ontology,"hp.json, phenotype.hpoa, genes_to_phenotype.txt",https://hpo.jax.org/app/data/ontology,2026 release,HPO terms and gene-disease annotation
+REVEL,via ANNOVAR dbnsfp / GeneBe annotation,https://sites.google.com/site/revelgenomics/,as bundled,PP3/BP4 missense signal
+AlphaMissense,AlphaMissense_hg38.tsv.gz,https://zenodo.org/records/8360242,2023,alternative missense predictor
+CHAMP / CHBMP,"CHAMP-Variant-List-2022.xlsx, CHBMP-Variant-List-2022.xlsx",https://www.cdc.gov/hemophilia/php/mutation-project/,2022,independent F8/F9 truth
+GA4GH Phenopacket Store,bleeding subset,https://github.com/monarch-initiative/phenopacket-store,as cited,coupling proof-of-concept corpus
+LIRICAL,lirical-cli-2.4.1 + its data bundle,https://github.com/TheJacksonLaboratory/LIRICAL,2.4.1,external phenotype-driven comparator
+
+NOTE: None of these is redistributed in this deposit. Checksums for the files actually used are in MANIFEST.md; re-pull at the pinned versions to reproduce.

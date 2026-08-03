@@ -1,0 +1,131 @@
+cluster_id,cluster_name,disease_id,disease_name,genes,feature,P(feature|disease),sample_size,source_pmid
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),gray_platelet,Gray platelet syndrome (NBEAL2),NBEAL2,gray_platelets_smear,0.95,24,27095789
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),gray_platelet,Gray platelet syndrome (NBEAL2),NBEAL2,alpha_granule_absent_em,0.98,24,21765412
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),gray_platelet,Gray platelet syndrome (NBEAL2),NBEAL2,myelofibrosis,0.5,24,21765412
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),gray_platelet,Gray platelet syndrome (NBEAL2),NBEAL2,macrothrombocytopenia,0.7,24,27095789
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),gfi1b,GFI1B-related platelet disorder,GFI1B,gray_platelets_smear,0.7,8,24325358
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),gfi1b,GFI1B-related platelet disorder,GFI1B,alpha_granule_absent_em,0.85,8,24325358
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),gfi1b,GFI1B-related platelet disorder,GFI1B,macrothrombocytopenia,0.9,8,24325358
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),quebec,Quebec platelet disorder (PLAU duplication),PLAU,urokinase_overexpression,0.98,38,20007542
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),quebec,Quebec platelet disorder (PLAU duplication),PLAU,gray_platelets_smear,0.05,38,21495923
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),quebec,Quebec platelet disorder (PLAU duplication),PLAU,alpha_granule_absent_em,0.1,38,21495923
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),arc,ARC syndrome (VPS33B / VIPAS39),VPS33B,alpha_granule_absent_em,0.9,12,25947942
+alpha_granule,Alpha-granule deficiency (gray platelet / GFI1B / ARC / Quebec),arc,ARC syndrome (VPS33B / VIPAS39),VPS33B,multisystem_arc_features,0.95,12,25947942
+coag_factor,Coagulation factor deficiencies,fxiii,Factor XIII deficiency,"F13A1,F13B",delayed_umbilical_separation,0.8,40,24149912
+coag_factor,Coagulation factor deficiencies,fxiii,Factor XIII deficiency,"F13A1,F13B",intracranial_hemorrhage,0.3,40,24149912
+coag_factor,Coagulation factor deficiencies,fxiii,Factor XIII deficiency,"F13A1,F13B",normal_pt_aptt,0.95,40,24149912
+coag_factor,Coagulation factor deficiencies,fxiii,Factor XIII deficiency,"F13A1,F13B",delayed_bleeding,0.85,40,24149912
+coag_factor,Coagulation factor deficiencies,hemophilia_a,Hemophilia A (factor VIII),F8,prolonged_aptt,0.95,100,32744769
+coag_factor,Coagulation factor deficiencies,hemophilia_a,Hemophilia A (factor VIII),F8,low_factor8_activity,0.95,100,32744769
+coag_factor,Coagulation factor deficiencies,hemophilia_a,Hemophilia A (factor VIII),F8,hemarthrosis,0.7,100,32744769
+coag_factor,Coagulation factor deficiencies,hemophilia_b,Hemophilia B (factor IX),F9,prolonged_aptt,0.95,80,32744769
+coag_factor,Coagulation factor deficiencies,hemophilia_b,Hemophilia B (factor IX),F9,low_factor9_activity,0.95,80,32744769
+coag_factor,Coagulation factor deficiencies,hemophilia_b,Hemophilia B (factor IX),F9,hemarthrosis,0.7,80,32744769
+granule,Granule disorders,chs,Chediak-Higashi syndrome,LYST,oculocutaneous_albinism,0.9,30,25129365
+granule,Granule disorders,chs,Chediak-Higashi syndrome,LYST,giant_granules,0.95,30,25129365
+granule,Granule disorders,chs,Chediak-Higashi syndrome,LYST,hlh_risk,0.7,30,25129365
+granule,Granule disorders,chs,Chediak-Higashi syndrome,LYST,recurrent_infections,0.85,30,25129365
+granule,Granule disorders,hps,Hermansky-Pudlak syndrome (dense-granule),"HPS1,HPS3,HPS4,HPS5,HPS6,AP3B1",oculocutaneous_albinism,0.9,50,20301464
+granule,Granule disorders,hps,Hermansky-Pudlak syndrome (dense-granule),"HPS1,HPS3,HPS4,HPS5,HPS6,AP3B1",reduced_dense_granules,0.95,50,20301464
+granule,Granule disorders,hps,Hermansky-Pudlak syndrome (dense-granule),"HPS1,HPS3,HPS4,HPS5,HPS6,AP3B1",pulmonary_fibrosis,0.3,50,20301464
+granule,Granule disorders,gps,Gray platelet syndrome (alpha-granule),NBEAL2,absent_alpha_granules,0.95,40,21765411
+granule,Granule disorders,gps,Gray platelet syndrome (alpha-granule),NBEAL2,gray_platelets_smear,0.9,40,21765411
+granule,Granule disorders,gps,Gray platelet syndrome (alpha-granule),NBEAL2,myelofibrosis,0.5,40,21765411
+integrin,Integrin / aggregation,gt,Glanzmann thrombasthenia,"ITGA2B,ITGB3",glanzmann_type_bleeding,0.95,70,33496739
+integrin,Integrin / aggregation,gt,Glanzmann thrombasthenia,"ITGA2B,ITGB3",aiib3_expression_absent,0.95,70,33496739
+integrin,Integrin / aggregation,gt,Glanzmann thrombasthenia,"ITGA2B,ITGB3",aiib3_activation,0.03,70,33496739
+integrin,Integrin / aggregation,gt,Glanzmann thrombasthenia,"ITGA2B,ITGB3",leukocytosis,0.02,70,33496739
+integrin,Integrin / aggregation,gt,Glanzmann thrombasthenia,"ITGA2B,ITGB3",recurrent_infections,0.02,70,33496739
+integrin,Integrin / aggregation,lad3,Leukocyte adhesion deficiency type III,FERMT3,glanzmann_type_bleeding,0.9,30,19234463
+integrin,Integrin / aggregation,lad3,Leukocyte adhesion deficiency type III,FERMT3,leukocytosis,0.9,30,19234463
+integrin,Integrin / aggregation,lad3,Leukocyte adhesion deficiency type III,FERMT3,recurrent_infections,0.85,30,19234463
+integrin,Integrin / aggregation,lad3,Leukocyte adhesion deficiency type III,FERMT3,aiib3_expression_absent,0.05,30,19234463
+integrin,Integrin / aggregation,lad3,Leukocyte adhesion deficiency type III,FERMT3,aiib3_activation,0.05,30,19234463
+integrin,Integrin / aggregation,rasgrp2,RASGRP2 (CalDAG-GEFI) platelet dysfunction,RASGRP2,glanzmann_type_bleeding,0.85,20,27235135
+integrin,Integrin / aggregation,rasgrp2,RASGRP2 (CalDAG-GEFI) platelet dysfunction,RASGRP2,leukocytosis,0.02,20,27235135
+integrin,Integrin / aggregation,rasgrp2,RASGRP2 (CalDAG-GEFI) platelet dysfunction,RASGRP2,recurrent_infections,0.02,20,27235135
+integrin,Integrin / aggregation,rasgrp2,RASGRP2 (CalDAG-GEFI) platelet dysfunction,RASGRP2,aiib3_expression_absent,0.05,20,27235135
+integrin,Integrin / aggregation,rasgrp2,RASGRP2 (CalDAG-GEFI) platelet dysfunction,RASGRP2,aiib3_activation,0.05,20,27235135
+integrin,Integrin / aggregation,lad1,Leukocyte adhesion deficiency type I,ITGB2,recurrent_infections,0.95,25,35408940
+integrin,Integrin / aggregation,lad1,Leukocyte adhesion deficiency type I,ITGB2,leukocytosis,0.9,25,35408940
+integrin,Integrin / aggregation,lad1,Leukocyte adhesion deficiency type I,ITGB2,glanzmann_type_bleeding,0.1,25,35408940
+integrin,Integrin / aggregation,lad1,Leukocyte adhesion deficiency type I,ITGB2,aiib3_expression_absent,0.05,25,35408940
+integrin,Integrin / aggregation,lad1,Leukocyte adhesion deficiency type I,ITGB2,aiib3_activation,0.95,25,35408940
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,bss,Bernard-Soulier syndrome,"GP1BA,GP1BB,GP9",macrothrombocytopenia,0.95,50,23929303
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,bss,Bernard-Soulier syndrome,"GP1BA,GP1BB,GP9",giant_platelets,0.9,50,23929303
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,bss,Bernard-Soulier syndrome,"GP1BA,GP1BB,GP9",flow_cd42_reduced,0.95,50,23929303
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,bss,Bernard-Soulier syndrome,"GP1BA,GP1BB,GP9",ripa_absent,0.9,50,23929303
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,myh9,MYH9-related disorder,MYH9,macrothrombocytopenia,0.9,40,19408192
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,myh9,MYH9-related disorder,MYH9,giant_platelets,0.9,40,19408192
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,myh9,MYH9-related disorder,MYH9,leukocyte_inclusions,0.85,40,19408192
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,myh9,MYH9-related disorder,MYH9,flow_cd42_reduced,0.1,40,19408192
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,itp,Immune thrombocytopenia (acquired),,macrothrombocytopenia,0.1,200,31794604
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,itp,Immune thrombocytopenia (acquired),,giant_platelets,0.1,200,31794604
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,itp,Immune thrombocytopenia (acquired),,flow_cd42_reduced,0.05,200,31794604
+macrothrombocytopenia,Macrothrombocytopenia / looks-like-ITP,itp,Immune thrombocytopenia (acquired),,normal_platelet_size,0.8,200,31794604
+mild_vwd,"Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)",type1_lowvwf,Type 1 VWD / low VWF (type-1 spectrum),VWF,low_vwf_level,0.9,100,40845253
+mild_vwd,"Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)",type1_lowvwf,Type 1 VWD / low VWF (type-1 spectrum),VWF,repeat_vwf_low,0.65,100,40845253
+mild_vwd,"Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)",type1_lowvwf,Type 1 VWD / low VWF (type-1 spectrum),VWF,high_bat_score,0.6,100,40845253
+mild_vwd,"Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)",type1_lowvwf,Type 1 VWD / low VWF (type-1 spectrum),VWF,normal_repeat_testing,0.3,100,40845253
+mild_vwd,"Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)",mild_pfd,Mild platelet function defect,,abnormal_lta,0.7,200,25403439
+mild_vwd,"Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)",mild_pfd,Mild platelet function defect,,high_bat_score,0.55,200,25403439
+mild_vwd,"Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)",mild_pfd,Mild platelet function defect,,normal_repeat_testing,0.85,100,25403439
+mild_vwd,"Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)",normal,No bleeding disorder (normal),,low_vwf_level,0.15,100,40845253
+mild_vwd,"Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)",normal,No bleeding disorder (normal),,high_bat_score,0.2,100,40845253
+mild_vwd,"Mild bleeding, normal/borderline tests (type-1/low-VWF vs mild PFD vs normal)",normal,No bleeding disorder (normal),,normal_repeat_testing,0.9,100,40845253
+scott,Scott syndrome (ANO6) vs normal standard workup,scott,Scott syndrome,ANO6,reduced_ps_exposure,0.95,12,21107324
+scott,Scott syndrome (ANO6) vs normal standard workup,scott,Scott syndrome,ANO6,abnormal_prothrombinase_assay,0.95,12,21107324
+scott,Scott syndrome (ANO6) vs normal standard workup,scott,Scott syndrome,ANO6,normal_lta,0.9,51,27095789
+scott,Scott syndrome (ANO6) vs normal standard workup,scott,Scott syndrome,ANO6,normal_platelet_count,0.9,51,27095789
+scott,Scott syndrome (ANO6) vs normal standard workup,scott,Scott syndrome,ANO6,bleeding_history,0.95,12,21107324
+scott,Scott syndrome (ANO6) vs normal standard workup,normal_workup,Bleeding history with normal standard platelet workup,,reduced_ps_exposure,0.02,51,21107324
+scott,Scott syndrome (ANO6) vs normal standard workup,normal_workup,Bleeding history with normal standard platelet workup,,abnormal_prothrombinase_assay,0.02,51,21107324
+scott,Scott syndrome (ANO6) vs normal standard workup,normal_workup,Bleeding history with normal standard platelet workup,,normal_lta,0.95,51,27095789
+scott,Scott syndrome (ANO6) vs normal standard workup,normal_workup,Bleeding history with normal standard platelet workup,,normal_platelet_count,0.95,51,27095789
+scott,Scott syndrome (ANO6) vs normal standard workup,normal_workup,Bleeding history with normal standard platelet workup,,bleeding_history,0.6,51,27095789
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,runx1,RUNX1 familial platelet disorder with myeloid malignancy,RUNX1,lifelong_thrombocytopenia,0.9,60,31648317
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,runx1,RUNX1 familial platelet disorder with myeloid malignancy,RUNX1,family_history_malignancy,0.6,60,31648317
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,runx1,RUNX1 familial platelet disorder with myeloid malignancy,RUNX1,normal_platelet_size,0.8,60,31069978
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,runx1,RUNX1 familial platelet disorder with myeloid malignancy,RUNX1,ad_inheritance_pattern,0.85,60,31648317
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,runx1,RUNX1 familial platelet disorder with myeloid malignancy,RUNX1,dysmegakaryopoiesis,0.4,60,31069978
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,runx1,RUNX1 familial platelet disorder with myeloid malignancy,RUNX1,response_to_immunosuppression,0.05,30,39808791
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,etv6,ETV6 thrombocytopenia with malignancy predisposition,ETV6,lifelong_thrombocytopenia,0.85,30,25581430
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,etv6,ETV6 thrombocytopenia with malignancy predisposition,ETV6,family_history_malignancy,0.55,30,25581430
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,etv6,ETV6 thrombocytopenia with malignancy predisposition,ETV6,normal_platelet_size,0.75,30,31069978
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,etv6,ETV6 thrombocytopenia with malignancy predisposition,ETV6,ad_inheritance_pattern,0.85,30,25581430
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,etv6,ETV6 thrombocytopenia with malignancy predisposition,ETV6,response_to_immunosuppression,0.05,20,39808791
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,ankrd26,ANKRD26-related thrombocytopenia,ANKRD26,lifelong_thrombocytopenia,0.9,30,21211618
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,ankrd26,ANKRD26-related thrombocytopenia,ANKRD26,family_history_malignancy,0.3,30,21211618
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,ankrd26,ANKRD26-related thrombocytopenia,ANKRD26,normal_platelet_size,0.85,30,31069978
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,ankrd26,ANKRD26-related thrombocytopenia,ANKRD26,ad_inheritance_pattern,0.85,30,21211618
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,ankrd26,ANKRD26-related thrombocytopenia,ANKRD26,dysmegakaryopoiesis,0.5,12,28976612
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,ankrd26,ANKRD26-related thrombocytopenia,ANKRD26,response_to_immunosuppression,0.05,12,28976612
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,itp,Immune (idiopathic) thrombocytopenia,,lifelong_thrombocytopenia,0.1,80,39808791
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,itp,Immune (idiopathic) thrombocytopenia,,family_history_malignancy,0.05,80,39808791
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,itp,Immune (idiopathic) thrombocytopenia,,normal_platelet_size,0.5,80,39808791
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,itp,Immune (idiopathic) thrombocytopenia,,ad_inheritance_pattern,0.02,80,39808791
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,itp,Immune (idiopathic) thrombocytopenia,,dysmegakaryopoiesis,0.05,80,39808791
+thr_leukemia,Inherited thrombocytopenia + leukaemia predisposition vs ITP,itp,Immune (idiopathic) thrombocytopenia,,response_to_immunosuppression,0.8,80,39808791
+vwd2n_hema,Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII),vwd2n,von Willebrand disease type 2N (Normandy),VWF,low_fviii_isolated,0.95,60,29115006
+vwd2n_hema,Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII),vwd2n,von Willebrand disease type 2N (Normandy),VWF,reduced_vwf_fviii_binding,0.97,60,37204745
+vwd2n_hema,Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII),vwd2n,von Willebrand disease type 2N (Normandy),VWF,fviii_vwf_ratio_low,0.95,60,29115006
+vwd2n_hema,Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII),vwd2n,von Willebrand disease type 2N (Normandy),VWF,x_linked_inheritance,0.02,60,33497541
+vwd2n_hema,Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII),vwd2n,von Willebrand disease type 2N (Normandy),VWF,female_affected,0.5,60,33497541
+vwd2n_hema,Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII),mild_hema,Mild/moderate hemophilia A,F8,low_fviii_isolated,0.98,100,34397591
+vwd2n_hema,Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII),mild_hema,Mild/moderate hemophilia A,F8,reduced_vwf_fviii_binding,0.03,100,37204745
+vwd2n_hema,Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII),mild_hema,Mild/moderate hemophilia A,F8,fviii_vwf_ratio_low,0.9,100,34397591
+vwd2n_hema,Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII),mild_hema,Mild/moderate hemophilia A,F8,x_linked_inheritance,0.97,100,34397591
+vwd2n_hema,Type 2N VWD vs mild/moderate hemophilia A (isolated low FVIII),mild_hema,Mild/moderate hemophilia A,F8,female_affected,0.2,100,33082527
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,vwd2b,Type 2B von Willebrand disease,VWF,ripa_low_dose_enhanced,0.9,100,40845253
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,vwd2b,Type 2B von Willebrand disease,VWF,thrombocytopenia,0.7,100,40845253
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,vwd2b,Type 2B von Willebrand disease,VWF,ripa_mixing_plasma_origin,0.92,50,40845253
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,vwd2b,Type 2B von Willebrand disease,VWF,loss_hmw_multimers,0.7,100,40845253
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,ptvwd,Platelet-type (pseudo) von Willebrand disease,GP1BA,ripa_low_dose_enhanced,0.9,40,22102188
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,ptvwd,Platelet-type (pseudo) von Willebrand disease,GP1BA,thrombocytopenia,0.8,40,22102188
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,ptvwd,Platelet-type (pseudo) von Willebrand disease,GP1BA,ripa_mixing_platelet_origin,0.92,40,22102188
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,ptvwd,Platelet-type (pseudo) von Willebrand disease,GP1BA,loss_hmw_multimers,0.6,40,22102188
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,vwd2a,Type 2A von Willebrand disease,VWF,ripa_low_dose_enhanced,0.1,80,40845253
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,vwd2a,Type 2A von Willebrand disease,VWF,loss_hmw_multimers,0.9,80,40845253
+vwf_gpib,Enhanced-RIPA / VWF-GPIb,vwd2a,Type 2A von Willebrand disease,VWF,thrombocytopenia,0.2,80,40845253
+
+NOTE: Every likelihood ratio carries a source PMID; a CI guard fails the build if one is missing.

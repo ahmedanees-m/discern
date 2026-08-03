@@ -1,0 +1,6 @@
+gene,LP_P_recall_on_null,note
+F8,0.977,NMD-triggering nulls resolved by PVS1
+F9,0.658,gap is the large terminal exon: last-exon PTCs escape NMD and are correctly held at VUS
+overall,0.912,2130 null variants of 5437 disease alleles
+
+"NOTE: Recall by consequence alone, with no frequency or predictor input. Source: docs/DISCERN_CHAMP_CHBMP_Benchmark_v1.md"
