@@ -8,6 +8,8 @@ coupling resolve variants that sequence evidence alone leaves as VUS, and ONLY w
 agree? It is a proof-of-concept that de-risks and motivates the confirmatory cohort study; it is NOT
 the confirmatory validation (that remains the pre-registered, controlled-access cohort study, Gate G13).
 
+> **Phase R update.** The continuous secondary value moved from +0.126 (matched 0.208) to **+0.252** (matched 0.334) because the P(G|D) correction sharpens the disease posterior that drives the coupling. The **pre-registered primary endpoint is the binary one and is unchanged at 0.0**. With n=2 usable cases neither value supports a claim; the run remains a directional proof-of-concept and Gate G13 is untouched.
+
 ## Independent verification (done before the run)
 - **Phenopacket Store** (public GA4GH corpus, github.com/monarch-initiative/phenopacket-store): the
   paper snapshot is 6,668 phenopackets / 475 diseases / 423 genes (Danis et al., *Human Genetics and
@@ -45,7 +47,7 @@ as a coupling input):
 | Endpoint | Matched | Mismatched | Lift |
 |---|---|---|---|
 | **Primary (binary upgrade to LP/P)** | 0/2 | 0/2 | **0.0** |
-| **Secondary (continuous coupling PP4-equivalent, mean P(path+LP))** | **0.208** | **0.082** | **+0.126 (~2.5x)** |
+| **Secondary (continuous coupling PP4-equivalent, mean P(path+LP))** | **0.334** | **0.082** | **+0.252 (~4.1x)** |
 
 **Reading it.** Neither case crosses the LP reclassification threshold, so the **binary lift is
 0 on n=2**. But the **continuous signal is directionally consistent with H6 in both cases**: the matched

@@ -108,16 +108,27 @@ def export_phenopackets() -> int:
     return n
 
 
-def discern_ranking(case, gene_term: bool = True, drop_gene: bool = False) -> list[str]:
-    """Rank the cluster for a case.
+def discern_ranking(case, gene_term: bool = True, drop_gene: bool = False,
+                    hpo_representable_only: bool = False) -> list[str]:
+    """Rank the cluster for a case, optionally handicapped to match an external tool's inputs.
 
     `gene_term=False` reproduces the engine as it behaved before Phase R added P(G|D) - the state
     in which these cases had not yet informed the model, and therefore the only state in which
     performance on them is comparable to a tool that never saw them.
 
     `drop_gene=True` withholds the gene entirely, matching what a phenotype-driven ranker receives.
+
+    `hpo_representable_only=True` additionally discards every finding that has no Human Phenotype
+    Ontology term, leaving only the evidence LIRICAL or Exomiser could physically have ingested.
+    Without it the comparison is gene-matched but not evidence-matched: DISCERN reads laboratory
+    findings that HPO cannot express, so part of any lead would be an encoding advantage rather
+    than a reasoning one. Both arms are reported, because they support different claims.
     """
     cluster = cluster_for(case["cluster"])
+    if hpo_representable_only:
+        keep = set(feature_to_hpo())
+        case = dict(case, features={k: v for k, v in (case.get("features") or {}).items()
+                                    if k in keep})
     ev = _evidence(case)
     if drop_gene:
         ev.variant_gene = ""

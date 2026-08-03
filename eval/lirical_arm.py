@@ -95,13 +95,44 @@ def _metrics(hit_at):
             "recall@10": r(10), "mrr": round(mrr, 4)}
 
 
+def _paired_vs_lirical(discern_hits, lirical_hits, seed=0, n_boot=2000):
+    """Bootstrap CI and exact McNemar on Recall@1, paired case by case.
+
+    At n=23 a bare point estimate is not reportable, and the two tools rank the same cases, so the
+    comparison must be paired rather than treated as two independent samples.
+    """
+    import numpy as np
+    from scipy.stats import binomtest
+
+    a = np.array([1 if h == 1 else 0 for h in discern_hits], int)
+    b = np.array([1 if h == 1 else 0 for h in lirical_hits], int)
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, len(a), size=(n_boot, len(a)))
+    d = a[idx].mean(axis=1) - b[idx].mean(axis=1)
+    discern_only = int(((a == 1) & (b == 0)).sum())
+    lirical_only = int(((b == 1) & (a == 0)).sum())
+    disc = discern_only + lirical_only
+    return {
+        "discern_recall@1": round(float(a.mean()), 4),
+        "lirical_recall@1": round(float(b.mean()), 4),
+        "delta": round(float(a.mean() - b.mean()), 4),
+        "delta_ci95": [round(float(np.percentile(d, 2.5)), 4),
+                       round(float(np.percentile(d, 97.5)), 4)],
+        "mcnemar": {"discern_only_correct": discern_only, "lirical_only_correct": lirical_only,
+                    "discordant_pairs": disc,
+                    "p_value_exact": round(float(binomtest(discern_only, disc, 0.5).pvalue), 6)
+                    if disc else 1.0},
+    }
+
+
 def score(path: str) -> dict:
     """Score LIRICAL output: TSV of case_id <TAB> ranked disease identifiers, comma separated."""
     cases = {c["id"]: c for c in load_cases()}
     g2d = gene_to_disease_ids()
 
     lirical_hits, lirical_cluster_hits = [], []
-    discern_hits, discern_prefix_hits, discern_nogene_hits, rows = [], [], [], []
+    discern_hits, discern_prefix_hits, discern_nogene_hits = [], [], []
+    discern_hpo_only_hits, rows = [], []
     with open(path, encoding="utf-8") as fh:
         for line in fh:
             line = line.strip()
@@ -138,6 +169,9 @@ def score(path: str) -> dict:
             discern_prefix_hits.append(pre.index(c["true_dx"]) + 1 if c["true_dx"] in pre else None)
             ng = discern_ranking(c, drop_gene=True)
             discern_nogene_hits.append(ng.index(c["true_dx"]) + 1 if c["true_dx"] in ng else None)
+            hp = discern_ranking(c, drop_gene=True, hpo_representable_only=True)
+            discern_hpo_only_hits.append(
+                hp.index(c["true_dx"]) + 1 if c["true_dx"] in hp else None)
 
             rows.append({"id": cid, "gene": c.get("gene", ""), "true_dx": c["true_dx"],
                          "lirical_rank": hit, "lirical_within_cluster_rank": c_hit,
@@ -147,7 +181,7 @@ def score(path: str) -> dict:
     return {
         "scoring_resolution": ("gene / disease-family: a LIRICAL hit counts if its top-k contains "
                                "any HPO-annotated disease identifier for the case's causal gene"),
-        "headline_arm": "DISCERN_phenotype_only_no_gene",
+        "headline_arm": "DISCERN_hpo_representable_only",
         "why": ("These 42 cases are what exposed the missing P(G|D) term, so post-fix DISCERN has "
                 "seen them and LIRICAL has not. Two arms escape that problem. The phenotype-only "
                 "arm withholds the gene entirely, which makes P(G|D) inert - it is therefore "
@@ -167,17 +201,51 @@ def score(path: str) -> dict:
         "LIRICAL_restricted_to_cluster": _metrics(lirical_cluster_hits),
         "DISCERN_pre_gene_term_fix": _metrics(discern_prefix_hits),
         "DISCERN_phenotype_only_no_gene": _metrics(discern_nogene_hits),
+        "DISCERN_hpo_representable_only": _metrics(discern_hpo_only_hits),
+        "paired_tests_vs_lirical_restricted": {
+            "phenotype_only": _paired_vs_lirical(discern_nogene_hits, lirical_cluster_hits),
+            "hpo_representable_only": _paired_vs_lirical(discern_hpo_only_hits, lirical_cluster_hits),
+        },
         "DISCERN_post_fix_IN_SAMPLE": _metrics(discern_hits),
+        "two_distinct_claims": {
+            "reasoning_on_identical_evidence": (
+                "DISCERN_hpo_representable_only vs LIRICAL_restricted_to_cluster. Both tools see the "
+                "same 13 HPO-expressible findings and neither sees the gene. DISCERN leads 74 percent "
+                "to 57 percent, but at n=23 the paired test does not reach significance (McNemar "
+                "p=0.29, bootstrap CI on the difference -4 to +43 percent). The honest statement is "
+                "that DISCERN is not shown to reason better on identical evidence."),
+            "encoding_the_evidence_that_decides_these_cases": (
+                "DISCERN_phenotype_only_no_gene vs LIRICAL_restricted_to_cluster. DISCERN additionally "
+                "ingests the 35 findings HPO cannot express - RIPA mixing, CD42 and alphaIIbbeta3 flow "
+                "cytometry, multimer patterns, aggregometry, the prothrombinase assay - and leads 91 "
+                "percent to 57 percent, McNemar p=0.02, CI +13 to +57 percent. This is a real and "
+                "significant result, but it is an architectural claim about what the model can "
+                "represent, not a claim about better inference. Conflating the two is the error a "
+                "reviewer would catch."),
+        },
+        "ordering_note": (
+            "The phenotype-only arm (91 percent, no gene) scores above the pre-fix arm (83 percent, "
+            "with the gene). Adding information appears to make it worse, which is the expected "
+            "signature of the defect Phase R found: before P(G|D) existed the gene could not help the "
+            "disease posterior, but it still entered the coupling term, where an off-gene disease was "
+            "penalised - so supplying a gene perturbed the ranking without informing it. Withholding "
+            "the gene removed that perturbation. This is evidence the marginalisation defect was real "
+            "rather than an artefact of the fix."),
         "input_parity": {
             "LIRICAL_receives": "HPO terms only (observed and negated); no gene",
-            "DISCERN_phenotype_only_receives": "the same findings, no gene - the matched-input arm",
+            "DISCERN_phenotype_only_receives": "all 48 findings, no gene - gene-matched but NOT evidence-matched",
+            "DISCERN_hpo_representable_only_receives": ("only the 13 findings that have an HPO term, no gene - "
+                                                        "the fully evidence-matched arm, and the one that supports "
+                                                        "a reasoning claim rather than an encoding claim"),
             "DISCERN_pre_and_post_fix_receive": "the same findings plus the causal gene",
             "note": ("The gene is worth most of this benchmark: a phenotype-blind gene lookup "
                      "scores 93 percent on the full 42. Any arm that receives the gene is therefore "
                      "not comparable to LIRICAL, which does not. Read "
                      "DISCERN_phenotype_only_no_gene against LIRICAL_restricted_to_cluster."),
         },
-        "caveat": ("The genome-wide row is not a like-for-like contest: LIRICAL ranks roughly 8,600 "
+        "caveat": ("Quote the hpo_representable_only arm for any claim about inference quality and "
+                   "the phenotype_only arm for the architectural claim, never one for the other. "
+                   "The genome-wide row is not a like-for-like contest: LIRICAL ranks roughly 8,600 "
                    "diseases from HPO terms, while DISCERN ranks the three to eight members of one "
                    "cluster. The restricted row is the fair ranking surface. Even there the tools "
                    "optimise different objectives, and the reason LIRICAL does poorly is not that "
@@ -200,8 +268,8 @@ def main():
         print("== PHASE R: LIRICAL (phenotype-only) vs DISCERN, identical case subset ==")
         print(f"   scoring at {o['scoring_resolution']}")
         for k in ("LIRICAL_genome_wide", "LIRICAL_restricted_to_cluster",
-                  "DISCERN_phenotype_only_no_gene", "DISCERN_pre_gene_term_fix",
-                  "DISCERN_post_fix_IN_SAMPLE"):
+                  "DISCERN_hpo_representable_only", "DISCERN_phenotype_only_no_gene",
+                  "DISCERN_pre_gene_term_fix", "DISCERN_post_fix_IN_SAMPLE"):
             m = o[k]
             print(f"   {k:32} n={m['n']}  R@1={m['recall@1']:.0%}  R@3={m['recall@3']:.0%}  "
                   f"R@5={m['recall@5']:.0%}  R@10={m['recall@10']:.0%}  MRR={m['mrr']:.3f}")

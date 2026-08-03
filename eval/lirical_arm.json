@@ -1,6 +1,6 @@
 {
   "scoring_resolution": "gene / disease-family: a LIRICAL hit counts if its top-k contains any HPO-annotated disease identifier for the case's causal gene",
-  "headline_arm": "DISCERN_phenotype_only_no_gene",
+  "headline_arm": "DISCERN_hpo_representable_only",
   "why": "These 42 cases are what exposed the missing P(G|D) term, so post-fix DISCERN has seen them and LIRICAL has not. Two arms escape that problem. The phenotype-only arm withholds the gene entirely, which makes P(G|D) inert - it is therefore identical before and after the fix, uncontaminated by construction, and it is also the only arm whose inputs match what LIRICAL receives. It is the headline. The pre-fix arm reproduces the engine as it stood before these cases informed it, and is reported as a second uncontaminated reference. The post-fix arm is labelled in-sample and must never be quoted as a head-to-head result.",
   "phenotype_only_arm_is_fix_invariant": true,
   "LIRICAL_genome_wide": {
@@ -35,6 +35,46 @@
     "recall@10": 1.0,
     "mrr": 0.9565
   },
+  "DISCERN_hpo_representable_only": {
+    "n": 23,
+    "recall@1": 0.7391,
+    "recall@3": 1.0,
+    "recall@5": 1.0,
+    "recall@10": 1.0,
+    "mrr": 0.8623
+  },
+  "paired_tests_vs_lirical_restricted": {
+    "phenotype_only": {
+      "discern_recall@1": 0.913,
+      "lirical_recall@1": 0.5652,
+      "delta": 0.3478,
+      "delta_ci95": [
+        0.1304,
+        0.5652
+      ],
+      "mcnemar": {
+        "discern_only_correct": 9,
+        "lirical_only_correct": 1,
+        "discordant_pairs": 10,
+        "p_value_exact": 0.021484
+      }
+    },
+    "hpo_representable_only": {
+      "discern_recall@1": 0.7391,
+      "lirical_recall@1": 0.5652,
+      "delta": 0.1739,
+      "delta_ci95": [
+        -0.0446,
+        0.4348
+      ],
+      "mcnemar": {
+        "discern_only_correct": 6,
+        "lirical_only_correct": 2,
+        "discordant_pairs": 8,
+        "p_value_exact": 0.289062
+      }
+    }
+  },
   "DISCERN_post_fix_IN_SAMPLE": {
     "n": 23,
     "recall@1": 1.0,
@@ -43,13 +83,19 @@
     "recall@10": 1.0,
     "mrr": 1.0
   },
+  "two_distinct_claims": {
+    "reasoning_on_identical_evidence": "DISCERN_hpo_representable_only vs LIRICAL_restricted_to_cluster. Both tools see the same 13 HPO-expressible findings and neither sees the gene. DISCERN leads 74 percent to 57 percent, but at n=23 the paired test does not reach significance (McNemar p=0.29, bootstrap CI on the difference -4 to +43 percent). The honest statement is that DISCERN is not shown to reason better on identical evidence.",
+    "encoding_the_evidence_that_decides_these_cases": "DISCERN_phenotype_only_no_gene vs LIRICAL_restricted_to_cluster. DISCERN additionally ingests the 35 findings HPO cannot express - RIPA mixing, CD42 and alphaIIbbeta3 flow cytometry, multimer patterns, aggregometry, the prothrombinase assay - and leads 91 percent to 57 percent, McNemar p=0.02, CI +13 to +57 percent. This is a real and significant result, but it is an architectural claim about what the model can represent, not a claim about better inference. Conflating the two is the error a reviewer would catch."
+  },
+  "ordering_note": "The phenotype-only arm (91 percent, no gene) scores above the pre-fix arm (83 percent, with the gene). Adding information appears to make it worse, which is the expected signature of the defect Phase R found: before P(G|D) existed the gene could not help the disease posterior, but it still entered the coupling term, where an off-gene disease was penalised - so supplying a gene perturbed the ranking without informing it. Withholding the gene removed that perturbation. This is evidence the marginalisation defect was real rather than an artefact of the fix.",
   "input_parity": {
     "LIRICAL_receives": "HPO terms only (observed and negated); no gene",
-    "DISCERN_phenotype_only_receives": "the same findings, no gene - the matched-input arm",
+    "DISCERN_phenotype_only_receives": "all 48 findings, no gene - gene-matched but NOT evidence-matched",
+    "DISCERN_hpo_representable_only_receives": "only the 13 findings that have an HPO term, no gene - the fully evidence-matched arm, and the one that supports a reasoning claim rather than an encoding claim",
     "DISCERN_pre_and_post_fix_receive": "the same findings plus the causal gene",
     "note": "The gene is worth most of this benchmark: a phenotype-blind gene lookup scores 93 percent on the full 42. Any arm that receives the gene is therefore not comparable to LIRICAL, which does not. Read DISCERN_phenotype_only_no_gene against LIRICAL_restricted_to_cluster."
   },
-  "caveat": "The genome-wide row is not a like-for-like contest: LIRICAL ranks roughly 8,600 diseases from HPO terms, while DISCERN ranks the three to eight members of one cluster. The restricted row is the fair ranking surface. Even there the tools optimise different objectives, and the reason LIRICAL does poorly is not that it is a weak ranker but that the findings which separate these diseases are laboratory assays the Human Phenotype Ontology does not encode. That is a fact about the domain, not a win.",
+  "caveat": "Quote the hpo_representable_only arm for any claim about inference quality and the phenotype_only arm for the architectural claim, never one for the other. The genome-wide row is not a like-for-like contest: LIRICAL ranks roughly 8,600 diseases from HPO terms, while DISCERN ranks the three to eight members of one cluster. The restricted row is the fair ranking surface. Even there the tools optimise different objectives, and the reason LIRICAL does poorly is not that it is a weak ranker but that the findings which separate these diseases are laboratory assays the Human Phenotype Ontology does not encode. That is a fact about the domain, not a win.",
   "rows": [
     {
       "id": "bss_as_itp",

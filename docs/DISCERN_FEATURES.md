@@ -1,5 +1,17 @@
 # DISCERN - Full Feature Map (start to end)
 
+
+> **Superseded in part by Phase R.** Read
+> [DISCERN_PhaseR_Results_v1.md](DISCERN_PhaseR_Results_v1.md) alongside this document. Phase R
+> retired the claim that DISCERN is the only tool emitting a calibrated probability (under an
+> identical isotonic protocol REVEL reaches ECE 0.043 and AlphaMissense 0.029 against DISCERN's
+> 0.017, with overlapping intervals), withdrew the monotone risk-coverage claim (now retired) (the diagnosis arm
+> now sits at 100 percent at full coverage, leaving no headroom at n=42), and re-based the curated
+> diagnosis result to Top-1 100 percent after correcting a missing P(G|D) term - a number that must
+> always be quoted against its 93 percent phenotype-blind gene-lookup baseline, which it does not
+> significantly beat. Where this document and the Phase R record disagree, the Phase R record wins.
+
+
 **DISCERN = Diagnostic Inference from Shared-mechanism Coupling of Evidence in Rare Nosology.**
 
 *Every feature: what it tells you, what you feed in, what you get back, how it is computed, the data behind it, and its validation status.*
@@ -66,7 +78,7 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 |---|---|---|---|---|
 | Cluster posterior | probability of each disease in the cluster | a factor-graph joint over disease and variant states; phenotype likelihood ratios per feature, marginalised to a per-disease posterior (`jointdx/`) | 10 clusters, 31 diseases; ~95 PMID-sourced feature likelihood ratios | ranked posteriors summing to ~1 - Validated (open data) |
 | Discrimination likelihood ratios | how strongly each feature separates the diseases | `P(feature | disease)` per feature, each with sample size and a source PMID; a CI guard requires a PMID on every entry | primary literature, independently source-verified | per-feature LR - Validated: all ~95 values verified or plausible; 10 misattributed citations found and corrected |
-| Curated diagnosis accuracy | how often the leading call is right | run over hand-curated, citation-only published cases (no identifiers) | 42 cases across all 10 clusters, every PMID NCBI-verified | Validated: Top-1 81 percent / Top-3 100 percent / abstention 10 percent; every non-Top-1 is a same-cluster confusable held in the Top-3 |
+| Curated diagnosis accuracy | how often the leading call is right | run over hand-curated, citation-only published cases (no identifiers) | 42 cases across all 10 clusters, every PMID NCBI-verified | Superseded by Phase R: Top-1 100 percent / Top-3 100 percent / abstention 7 percent after the P(G|D) correction (81 percent before it). Never quote without the baseline: a phenotype-blind gene lookup scores 93 percent on the same cases and the difference is not significant |
 | Independent LOF sensitivity | that the engine catches disease alleles it never trained on | classify the null (loss-of-function) variants in the CDC F8/F9 catalogs by consequence alone | CHAMP + CHBMP, 5,437 disease alleles (2,130 null) | Validated: 91.2 percent LP/P recall by consequence alone (F8 97.7, F9 65.8, the F9 gap explained by its terminal-exon NMD rules) |
 
 ---
@@ -105,7 +117,7 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 |---|---|---|---|---|
 | Variant calibration | that the probability is reliable, not just discriminative | isotonic recalibration; expected calibration error and Brier score reported | 7,521 ClinVar / eRepo variants | Validated: ECE 0.008 (ClinVar set), 0.017 (eRepo-primary), and holds on a time-split panel |
 | Diagnosis calibration + confidently-wrong | that high-confidence diagnoses are not wrong | reliability of the leading-call confidence; count of confident-and-wrong calls | 42 curated cases | Validated: 0 confidently-wrong calls at the 0.8 threshold (diagnosis ECE 0.141, limited by n=42) |
-| Abstention / risk-coverage | that abstaining raises accuracy on the cases kept | accuracy on the retained cases as a function of coverage | 42 curated cases | Validated: accuracy rises 81 percent at full coverage to 100 percent on the most-confident half (monotone) |
+| Abstention / risk-coverage | that abstaining raises accuracy on the cases kept | accuracy on the retained cases as a function of coverage | 42 curated cases | WITHDRAWN by Phase R: with the diagnosis arm at 100 percent at full coverage there is no headroom for abstention to demonstrate, so the curve is uninformative at n=42 |
 | Conformal coverage guarantee | a per-class held-out coverage guarantee | Mondrian split-conformal machinery implemented and unit-tested | needs a labelled diagnosis cohort | Implemented; empirical per-class coverage is Cohort-gated (n=42 is too small) |
 
 ---
@@ -114,7 +126,7 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 
 | Feature | What it tells you | How it is computed | Data / source | Output and status |
 |---|---|---|---|---|
-| Variant arm versus the tool set | where DISCERN stands against current ACMG tools and predictors | AUROC / calibration on the missense axis versus GeneBe, REVEL, AlphaMissense, InterVar | 342 missense P/B (ClinVar) and 425 (eRepo expert-panel) | Validated: DISCERN AUROC 0.935 (ClinVar) / 0.939 (eRepo) tracks REVEL; DISCERN is the only tool emitting a calibrated probability (ECE 0.017 vs REVEL 0.09 / AlphaMissense 0.16; GeneBe and InterVar are class-only) |
+| Variant arm versus the tool set | where DISCERN stands against current ACMG tools and predictors | AUROC / calibration on the missense axis versus GeneBe, REVEL, AlphaMissense, InterVar | 342 missense P/B (ClinVar) and 425 (eRepo expert-panel) | Validated: DISCERN AUROC 0.935 (ClinVar) / 0.939 (eRepo) tracks REVEL; RETIRED by Phase R: under an identical fold and isotonic protocol the comparators calibrate too (REVEL 0.043, AlphaMissense 0.029 against DISCERN 0.017, intervals overlapping). GeneBe and InterVar remain class-only and uncalibratable; the differentiator is the calibrated, auditable classification system rather than calibration alone |
 | ClinVar-circularity finding | why a ClinVar-consuming tool cannot be graded on ClinVar | GeneBe reproduces the ClinVar label (AUROC 1.0, class matches direction on all resolved calls, holds on the time-split) | the same sets | Validated finding: motivates the eRepo-primary and time-split surfaces |
 | Per-code kappa versus experts | the partition made visible against an expert-panel surface | Cohen kappa of DISCERN's applied codes versus eRepo's applied codes | 2,239 eRepo variants | Validated: PVS1 kappa 0.81, PP3 kappa 0.93; PS3/PS4/PM1/PM5 applied = 0 (the evidence-stream codes DISCERN does not derive from sequence alone) |
 | BIAS-2015 (fair classifier) | the strongest current fair-classifier comparator, ClinVar-blinded | full annotation pipeline stood up (Nirvana + eRepo annotated + PP5/BP6 zeroing implemented) | the eRepo set | Deferred: the tool's own preprocessing is broken in its released tags; published eRepo numbers cited instead (pathogenic sensitivity 73.99 vs InterVar 64.31) |

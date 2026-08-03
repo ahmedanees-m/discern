@@ -14,7 +14,7 @@ differential diagnosis, misdiagnosis prevention, and variant-of-uncertain-signif
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-active%20development-orange.svg)](#project-status)
-[![Tests](https://img.shields.io/badge/tests-183%20passing-brightgreen.svg)](tests)
+[![Tests](https://img.shields.io/badge/tests-185%20passing-brightgreen.svg)](tests)
 
 Built on a disciplined engineering foundation: a rule-grounded ACMG point engine,
 swappable evidence adapters, an equity layer, full audit trails, and reproducible
@@ -123,7 +123,7 @@ Worked examples (actual engine output):
 
 ```bash
 conda env create -f environment.yml        # or: pip install -e ".[dev]"
-make test                                   # ruff and pytest (183 tests)
+make test                                   # ruff and pytest (185 tests)
 ```
 
 ```python
@@ -425,13 +425,16 @@ AlphaMissense 0.029 against DISCERN's 0.017, and the intervals overlap. The diff
 calibrated, auditable classification system, not calibration alone. The AUROC gap to REVEL is not
 statistically significant (DeLong p=0.29), so DISCERN tracks REVEL rather than trailing it, which
 is the expected relationship given REVEL is its own PP3 input. LIRICAL was run rather than
-deferred. On the 23 curated cases carrying any HPO term it reaches Recall@1 57 percent restricted
-to the same cluster. The comparable DISCERN arm is the phenotype-only one, which withholds the gene
-so both tools receive the same inputs, and which is unaffected by the Phase R gene-term fix by
-construction: it reaches Recall@1 91 percent. DISCERN's 100 percent on those cases is in-sample,
-because these are the cases that exposed the fix, and is not quoted as a head-to-head. The reason
-LIRICAL trails is that only 13 of the benchmark's 48 discriminating features have any HPO
-representation at all. A fair BIAS-2015 re-run remains
+deferred, and the comparison is split into the two claims it actually supports. On the 23 curated
+cases carrying any HPO term, LIRICAL reaches Recall@1 57 percent restricted to the same cluster.
+Given strictly the same evidence - the 13 findings HPO can express, gene withheld from both -
+DISCERN reaches 74 percent, a lead that is not significant at this sample size (McNemar p=0.29,
+95 percent CI on the difference -4 to +43 percent), so better reasoning on identical evidence is
+not established. Allowed to also read the 35 findings HPO cannot express, DISCERN reaches 91
+percent (p=0.02, CI +13 to +57), which is significant but is an architectural claim about what the
+model can represent rather than an inference claim. DISCERN's 100 percent on those cases is
+in-sample, because these are the cases that exposed the P(G|D) defect, and is never quoted as a
+head-to-head. A fair BIAS-2015 re-run remains
 deferred for tooling and disk reasons, documented in the results.
 
 The disease-variant coupling remains cohort-gated and is not claimed until its paired-data

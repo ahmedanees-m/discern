@@ -8,9 +8,9 @@
 > 0.043 and AlphaMissense 0.029 against DISCERN's 0.017, with overlapping intervals); the AUROC gap
 > to REVEL is **not significant** (DeLong p=0.29); the curated diagnosis benchmark now reads Top-1
 > **100%** after Phase R fixed a missing `P(G|D)` term, but must always be quoted against its
-> **93%** gene-only baseline, which it does not significantly beat; the monotone risk-coverage
-> claim is **withdrawn** (accuracy is now 100% at full coverage, leaving no headroom); and LIRICAL
-> was **run** rather than deferred.
+> **93%** gene-only baseline, which it does not significantly beat; the monotone risk-coverage claim
+> is **withdrawn** as retired (accuracy is now 100% at full coverage, leaving no headroom); and
+> LIRICAL was **run** rather than deferred.
 
 
 **DISCERN = Diagnostic Inference from Shared-mechanism Coupling of Evidence in Rare Nosology.**
@@ -185,16 +185,19 @@ related-donor-transplant/RUNX1-FPD, platelet-transfusion/Quebec, rFVIII-monother
   harmless (tranexamic acid) - it does not cry wolf. Both directions measured, not just sensitivity.
 
 ### 3c Abstention / selective prediction (risk-coverage, n=42)
-- The confidence ranking is informative: accuracy rises from **81% at full coverage to 100% on the
-  most-confident 50%** (monotone payoff confirmed) - the operational value of calibration.
-- DISCERN's current `decide()` operating point: coverage 93%, accuracy-on-decided 79%, abstention 7%.
-  Note: this threshold abstains on ~3 low-confidence-but-correct cases rather than on the
-  errors, so on-decided accuracy (79%) sits just below full (81%). The signal is good (the curve is
-  monotone); the threshold is conservatively tuned on n=42 and is a calibration-tuning item, not a
-  signal failure.
+- **WITHDRAWN by Phase R.** This section previously reported that accuracy rises from 81% at full
+  coverage to 100% on the most-confident half, and read that as the operational value of
+  calibration. After the P(G|D) correction the diagnosis arm sits at 100% at full coverage, so there
+  is no headroom for abstention to demonstrate and the curve is uninformative at n=42. The claim is
+  retired rather than restated; demonstrating the abstention layer's value needs a benchmark that is
+  not at ceiling, which means a cohort.
+- DISCERN's current `decide()` operating point: coverage 93%, accuracy-on-decided 100%, abstention
+  7%. Zero confidently-wrong calls at the 0.8 threshold is unchanged and is what the trustworthiness
+  claim now rests on.
 
-**Gate G-T3: met** - ECE reported (variant 0.017; diagnosis 0.141 on n=42); safety sensitivity 100%
-at specificity 100%; monotone risk-coverage curve demonstrated.
+**Gate G-T3: met on its surviving components** - ECE reported (variant 0.017 with 95% CI
+0.011-0.047; diagnosis 0.118 on n=42); safety sensitivity 100% at specificity 100%; zero
+confidently-wrong calls. The monotone risk-coverage component is withdrawn (see above).
 
 Artifacts: `bench/track3_metrics.json`, `bench/track3_risk_coverage.csv`, `bench/track3_trustworthiness.py`.
 

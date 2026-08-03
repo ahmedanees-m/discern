@@ -8,9 +8,9 @@
 > 0.043 and AlphaMissense 0.029 against DISCERN's 0.017, with overlapping intervals); the AUROC gap
 > to REVEL is **not significant** (DeLong p=0.29); the curated diagnosis benchmark now reads Top-1
 > **100%** after Phase R fixed a missing `P(G|D)` term, but must always be quoted against its
-> **93%** gene-only baseline, which it does not significantly beat; the monotone risk-coverage
-> claim is **withdrawn** (accuracy is now 100% at full coverage, leaving no headroom); and LIRICAL
-> was **run** rather than deferred.
+> **93%** gene-only baseline, which it does not significantly beat; the monotone risk-coverage claim
+> is **withdrawn** as retired (accuracy is now 100% at full coverage, leaving no headroom); and
+> LIRICAL was **run** rather than deferred.
 
 
 **Purpose (Track D1):** lock every public claim to its evidence and its status, and split

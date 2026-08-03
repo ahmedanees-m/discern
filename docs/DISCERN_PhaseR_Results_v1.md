@@ -120,7 +120,18 @@ variant's DISCERN points and adding the codes the expert panel applied but DISCE
 | codes the partition routes away (PS3, PP4, PP1, PM3, ...) | 52 |
 | both | 89 |
 
-So the partition-owned streams are the larger contributor, but neither cause explains the ceiling
+Why each of those four has no input, since restoring them would add 27 Likely Pathogenic calls
+and an unexplained gap reads as an engine defect:
+
+| Code | Reason it is unapplied | Kind of limit |
+|---|---|---|
+| PS1 | needs a same-amino-acid-change ClinVar lookup; implemented in `adapters/clinvar.py` but deliberately not wired in, because this benchmark is ClinVar-blinded and supplying it would reintroduce the circularity the GeneBe exhibit demonstrates | protocol choice |
+| PM5 | same mechanism (different missense at the same residue), withheld for the same reason | protocol choice |
+| PS4 | implemented as a decision tree, but requires case-control input - proband counts against expectation, or an odds ratio with its bound - and the eRepo annotation cache carries none | data availability |
+| PM1 | **not implemented**: no scorer emits it, and no VCEP specification in `rules/vcep/specs/` encodes hotspot or critical-domain regions for the in-scope genes. The `in_functional_domain` annotation that exists feeds the PVS1 tree, not PM1 | engine scope gap |
+
+Only PM1 is a genuine engine gap; the other three are consequences of the blinding protocol or of
+what the public annotation carries. So the partition-owned streams are the larger contributor, but neither cause explains the ceiling
 alone, and even both together reach only 89 of the 316 variants the panel called pathogenic. The
 binding constraint is what the ACMG framework demands for missense evidence, not any single routing
 decision. (These counts use default code strengths, since strength suffixes are stripped for
@@ -226,15 +237,37 @@ cannot be quoted as a head-to-head. Two arms escape that:
 
 | Arm | n | Recall@1 | Recall@3 | MRR | receives |
 |---|---|---|---|---|---|
-| LIRICAL, genome-wide | 23 | 13% | 26% | 0.215 | HPO terms only |
-| LIRICAL, restricted to the cluster | 23 | 57% | 96% | 0.754 | HPO terms only |
-| **DISCERN, phenotype-only (headline)** | 23 | **91%** | 100% | 0.957 | same findings, no gene |
-| DISCERN, pre-fix | 23 | 83% | 100% | 0.913 | findings + gene |
-| DISCERN, post-fix (IN-SAMPLE, not a head-to-head) | 23 | 100% | 100% | 1.000 | findings + gene |
+| LIRICAL, genome-wide | 23 | 13% | 26% | 0.215 | HPO terms only, no gene |
+| LIRICAL, restricted to the cluster | 23 | 57% | 96% | 0.754 | HPO terms only, no gene |
+| **DISCERN, HPO-representable only (headline)** | 23 | **74%** | 100% | 0.862 | the same 13 findings, no gene |
+| DISCERN, phenotype-only (all findings) | 23 | 91% | 100% | 0.957 | all 48 findings, no gene |
+| DISCERN, pre-fix | 23 | 83% | 100% | 0.913 | all findings + gene |
+| DISCERN, post-fix (IN-SAMPLE, not a head-to-head) | 23 | 100% | 100% | 1.000 | all findings + gene |
 
-The matched-input comparison is therefore **91% against 57%**, and it holds without relying on any
-model state that these cases informed. The genome-wide row is not a contest at all: LIRICAL ranks
-roughly 8,600 diseases without the gene while DISCERN ranks within one cluster.
+**Gene parity was not enough; evidence parity is the real test.** Withholding the gene equalises one
+input but not the others: DISCERN reads all 48 discriminating findings while LIRICAL can only ingest
+the 13 with an HPO term. The remaining 35 are the laboratory assays that decide these cases. So the
+comparison splits into two claims that must not be conflated.
+
+| Claim | Arms | Result | Verdict |
+|---|---|---|---|
+| DISCERN reasons better on **identical evidence** | HPO-representable only vs LIRICAL restricted | 74% vs 57%, delta +17% (95% CI -4% to +43%), McNemar 6/2, p=0.29 | **Not established.** It leads, but not significantly at n=23 |
+| DISCERN **encodes evidence** that decides these cases and HPO cannot express | phenotype-only vs LIRICAL restricted | 91% vs 57%, delta +35% (95% CI +13% to +57%), McNemar 9/1, p=0.02 | **Established**, but it is an architectural claim, not an inference claim |
+
+The second result is real and significant, and it is the same motivating negative as the coverage
+finding: the discriminating channel in this domain has no HPO encoding. It is not evidence of better
+inference, and the manuscript says so.
+
+**An ordering anomaly worth stating rather than hiding.** The phenotype-only arm (91%, no gene)
+scores *above* the pre-fix arm (83%, with the gene) - adding information appears to have made things
+worse. That is the expected signature of the defect Phase R found. Before P(G|D) existed the gene
+could not help the disease posterior, but it still entered the coupling term, where an off-gene
+disease is penalised; supplying a gene therefore perturbed the ranking without informing it.
+Withholding the gene removed the perturbation. The anomaly is evidence that the marginalisation
+defect was real, rather than that the fix was tuned.
+
+The genome-wide row is not a contest at all: LIRICAL ranks roughly 8,600 diseases without the gene
+while DISCERN ranks within one cluster of three to eight.
 
 **A held-out set was sought and does not exist in public data.** The GA4GH Phenopacket Store
 bleeding subset has 31 cases, but only 12 fall in a modelled gene, and 8 of those 12 are F8
@@ -244,8 +277,7 @@ Curating a genuinely held-out set of 10-15 new published cases is the correct ne
 author work: it requires reading primary literature and verifying PMIDs, which must not be
 synthesised.
 
-**Disposition: favourable on the matched-input arm, with the in-sample number quarantined.** DISCERN
-leads where the comparison is fair. The reason LIRICAL trails is not that it is a weak ranker but
+**Disposition: mixed, with the in-sample number quarantined.** DISCERN leads on both fair arms, but only the evidence-asymmetric one is statistically significant, and that one supports an architectural claim rather than a reasoning claim. The reason LIRICAL trails is not that it is a weak ranker but
 that the discriminating channel in this domain has no HPO encoding. That is a fact about the domain,
 and it is the same finding as R4 and the coupling negative, arriving from a third direction.
 

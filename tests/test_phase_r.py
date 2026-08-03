@@ -200,6 +200,34 @@ def test_ceiling_attribution_separates_partition_from_missing_inputs():
     assert m["reach_lp_with_both"] < m["n"] / 2       # still nowhere near resolving the set
 
 
+PR_LIRICAL = os.path.join(HERE, "..", "eval", "lirical_arm.json")
+
+
+@pytest.mark.skipif(not os.path.exists(PR_LIRICAL), reason="lirical_arm.json not generated")
+def test_lirical_comparison_separates_reasoning_from_encoding():
+    """The evidence-matched arm must exist, and its weaker result must not be quietly dropped."""
+    m = json.load(open(PR_LIRICAL, encoding="utf-8"))
+    assert m["headline_arm"] == "DISCERN_hpo_representable_only"
+    matched = m["paired_tests_vs_lirical_restricted"]["hpo_representable_only"]
+    full = m["paired_tests_vs_lirical_restricted"]["phenotype_only"]
+    # on identical evidence DISCERN leads but not significantly - the claim must stay hedged
+    assert matched["delta"] > 0
+    assert matched["mcnemar"]["p_value_exact"] > 0.05
+    assert matched["delta_ci95"][0] < 0 < matched["delta_ci95"][1]
+    # the significant lead belongs to the arm that also encodes non-HPO findings
+    assert full["mcnemar"]["p_value_exact"] < 0.05
+    assert full["delta"] > matched["delta"]
+    assert "two_distinct_claims" in m and "ordering_note" in m
+
+
+@pytest.mark.skipif(not os.path.exists(PR_VARIANT), reason="phase_r_variant_metrics.json not generated")
+def test_every_unavailable_intrinsic_code_has_a_stated_reason():
+    m = json.load(open(PR_VARIANT, encoding="utf-8"))["ceiling_attribution"]
+    reasons = m["why_each_intrinsic_code_has_no_input"]
+    for code in m["intrinsic_but_no_input_here"]:
+        assert code in reasons and len(reasons[code]) > 40, code
+
+
 @pytest.mark.skipif(not os.path.exists(PR_GENE), reason="gene_only_baseline.json not generated")
 def test_diagnosis_arm_is_reported_against_the_gene_only_baseline():
     m = json.load(open(PR_GENE, encoding="utf-8"))
