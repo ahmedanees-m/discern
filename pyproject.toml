@@ -43,6 +43,15 @@ target-version = "py311"
 select = ["E", "F", "I", "W", "UP", "B"]
 ignore = ["E501"]
 
+[tool.ruff.lint.isort]
+# Declared explicitly so import grouping does not depend on which directories happen to be present.
+# `app` and `manuscript` are gitignored, so ruff infers them as first-party in a working tree and
+# third-party in a clean clone - which made the same file lint clean locally and fail in CI. Naming
+# every first-party package removes the inference entirely.
+known-first-party = ["adapters", "api", "app", "bench", "core", "deploy", "diseases", "engine",
+                     "equity", "eval", "evidence", "figures", "intake", "jointdx", "learn", "llm",
+                     "nextobs", "rules", "safety", "sim", "triage"]
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]

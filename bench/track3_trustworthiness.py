@@ -18,6 +18,7 @@ import os
 
 import numpy as np
 
+from core.stats import ece
 from diseases.ontology import cluster_for
 from eval.curated_case_benchmark import _evidence, load_cases
 from eval.reader_study import load_vignettes
@@ -33,15 +34,8 @@ HARMLESS_TX = "tranexamic_acid"   # not a contraindication token in any cluster 
 
 
 def _ece(conf, correct, bins=10):
-    conf, correct = np.asarray(conf, float), np.asarray(correct, float)
-    edges = np.linspace(0, 1, bins + 1)
-    e = 0.0
-    for i in range(bins):
-        hi = edges[i + 1] if i < bins - 1 else 1.0001
-        m = (conf >= edges[i]) & (conf < hi)
-        if m.sum():
-            e += (m.sum() / len(conf)) * abs(correct[m].mean() - conf[m].mean())
-    return float(e)
+    """Kept as a name for existing callers; the implementation is core.stats.ece."""
+    return ece(conf, correct, bins)
 
 
 def _case_predictions():

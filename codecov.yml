@@ -1,5 +1,26 @@
 # Codecov configuration. Enable the repo at https://app.codecov.io and add a
 # CODECOV_TOKEN repo secret (required for private repos) - then the badge goes live.
+#
+# What the number measures, and why some paths are excluded.
+#
+# The repository holds two kinds of code. The first is the engine that ships: the ACMG point
+# system, the evidence partition, the coupled joint model, the safety interlock, the
+# value-of-information recommender and their adapters. That is what a user runs and what the tests
+# exercise.
+#
+# The second is a layer of one-shot analysis harnesses under bench/ and eval/ that produced the
+# manuscript's benchmark results. Continuous integration cannot execute most of them: they import
+# scikit-learn, pandas or matplotlib, which the lightweight CI environment deliberately omits, and
+# they read several gigabytes of third-party data (ClinGen eRepo, ClinVar, gnomAD, the HPO release
+# files) that is not redistributed with the repository. Counting them in the denominator does not
+# measure test quality; it measures whether CI happens to have a 250 GB dataset attached.
+#
+# Rather than simply excluding them, the statistical core they share was extracted into
+# core/stats.py - Wilson intervals, DeLong's test, expected calibration error, percentile bootstrap
+# intervals, exact McNemar, rank metrics. Those functions compute every confidence interval and p
+# value in the paper, they depend only on numpy and scipy, and they are covered directly by
+# tests/test_stats.py. What stays excluded is the I/O and orchestration around them, and those
+# outputs are pinned by regression tests that read the committed JSON.
 coverage:
   status:
     project:
@@ -11,10 +32,42 @@ coverage:
         target: 80%
 ignore:
   - "tests/**"
-  - "figures/**"
-  - "deploy/**"
+  - "figures/**"           # rendering; output correctness is asserted by the verification pass
+  - "deploy/**"            # VM orchestration; cannot run without a VM
   - "docker/**"
+  - "sim/**"               # the odyssey simulator is a demonstration, not part of the engine
+  - "llm/**"               # optional cloud gateway, off by default
   - "**/__init__.py"
+  # --- require third-party data that is deliberately not redistributed --------------------
+  - "eval/erepo_genomewide.py"
+  - "eval/erepo_thresholds.py"
+  - "eval/validate_erepo.py"
+  - "eval/clinvar_concordance.py"
+  - "eval/gnomad_freq_check.py"
+  - "eval/build_variant_set.py"
+  - "eval/lookup_alphamissense.py"
+  - "eval/champ_chbmp_benchmark.py"
+  - "eval/champ_chbmp_missense_arm.py"
+  - "eval/extract_phenopackets.py"
+  - "eval/phenopacket_benchmark.py"
+  - "eval/lirical_arm.py"
+  - "eval/h4_benchmark.py"
+  - "eval/h4_diag.py"
+  - "eval/h4_full.py"
+  - "eval/intervar_full_eval.py"
+  - "eval/fixup_multianno.py"
+  - "eval/fixup_full_multianno.py"
+  - "eval/variant_calibration.py"
+  # --- require scikit-learn or network access, absent from the CI dependency set ----------
+  - "bench/phase_r_variant.py"
+  - "bench/phase_r_gene_term_sensitivity.py"
+  - "bench/track1_variant_headtohead.py"
+  - "bench/track1b_erepo_headtohead.py"
+  - "bench/build_zenodo_supplement.py"
+  - "bench/genebe_client.py"
+  - "bench/genebe_erepo.py"
+  - "bench/erepo_extract.py"
+  - "bench/erepo_to_vcf.py"
 comment:
   layout: "reach, diff, flags, files"
   require_changes: true

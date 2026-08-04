@@ -28,6 +28,7 @@ import os
 import sys
 from collections import defaultdict
 
+from core.stats import mcnemar_exact, percentile_ci, rank_metrics
 from diseases.ontology import cluster_for
 from eval.curated_case_benchmark import load_cases
 from eval.phenotype_tool_comparison import case_hpo, discern_ranking, feature_to_hpo
@@ -85,14 +86,7 @@ def write_inputs() -> int:
 
 
 def _metrics(hit_at):
-    n = len(hit_at)
-    if not n:
-        return {"n": 0}
-    def r(k):
-        return round(sum(1 for h in hit_at if h is not None and h <= k) / n, 4)
-    mrr = sum(1.0 / h for h in hit_at if h is not None) / n
-    return {"n": n, "recall@1": r(1), "recall@3": r(3), "recall@5": r(5),
-            "recall@10": r(10), "mrr": round(mrr, 4)}
+    return rank_metrics(hit_at, ks=(1, 3, 5, 10))
 
 
 def _paired_vs_lirical(discern_hits, lirical_hits, seed=0, n_boot=2000):
@@ -102,26 +96,22 @@ def _paired_vs_lirical(discern_hits, lirical_hits, seed=0, n_boot=2000):
     comparison must be paired rather than treated as two independent samples.
     """
     import numpy as np
-    from scipy.stats import binomtest
 
     a = np.array([1 if h == 1 else 0 for h in discern_hits], int)
     b = np.array([1 if h == 1 else 0 for h in lirical_hits], int)
     rng = np.random.default_rng(seed)
     idx = rng.integers(0, len(a), size=(n_boot, len(a)))
     d = a[idx].mean(axis=1) - b[idx].mean(axis=1)
-    discern_only = int(((a == 1) & (b == 0)).sum())
-    lirical_only = int(((b == 1) & (a == 0)).sum())
-    disc = discern_only + lirical_only
+    m = mcnemar_exact(a.tolist(), b.tolist())
     return {
         "discern_recall@1": round(float(a.mean()), 4),
         "lirical_recall@1": round(float(b.mean()), 4),
         "delta": round(float(a.mean() - b.mean()), 4),
-        "delta_ci95": [round(float(np.percentile(d, 2.5)), 4),
-                       round(float(np.percentile(d, 97.5)), 4)],
-        "mcnemar": {"discern_only_correct": discern_only, "lirical_only_correct": lirical_only,
-                    "discordant_pairs": disc,
-                    "p_value_exact": round(float(binomtest(discern_only, disc, 0.5).pvalue), 6)
-                    if disc else 1.0},
+        "delta_ci95": percentile_ci(d),
+        "mcnemar": {"discern_only_correct": m["a_only_correct"],
+                    "lirical_only_correct": m["b_only_correct"],
+                    "discordant_pairs": m["discordant_pairs"],
+                    "p_value_exact": m["p_value_exact"]},
     }
 
 

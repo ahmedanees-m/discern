@@ -27,13 +27,14 @@ import json
 import os
 
 import numpy as np
-from scipy.stats import norm
 from sklearn.isotonic import IsotonicRegression
 from sklearn.metrics import brier_score_loss, cohen_kappa_score, roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 
-from bench.track1_variant_headtohead import _ece
 from bench.track1b_erepo_headtohead import TIMESPLIT_AFTER, load_rows
+from core.stats import bootstrap_indices, midrank, percentile_ci
+from core.stats import delong as _delong
+from core.stats import ece as _ece
 from rules.acmg_codes import code_points
 
 HERE = os.path.dirname(__file__)
@@ -88,14 +89,11 @@ def oof_isotonic(scores, y, folds):
 
 
 def _boot_indices(n, rng, n_boot=N_BOOT):
-    return rng.integers(0, n, size=(n_boot, n))
+    return bootstrap_indices(n, rng, n_boot)
 
 
 def _ci(values, lo=2.5, hi=97.5):
-    v = np.asarray([x for x in values if x is not None and np.isfinite(x)], float)
-    if not len(v):
-        return None
-    return [round(float(np.percentile(v, lo)), 4), round(float(np.percentile(v, hi)), 4)]
+    return percentile_ci(values, lo, hi)
 
 
 def calibration_with_ci(probs, y, rng, n_boot=N_BOOT):
@@ -129,46 +127,10 @@ def auroc_with_ci(scores, y, rng, n_boot=N_BOOT):
             "auroc_ci95": _ci(aucs)}
 
 
-def _midrank(x):
-    order = np.argsort(x)
-    z = np.asarray(x, float)[order]
-    n = len(z)
-    t = np.zeros(n, float)
-    i = 0
-    while i < n:
-        j = i
-        while j < n and z[j] == z[i]:
-            j += 1
-        t[i:j] = 0.5 * (i + j - 1) + 1
-        i = j
-    out = np.empty(n, float)
-    out[order] = t
-    return out
+_midrank = midrank        # implementation moved to core.stats for CI coverage
 
 
-def delong(y, score_a, score_b):
-    """DeLong's test for two correlated ROC curves on the same variants (Sun and Xu 2014 form)."""
-    y = np.asarray(y, int)
-    pos = y == 1
-    mat = np.vstack([np.concatenate([np.asarray(s, float)[pos], np.asarray(s, float)[~pos]])
-                     for s in (score_a, score_b)])
-    m = int(pos.sum())
-    n = mat.shape[1] - m
-    tx = np.vstack([_midrank(mat[r, :m]) for r in range(2)])
-    ty = np.vstack([_midrank(mat[r, m:]) for r in range(2)])
-    tz = np.vstack([_midrank(mat[r, :]) for r in range(2)])
-    aucs = tz[:, :m].sum(axis=1) / m / n - (m + 1.0) / 2.0 / n
-    v01 = (tz[:, :m] - tx) / n
-    v10 = 1.0 - (tz[:, m:] - ty) / m
-    cov = np.cov(v01) / m + np.cov(v10) / n
-    var_diff = cov[0, 0] + cov[1, 1] - 2 * cov[0, 1]
-    if var_diff <= 0:
-        return {"auroc_a": round(float(aucs[0]), 4), "auroc_b": round(float(aucs[1]), 4),
-                "delta": round(float(aucs[0] - aucs[1]), 4), "z": None, "p_value": None}
-    z = float((aucs[0] - aucs[1]) / np.sqrt(var_diff))
-    return {"auroc_a": round(float(aucs[0]), 4), "auroc_b": round(float(aucs[1]), 4),
-            "delta": round(float(aucs[0] - aucs[1]), 4), "z": round(z, 4),
-            "p_value": round(float(2 * norm.sf(abs(z))), 6)}
+delong = _delong          # implementation moved to core.stats for CI coverage
 
 
 def paired_bootstrap_delta(y, score_a, score_b, rng, n_boot=N_BOOT):

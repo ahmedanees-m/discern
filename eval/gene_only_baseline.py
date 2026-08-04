@@ -26,8 +26,8 @@ import json
 import os
 
 import numpy as np
-from scipy.stats import binomtest
 
+from core.stats import mcnemar_exact
 from diseases.ontology import cluster_for
 from eval.curated_case_benchmark import load_cases
 from eval.curated_case_benchmark import run as discern_run
@@ -85,12 +85,11 @@ def _random_expectation(cases, k, rng, n_boot=N_BOOT):
 
 def _mcnemar(a_correct, b_correct):
     """Exact McNemar on paired case-level correctness (a = DISCERN, b = baseline)."""
-    b_only = sum(1 for a, bb in zip(a_correct, b_correct, strict=True) if a and not bb)
-    c_only = sum(1 for a, bb in zip(a_correct, b_correct, strict=True) if bb and not a)
-    n = b_only + c_only
-    p = float(binomtest(b_only, n, 0.5).pvalue) if n else 1.0
-    return {"discern_only_correct": b_only, "baseline_only_correct": c_only,
-            "discordant_pairs": n, "p_value_exact": round(p, 6)}
+    m = mcnemar_exact(a_correct, b_correct)
+    return {"discern_only_correct": m["a_only_correct"],
+            "baseline_only_correct": m["b_only_correct"],
+            "discordant_pairs": m["discordant_pairs"],
+            "p_value_exact": m["p_value_exact"]}
 
 
 def _delta_ci(a_correct, b_correct, rng, n_boot=N_BOOT):

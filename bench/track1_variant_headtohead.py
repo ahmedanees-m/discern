@@ -34,6 +34,7 @@ from sklearn.metrics import (
 )
 from sklearn.model_selection import StratifiedKFold
 
+from core.stats import ece
 from rules.variant_scoring import Annotations, score_variant
 
 HERE = os.path.dirname(__file__)
@@ -67,14 +68,8 @@ def _label(clnsig: str):
 
 
 def _ece(probs, ys, bins=10):
-    probs, ys = np.asarray(probs, float), np.asarray(ys, float)
-    edges = np.linspace(0, 1, bins + 1)
-    e = 0.0
-    for i in range(bins):
-        m = (probs >= edges[i]) & (probs < edges[i + 1] if i < bins - 1 else probs <= 1.0)
-        if m.sum():
-            e += (m.sum() / len(probs)) * abs(ys[m].mean() - probs[m].mean())
-    return float(e)
+    """Kept as a name for existing callers; the implementation is core.stats.ece, which CI covers."""
+    return ece(probs, ys, bins)
 
 
 def _disc_prob_oof(points, ys):

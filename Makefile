@@ -1,10 +1,11 @@
-.PHONY: help install lint test data fmt
+.PHONY: help install lint test ci data fmt
 
 help:
 	@echo "install  - create the conda env (environment.yml)"
 	@echo "lint     - ruff check"
 	@echo "fmt      - black + ruff --fix"
-	@echo "test     - ruff check + pytest"
+	@echo "test     - ruff check + pytest (working tree)"
+	@echo "ci       - ruff + pytest against the tracked-file set only, as CI sees it"
 	@echo "data     - download/verify reference data (writes data/manifest.json)"
 
 install:
@@ -20,6 +21,9 @@ fmt:
 test:
 	ruff check .
 	pytest -q
+
+ci:
+	python -m deploy.check_like_ci
 
 data:
 	python -m data.sources.build_manifest
