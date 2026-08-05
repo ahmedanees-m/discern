@@ -53,57 +53,71 @@ def copy(src, dst_dir, name=None):
     return dst
 
 
+# What the VM holds that nothing else does: the raw per-case LIRICAL output, and the script that
+# produced it. The 381 MB LIRICAL distribution and its data bundle stay on the VM - they are the
+# tool, not our result, and data_manifests/ records the version needed to re-pull them.
+VM_ARTIFACTS = [
+    ("lirical_raw_outputs.tar.gz", "lirical_raw_outputs.tar.gz"),
+    ("cmds.sh", "lirical_run_commands.sh"),
+]
+
+
 def fetch_vm_artifacts(dest):
-    """Pull the LIRICAL raw per-case outputs. Paramiko only; no rclone, no host installs."""
+    """Pull the LIRICAL raw outputs and run script. Paramiko only; no rclone, no host installs."""
     try:
         import paramiko
     except ImportError:
         print("  ! paramiko unavailable - skipping VM collection")
-        return None
+        return []
     host = os.environ.get("VM_HOST", "10.30.158.35")
     user = os.environ.get("VM_USER", "anees_22phd0670")
     pw = os.environ.get("VM_PASSWORD")
     if not pw:
         print("  ! VM_PASSWORD not set - skipping VM collection")
-        return None
-    remote = f"/home/{user}/lirical_run/lirical_raw_outputs.tar.gz"
+        return []
     os.makedirs(dest, exist_ok=True)
-    local = os.path.join(dest, "lirical_raw_outputs.tar.gz")
+    got = []
     # Retry: SFTP over this link occasionally short-reads, and one optional artefact failing must
     # not abort the whole package build. Size is verified against the remote stat, not assumed.
-    for attempt in (1, 2, 3):
-        t = None
-        try:
-            # Constructing the Transport already opens the socket, so it must be inside the guard:
-            # an unreachable VM is a warning, never a reason to abandon the package.
-            t = paramiko.Transport((host, 22))
-            t.connect(username=user, password=pw)
-            sftp = paramiko.SFTPClient.from_transport(t)
-            expect = sftp.stat(remote).st_size
-            # Chunked read rather than sftp.get(): the prefetch path short-reads reproducibly on
-            # this link, and a truncated archive is worse than none.
-            with sftp.open(remote, "rb") as rf, open(local, "wb") as wf:
-                rf.prefetch(expect)
-                while True:
-                    block = rf.read(32768)
-                    if not block:
-                        break
-                    wf.write(block)
-            got = os.path.getsize(local)
-            if got == expect:
-                print(f"  + VM: {os.path.basename(local)} ({got / 1e6:.1f} MB)")
-                return local
-            print(f"  ! VM transfer short ({got} != {expect}), attempt {attempt}")
-        except Exception as exc:                                     # noqa: BLE001
-            print(f"  ! VM fetch failed on attempt {attempt}: {exc}")
-        finally:
-            if t is not None:
-                t.close()
-    print("  ! VM artefact not collected; the deposit is complete without it (the derived LIRICAL "
-          "rankings are already in benchmarks/diagnosis_arm/lirical_run/lirical_ranked.tsv)")
-    if os.path.exists(local):
-        os.remove(local)
-    return None
+    for name, local_name in VM_ARTIFACTS:
+        remote = f"/home/{user}/lirical_run/{name}"
+        local = os.path.join(dest, local_name)
+        for attempt in (1, 2, 3):
+            t = None
+            try:
+                # Constructing the Transport already opens the socket, so it must be inside the
+                # guard: an unreachable VM is a warning, never a reason to abandon the package.
+                t = paramiko.Transport((host, 22))
+                t.connect(username=user, password=pw)
+                sftp = paramiko.SFTPClient.from_transport(t)
+                expect = sftp.stat(remote).st_size
+                # Chunked read rather than sftp.get(): the prefetch path short-reads reproducibly
+                # on this link, and a truncated archive is worse than none.
+                with sftp.open(remote, "rb") as rf, open(local, "wb") as wf:
+                    rf.prefetch(expect)
+                    while True:
+                        block = rf.read(32768)
+                        if not block:
+                            break
+                        wf.write(block)
+                size = os.path.getsize(local)
+                if size == expect:
+                    print(f"  + VM: {local_name} ({size / 1e6:.1f} MB)")
+                    got.append(local)
+                    break
+                print(f"  ! VM transfer short ({size} != {expect}), attempt {attempt}")
+            except Exception as exc:                                     # noqa: BLE001
+                print(f"  ! VM fetch of {name} failed on attempt {attempt}: {exc}")
+            finally:
+                if t is not None:
+                    t.close()
+        else:
+            print(f"  ! VM artefact {name} not collected; the deposit is complete without it (the "
+                  f"derived LIRICAL rankings are already in "
+                  f"benchmarks/diagnosis_arm/lirical_run/lirical_ranked.tsv)")
+            if os.path.exists(local):
+                os.remove(local)
+    return got
 
 
 # ------------------------------------------------------------------------------------------
@@ -190,9 +204,20 @@ def build(out_root, skip_vm=False):
             sys.argv = argv
     for sub in ("figures", "tables"):
         target = os.path.join(dep, sub)
-        if os.path.isdir(target):
-            shutil.rmtree(target)
-        shutil.copytree(os.path.join(pkg, sub), target)
+        # Google Drive holds directory handles open, so rmtree raises PermissionError on a synced
+        # path. Overwrite in place instead, then drop anything no longer produced, so a renamed or
+        # deleted display item does not linger in the deposit.
+        src = os.path.join(pkg, sub)
+        try:
+            shutil.copytree(src, target, dirs_exist_ok=True)
+            for stale in set(os.listdir(target)) - set(os.listdir(src)):
+                path = os.path.join(target, stale)
+                shutil.rmtree(path) if os.path.isdir(path) else os.remove(path)
+        except OSError as exc:
+            # Drive occasionally holds a directory handle open mid-sync, and a display item that
+            # failed to refresh must be visible rather than silently stale.
+            print(f"  ! {sub}/ could not be refreshed in the deposit ({exc.strerror}); "
+                  f"the copy under manuscript_files/{sub}/ is current, the deposit copy may not be")
 
     # ---- deposit: configs --------------------------------------------------------------
     print("deposit: configs")
@@ -225,6 +250,7 @@ def build(out_root, skip_vm=False):
     b = os.path.join(dep, "benchmarks")
     for src, sub in (
             ("bench/phase_r_variant_metrics.json", "variant_arm"),
+            ("bench/calibration_folds.json", "variant_arm"),
             ("bench/track1b_erepo_metrics.json", "variant_arm"),
             ("bench/track1_metrics.json", "variant_arm"),
             ("bench/track1_variant_headtohead.csv", "variant_arm"),
@@ -255,6 +281,7 @@ def build(out_root, skip_vm=False):
     print("deposit: harnesses")
     code = os.path.join(dep, "code", "harnesses")
     for src in ("bench/phase_r_variant.py", "bench/phase_r_gene_term_sensitivity.py",
+                "core/stats.py", "figures/make_excel_tables.py", "figures/make_document_s1.py",
                 "bench/track1_variant_headtohead.py", "bench/track1b_erepo_headtohead.py",
                 "bench/track3_trustworthiness.py", "eval/gene_only_baseline.py",
                 "eval/phenotype_tool_comparison.py", "eval/lirical_arm.py",
@@ -269,6 +296,11 @@ def build(out_root, skip_vm=False):
     for fn in sorted(os.listdir(os.path.join(ROOT, "docs"))):
         if fn.endswith(".md"):
             copy(os.path.join(ROOT, "docs", fn), d)
+    # The compiled supplement and the Excel display items travel with the record, and also sit at
+    # the package root: these are the files the journal is uploaded, not just archived copies.
+    for dest in (os.path.join(dep, "supplemental"), os.path.join(pkg, "supplemental")):
+        copy(os.path.join(ROOT, "figures", "Document_S1_Supplemental_Information.pdf"), dest)
+        copy(os.path.join(ROOT, "figures", "excel"), dest, name="excel_tables")
     copy(os.path.join(ROOT, "docs", "DISCERN_OSF_PreRegistration_v1.md"),
          os.path.join(dep, "preregistration"))
 
@@ -327,6 +359,7 @@ terms, gene, and expected diagnosis only.
 |---|---|
 | Variant AUROC and CIs, DeLong test | `benchmarks/variant_arm/phase_r_variant_metrics.json` |
 | Calibration, raw and calibrated, all tools | `benchmarks/variant_arm/phase_r_variant_metrics.json` |
+| The out-of-fold assignment behind the calibration | `benchmarks/variant_arm/calibration_folds.json` |
 | The intrinsic-evidence ceiling and its attribution | same file, `ceiling_attribution` |
 | Per-criterion kappa, GeneBe circularity | `benchmarks/variant_arm/track1b_erepo_metrics.json` |
 | Safety interlock, diagnosis calibration | `benchmarks/trustworthiness/track3_metrics.json` |
@@ -334,6 +367,7 @@ terms, gene, and expected diagnosis only.
 | HPO representability (13 of 48 features) | `benchmarks/diagnosis_arm/phenotype_tool_comparison.json` |
 | LIRICAL arms and the fix-invariance assertion | `benchmarks/diagnosis_arm/lirical_arm.json` |
 | LIRICAL raw per-case output | `benchmarks/diagnosis_arm/lirical_run/` |
+| The exact LIRICAL commands, one per case | `benchmarks/diagnosis_arm/lirical_run/lirical_run_commands.sh` |
 | Gene-term sensitivity sweep | `benchmarks/gene_term/phase_r_gene_term_sensitivity.json` |
 | The 33.2% inflation figure | regenerate with `code/harnesses/erepo_genomewide.py` |
 | The evidence partition itself | `configs/partition_map.json` |
@@ -344,9 +378,13 @@ terms, gene, and expected diagnosis only.
 1. Clone the repository at the commit above, or install the code record.
 2. Re-pull the third-party sources at the versions in `data_manifests/` and verify the md5s.
 3. Run the harnesses in `code/harnesses/`. Each writes the JSON it is named for.
-4. Regenerate the display items: `python -m figures.make_figures` and `python -m figures.make_tables`.
-5. `pytest` locks every headline number; `tests/test_phase_r.py` and `tests/test_docs_claims.py`
-   fail if a value drifts or a retired claim is reasserted.
+4. Regenerate the display items. From a clone of the code record, `python -m figures.make_figures`,
+   `python -m figures.make_tables`, `python -m figures.make_excel_tables` and
+   `python -m figures.make_document_s1`. Copies of those scripts are in `code/harnesses/` here for
+   reading; run them from the code record, not from this directory, since they import the package.
+5. Re-run the test suite **from the code record** - `tests/` is part of Record A and is deliberately
+   not duplicated here. `tests/test_phase_r.py` and `tests/test_docs_claims.py` fail if a reported
+   value drifts or a retired claim is reasserted.
 
 ## Read this first
 
@@ -422,7 +460,12 @@ the citable artefact.
 
 def _tree(root, prefix="", depth=0, max_depth=2):
     out = []
-    entries = sorted(os.listdir(root))
+    try:
+        entries = sorted(os.listdir(root))
+    except OSError as exc:
+        # A directory that cannot be listed is worth recording in the tree, but it must not take
+        # the build down with it: the file map is descriptive, not load-bearing.
+        return [f"{prefix}[unreadable: {exc.strerror}]"]
     dirs = [e for e in entries if os.path.isdir(os.path.join(root, e))]
     files = [e for e in entries if not os.path.isdir(os.path.join(root, e))]
     for d in dirs:
@@ -436,22 +479,26 @@ def _tree(root, prefix="", depth=0, max_depth=2):
 
 
 def write_readmes(pkg, dep, sha, short):
-    with open(os.path.join(dep, "LICENSE-data.txt"), "w", encoding="utf-8") as fh:
-        fh.write(LICENSE_DATA)
     src_lic = os.path.join(ROOT, "LICENSE")
     if os.path.exists(src_lic):
         shutil.copy2(src_lic, os.path.join(dep, "LICENSE-code.txt"))
-    with open(os.path.join(dep, "CITATION.cff"), "w", encoding="utf-8") as fh:
-        fh.write(CITATION_CFF.format(version=VERSION))
     os.makedirs(os.path.join(dep, "code"), exist_ok=True)
-    with open(os.path.join(dep, "code", "README.md"), "w", encoding="utf-8") as fh:
-        fh.write(CODE_README.format(version=VERSION, sha=sha))
-    with open(os.path.join(dep, "README.md"), "w", encoding="utf-8") as fh:
-        fh.write(DEPOSIT_README.format(version=VERSION, sha=sha,
-                                       tree="\n".join(_tree(dep))))
-    with open(os.path.join(pkg, "README.md"), "w", encoding="utf-8") as fh:
-        fh.write(PACKAGE_README.format(version=VERSION, sha=sha, short=short,
-                                       tree="\n".join(_tree(pkg, max_depth=1))))
+
+    # Render every file before opening any of them. Opening for write truncates, so rendering
+    # inside the `with` would leave an empty file behind if the substitution raised - which is
+    # exactly how a zero-byte README once shipped in the deposit.
+    written = {
+        os.path.join(dep, "LICENSE-data.txt"): LICENSE_DATA,
+        os.path.join(dep, "CITATION.cff"): CITATION_CFF.format(version=VERSION),
+        os.path.join(dep, "code", "README.md"): CODE_README.format(version=VERSION, sha=sha),
+        os.path.join(dep, "README.md"): DEPOSIT_README.format(
+            version=VERSION, sha=sha, tree="\n".join(_tree(dep))),
+        os.path.join(pkg, "README.md"): PACKAGE_README.format(
+            version=VERSION, sha=sha, short=short, tree="\n".join(_tree(pkg, max_depth=1))),
+    }
+    for path, text in written.items():
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(text)
 
 
 PACKAGE_README = """# DISCERN Paper 1 - manuscript files
@@ -473,13 +520,18 @@ python -m deploy.build_submission_package
 
 | Item | What it is |
 |---|---|
-| `DISCERN_Paper1_Manuscript_v2.md` | the manuscript. All 21 references verified; the only placeholders left are the by-line and the three DOIs |
-| `DISCERN_Paper1_Submission_Package.md` | the submission plan: corrections, consistency checks, figure and table specifications, journal-required statements, submission sequence |
+| `DISCERN_Paper1_HGG_Advances_SUBMISSION.md` | **the manuscript to submit**, in HGG Advances format: unstructured abstract, Material and methods, Web resources, display items cited in order. The remaining placeholders are the by-line, the funding sanction number, and the three DOIs |
+| `DISCERN_Paper1_HGG_Advances_COVER_LETTER.md` | the cover letter, ready apart from the date, the corresponding-author block, and the preprint DOI |
+| `DISCERN_Paper1_HGG_Advances_v3.md` | the drafting version this was assembled from |
+| `DISCERN_Display_Items_and_Deposit_Audit.md` | the pre-submission audit of every display item and of the deposit, with the action list it generated |
+| `DISCERN_Paper1_Manuscript_v2.md` | the preceding generic-journal version, kept for provenance |
+| `DISCERN_Paper1_Submission_Package.md` | the submission plan: corrections, consistency checks, display-item specifications, journal-required statements, submission sequence |
 | `DISCERN_PreSubmission_Analysis_Plan_PhaseR.md` | the Phase R plan with its dispositions filled in |
 | `DISCERN_Zenodo_Deposit_Manifest.md` | the original deposit design |
-| `figures/` | Figures 1-6 and S1-S4, vector PDF plus 300 dpi PNG, generated from committed JSON |
-| `tables/` | Tables 1-3 and S1-S8 as CSV, generated from the same sources |
-| `zenodo_deposit/` | the supporting-data record, ready to upload |
+| `figures/` | Figures 1-6 and S1-S5, vector PDF plus 300 dpi PNG, generated from committed JSON |
+| `tables/` | Tables 1-3 and S1-S9 as CSV, generated from the same sources |
+| `supplemental/` | what the journal receives as supplemental material: `Document_S1_Supplemental_Information.pdf` (methods, legends, Figures S1-S5, the inline supplemental tables) and `excel_tables/` (Tables S3, S5, S7, S9, too large to typeset) |
+| `zenodo_deposit/` | the supporting-data record, ready to upload. `MANIFEST.md` inside it lists every file with its md5 |
 
 ## Version
 
@@ -489,19 +541,26 @@ been tagged. v1.0.0 is the right label once the paper is submitted and the ident
 
 ## Before submitting
 
-Ordered, because several steps depend on the one before:
+Target journal is **HGG Advances** (Cell Press). Ordered, because several steps depend on the one
+before, and every item here needs the author - none can be produced from the repository:
 
-1. Fill the by-line: authors, order, corresponding author, ORCIDs, exact unit name.
-2. Write the journal-required statements listed in the submission package section 6 (ethics, consent,
-   competing interests, funding, CRediT contributions, acknowledgements, abbreviations).
+1. Fill the by-line: authors, order, corresponding author, ORCIDs, exact unit name, and the
+   institutional PIN and email the submission form asks for.
+2. Supply the VIT funding sanction number, then complete the remaining declarations: ethics,
+   consent, competing interests, CRediT contributions, acknowledgements.
 3. Time-stamp the OSF pre-registration -> **OSF DOI**. This also clears Gate G12 and must precede any
    cohort analysis.
 4. Enable the repository in Zenodo, then cut GitHub release `{version}-paper1` -> **code DOI**.
    Order matters: Zenodo only snapshots releases created after the integration is switched on.
 5. Upload `zenodo_deposit/` as a Zenodo Dataset record -> **data DOI**.
 6. Insert all three DOIs into the manuscript's Data and Code Availability section.
-7. Re-run the reproducibility checklist from a clean clone at the tag.
-8. Post the preprint, then submit.
+7. Reformat the reference list into Cell Press style, and run each reference through Retraction
+   Watch.
+8. Re-run the reproducibility checklist from a clean clone at the tag.
+9. Nominate suggested reviewers, and request the APC waiver in the submission form if applicable.
+10. Post the preprint, then submit `DISCERN_Paper1_HGG_Advances_SUBMISSION.md` as the manuscript,
+    the contents of `figures/` as the display items, and `supplemental/` as the supplemental
+    material.
 
 ## A note on scope
 
@@ -513,6 +572,50 @@ deposit records every disposition, including the unfavourable ones.
 """
 
 
+# Descriptions for the manifest. Exact relative paths win; otherwise the longest matching path
+# prefix applies, so a directory rule covers everything under it without listing each file.
+FILE_NOTES = {
+    "README.md": "what this deposit is, how it is organised, and how to reproduce it",
+    "MANIFEST.md": "this file",
+    "CITATION.cff": "machine-readable citation metadata",
+    "LICENSE-code.txt": "licence covering the code record (MIT)",
+    "LICENSE-data.txt": "licence covering the data record (CC BY 4.0)",
+    "benchmarks/diagnosis_arm/lirical_run/lirical_run_commands.sh":
+        "the exact LIRICAL 2.4.1 invocation for all 23 cases, one line per case, as run on the VM",
+    "benchmarks/diagnosis_arm/lirical_run/lirical_raw_outputs.tar.gz":
+        "raw per-case LIRICAL output, unmodified, as produced by the commands above",
+}
+DIR_NOTES = {
+    "benchmarks/variant_arm": "variant-arm benchmark output: metrics, per-variant scores, and the "
+                              "published calibration fold assignment",
+    "benchmarks/diagnosis_arm": "diagnosis-arm benchmark output, including the LIRICAL comparison "
+                                "and its per-case rankings",
+    "benchmarks": "benchmark harness output, as written by the harnesses themselves",
+    "code": "the analysis code as committed, with the harnesses that produce every reported number",
+    "configs/vcep_specs": "VCEP specifications the engine applies, one file per panel",
+    "configs/cluster_definitions": "confusable-disease cluster definitions and their likelihood "
+                                   "ratios, each entry sourced to a PMID",
+    "configs": "engine configuration as run",
+    "data_manifests": "third-party sources with URL, version and role; none is redistributed here",
+    "docs": "the Phase R record, the claims map, and the supplemental methods and legends",
+    "figures": "Figures 1-6 and S1-S5 as vector PDF and 300 dpi PNG, generated from committed JSON",
+    "preregistration": "the pre-registered analysis plan and its gates",
+    "supplemental/excel_tables": "the large supplemental tables as formatted spreadsheets",
+    "supplemental": "Document S1 and the supplemental tables supplied separately",
+    "tables": "Tables 1-3 and S1-S9 as CSV, generated from the same sources as the figures",
+}
+
+
+def describe(rel):
+    if rel in FILE_NOTES:
+        return FILE_NOTES[rel]
+    best = ""
+    for prefix in DIR_NOTES:
+        if rel.startswith(prefix + "/") and len(prefix) > len(best):
+            best = prefix
+    return DIR_NOTES.get(best, "")
+
+
 def write_manifest(dep):
     rows = []
     for base, _dirs, files in os.walk(dep):
@@ -520,15 +623,21 @@ def write_manifest(dep):
             if f == "MANIFEST.md":
                 continue
             p = os.path.join(base, f)
-            rows.append((os.path.relpath(p, dep).replace("\\", "/"), os.path.getsize(p), md5(p)))
+            rel = os.path.relpath(p, dep).replace("\\", "/")
+            rows.append((rel, os.path.getsize(p), md5(p), describe(rel)))
     rows.sort()
     total = sum(r[1] for r in rows)
+    undescribed = [r[0] for r in rows if not r[3]]
     with open(os.path.join(dep, "MANIFEST.md"), "w", encoding="utf-8") as fh:
-        fh.write("# MANIFEST\n\nEvery file in this deposit with its size and md5 checksum.\n\n")
+        fh.write("# MANIFEST\n\nEvery file in this deposit with its size, md5 checksum, and what it "
+                 "is.\n\nVerify an archive is intact by recomputing the checksums:\n\n"
+                 "```\nfind . -type f ! -name MANIFEST.md -exec md5sum {} + | sort -k2\n```\n\n")
         fh.write(f"{len(rows)} files, {total / 1e6:.1f} MB total.\n\n")
-        fh.write("| file | bytes | md5 |\n|---|---|---|\n")
-        for rel, size, h in rows:
-            fh.write(f"| `{rel}` | {size} | `{h}` |\n")
+        fh.write("| file | bytes | md5 | description |\n|---|---|---|---|\n")
+        for rel, size, h, note in rows:
+            fh.write(f"| `{rel}` | {size} | `{h}` | {note} |\n")
+    if undescribed:
+        print(f"  ! {len(undescribed)} file(s) have no manifest description, e.g. {undescribed[:3]}")
     return len(rows), total
 
 
