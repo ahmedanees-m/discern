@@ -201,6 +201,22 @@ def test_ceiling_attribution_separates_partition_from_missing_inputs():
 
 
 PR_LIRICAL = os.path.join(HERE, "..", "eval", "lirical_arm.json")
+PR_FOLDS = os.path.join(HERE, "..", "bench", "calibration_folds.json")
+
+
+@pytest.mark.skipif(not os.path.exists(PR_FOLDS), reason="calibration_folds.json not generated")
+def test_the_published_fold_assignment_proves_the_calibration_is_out_of_sample():
+    """R1 must be checkable, not merely asserted: verify the emitted folds satisfy their invariants."""
+    m = json.load(open(PR_FOLDS, encoding="utf-8"))
+    tests = [set(f["test_indices"]) for f in m["folds"]]
+    union = set().union(*tests)
+    assert len(union) == m["n_variants"]                       # every variant held out
+    assert sum(len(t) for t in tests) == len(union)            # exactly once, no overlap
+    for f in m["folds"]:
+        assert not (set(f["train_indices"]) & set(f["test_indices"]))
+        assert len(f["train_indices"]) + len(f["test_indices"]) == m["n_variants"]
+    assert m["n_pathogenic"] + m["n_benign"] == m["n_variants"]
+    assert len(m["variant_index"]) == m["n_variants"]
 
 
 @pytest.mark.skipif(not os.path.exists(PR_LIRICAL), reason="lirical_arm.json not generated")

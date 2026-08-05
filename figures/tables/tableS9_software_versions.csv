@@ -1,0 +1,22 @@
+component,version,role in this work,resource
+DISCERN,0c9a22d44ff3eebe9b8edc2f5a58bf4b29f60184,this work,https://github.com/ahmedanees-m/discern
+Python,3.12.10,runtime,
+numpy,2.4.6,arithmetic and resampling,
+scipy,1.16.3,"binomial test, normal quantiles",
+scikit-learn,1.7.2,"isotonic calibration, AUROC, Brier, kappa",
+matplotlib,3.10.7,figure rendering,
+PyYAML,6.0.3,cluster and specification loading,
+ruff,0.15.12 (pinned in CI),lint,
+LIRICAL,2.4.1,external phenotype-driven comparator,https://github.com/TheJacksonLaboratory/LIRICAL
+eclipse-temurin JRE,17,container runtime for LIRICAL,
+REVEL,as bundled in the GeneBe annotation cache,PP3/BP4 missense signal,
+AlphaMissense,"hg38 release, Zenodo record 8360242",alternative missense predictor,https://zenodo.org/records/8360242
+gnomAD,v4.0 constraint metrics; v2.1.1/v4 allele frequencies,population frequency,https://gnomad.broadinstitute.org
+ClinGen eRepo,2026 snapshot,expert-panel truth surface,https://erepo.clinicalgenome.org
+ClinVar,20260503,"supporting surface, blinded in the primary protocol",https://www.ncbi.nlm.nih.gov/clinvar
+Human Phenotype Ontology,2026 release,HPO terms and gene-disease annotation,https://hpo.jax.org
+ANNOVAR,as used for the prior InterVar comparison,annotation for the H4 arm,
+InterVar,prior full-database run,ACMG classifier comparator,
+CHAMP / CHBMP,2022 variant lists,independent F8/F9 truth,https://www.cdc.gov/hemophilia-data/champ-mutation-project/
+
+NOTE: Generated on the machine that produced the deposit. DISCERN's own commit is the authoritative version: 0c9a22d44ff3eebe9b8edc2f5a58bf4b29f60184. Python package versions record the environment the committed results were produced in; continuous integration pins ruff and installs the remainder from pyproject.toml.

@@ -39,6 +39,7 @@ from rules.acmg_codes import code_points
 
 HERE = os.path.dirname(__file__)
 OUT_JSON = os.path.join(HERE, "phase_r_variant_metrics.json")
+FOLDS_JSON = os.path.join(HERE, "calibration_folds.json")
 
 N_BOOT = 1000
 LP_POINTS = 6.0
@@ -437,7 +438,52 @@ def run():
     }
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=2)
+    export_calibration_folds(mis_pb)
     return out
+
+
+def export_calibration_folds(mis_pb, path: str = FOLDS_JSON):
+    """Write the actual fold assignment, so out-of-sample calibration can be checked not trusted.
+
+    Reporting an expected calibration error and asserting it was estimated out-of-fold asks a
+    reviewer to take the protocol on faith. This emits the assignment itself: for every variant,
+    which fold held it out, plus the training and evaluation index sets. Anyone can confirm that no
+    variant appears in two evaluation folds, that every variant is held out exactly once, and that
+    no evaluation index appears in its own training set.
+    """
+    y = [r["label"] for r in mis_pb]
+    folds = shared_folds(y)
+    assignment = {}
+    for i, (_tr, te) in enumerate(folds):
+        for idx in te.tolist():
+            assignment[str(idx)] = i
+    payload = {
+        "description": ("Out-of-fold assignment behind every calibration figure reported for the "
+                        "eRepo-primary surface. Index i refers to the i-th variant of the missense "
+                        "pathogenic/benign set, in the order bench/track1b_erepo_headtohead.load_rows "
+                        "yields them; variant_index below gives the key for each."),
+        "protocol": {"method": "isotonic regression", "n_splits": N_FOLDS, "stratified": True,
+                     "shuffle": True, "seed": SEED,
+                     "fit_on": "training folds only", "reported_on": "held-out folds only"},
+        "n_variants": len(mis_pb),
+        "n_pathogenic": int(sum(y)), "n_benign": int(len(y) - sum(y)),
+        "variant_index": [
+            {"i": i, "gene": r.get("gene"), "chr": r.get("chr"), "pos": r.get("pos"),
+             "ref": r.get("ref"), "alt": r.get("alt"), "erepo_class": r.get("assertion"),
+             "label": r.get("label"), "held_out_in_fold": assignment[str(i)]}
+            for i, r in enumerate(mis_pb)],
+        "folds": [{"fold": i, "n_train": len(tr), "n_test": len(te),
+                   "train_indices": sorted(tr.tolist()), "test_indices": sorted(te.tolist())}
+                  for i, (tr, te) in enumerate(folds)],
+        "invariants_a_reader_can_check": [
+            "every variant appears in exactly one test_indices set",
+            "no index appears in both train_indices and test_indices of the same fold",
+            "the union of all test_indices is the full variant set",
+        ],
+    }
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, indent=2)
+    return path
 
 
 def main():

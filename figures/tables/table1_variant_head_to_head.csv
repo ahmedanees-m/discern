@@ -4,11 +4,13 @@ REVEL (raw),eRepo-primary,425,0.9536,[0.931-0.972],0.0919,[0.079-0.121],0.081,0.
 REVEL (calibrated),eRepo-primary,425,0.9536,[0.931-0.972],0.0429,[0.030-0.073],0.0732,0.287,"yes (post-hoc, needs labels)",no,no,no,yes
 AlphaMissense (raw),eRepo-primary,424,0.9315,[0.906-0.953],0.1674,[0.135-0.200],0.1383,,n/a,no,no,no,yes
 AlphaMissense (calibrated),eRepo-primary,424,0.9315,[0.906-0.953],0.0288,[0.024-0.065],0.0939,,"yes (post-hoc, needs labels)",no,no,no,yes
+GeneBe (circularity exhibit),eRepo-primary,425,1.0,,,,,,no (class only),yes,yes,no,NO - consumes ClinVar
 DISCERN,time-split,383,0.9272,[0.882-0.961],0.0186,[0.012-0.049],0.0646,,yes (as delivered),yes,yes,yes,yes
 REVEL (raw),time-split,383,0.9511,[0.924-0.973],0.091,[0.080-0.125],0.0807,0.154,n/a,no,no,no,yes
 REVEL (calibrated),time-split,383,0.9511,[0.924-0.973],0.0339,[0.025-0.068],0.0768,0.154,"yes (post-hoc, needs labels)",no,no,no,yes
 AlphaMissense (raw),time-split,382,0.9292,[0.901-0.955],0.1801,[0.146-0.216],0.1438,,n/a,no,no,no,yes
 AlphaMissense (calibrated),time-split,382,0.9292,[0.901-0.955],0.031,[0.024-0.067],0.0883,,"yes (post-hoc, needs labels)",no,no,no,yes
+GeneBe (circularity exhibit),time-split,383,1.0,,,,,,no (class only),yes,yes,no,NO - consumes ClinVar
 InterVar (by citation),prior ClinVar set,,0.811,,,,,,no (class only),yes,yes,no,yes
 BIAS-2015 (by citation),published eRepo metrics,,,,,,,,no (class only),yes,yes,no,yes
 

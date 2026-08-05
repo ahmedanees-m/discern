@@ -482,10 +482,124 @@ def figS4_champ_chbmp(outdir):
     return _save(fig, outdir, "figS4_champ_chbmp_recall")
 
 
+
+def figS5_worked_example(outdir):
+    """One case end to end: the safety interlock preventing a documented harm.
+
+    A platelet-type von Willebrand case. The gene is GP1BA; the contraindicated disease, type 2B,
+    is a VWF disease. Because safety is adjudicated gene-blind, the hard stop still fires even
+    though type 2B holds only one percent of the posterior - which is the whole argument for the
+    interlock, rendered on a single case. Every value is read from a live engine call, so the panel
+    cannot drift from the implementation.
+    """
+    from core.dx_schemas import Feature, FeatureKind
+    from jointdx.factorgraph import Evidence
+    from jointdx.orchestrate import diagnose
+    from rules.vcep.partition import owner
+
+    ev = Evidence(
+        variant_gene="GP1BA", variant_id="GP1BA:c.X", genetic_codes=["PM2"],
+        clinical=[Feature("ripa_low_dose_enhanced", FeatureKind.LAB, True, observed=True),
+                  Feature("ripa_mixing_platelet_origin", FeatureKind.LAB, True, observed=True),
+                  Feature("ripa_mixing_plasma_origin", FeatureKind.LAB, False, observed=False),
+                  Feature("thrombocytopenia", FeatureKind.CLINICAL, True, observed=True)])
+    rec = diagnose(ev, planned_tx="ddavp", n_mc=400)
+    ranked = sorted(rec.posterior.p_disease.items(), key=lambda kv: -kv[1][1])
+    names = {d.id: d.name for d in rec.posterior.cluster.diseases}
+
+    fig = plt.figure(figsize=(7.4, 5.4))
+    gs = fig.add_gridspec(2, 2, height_ratios=[1.05, 1], width_ratios=[1, 1.15],
+                          hspace=0.42, wspace=0.28)
+
+    # A - what went in
+    ax = fig.add_subplot(gs[0, 0])
+    ax.axis("off")
+    ax.set_title("A  Evidence supplied", loc="left", fontweight="bold")
+    lines = [("gene", "GP1BA", BLUE),
+             ("variant", "missense, absent from gnomAD", BLUE),
+             ("low-dose RIPA", "enhanced", GREEN),
+             ("RIPA mixing study", "platelet origin", GREEN),
+             ("plasma origin", "ABSENT (pertinent negative)", ORANGE),
+             ("platelet count", "thrombocytopenia", GREEN),
+             ("planned therapy", "desmopressin (DDAVP)", VERM)]
+    for i, (k, v, c) in enumerate(lines):
+        y = 0.93 - i * 0.145
+        ax.text(0.0, y, k, fontsize=6.4, color=GREY)
+        ax.text(0.52, y, v, fontsize=6.4, color=c,
+                fontweight="bold" if c in (VERM, ORANGE) else "normal")
+    ax.set_xlim(0, 1.45)
+    ax.set_ylim(0.0, 1.02)
+
+    # B - criterion trail, with the owning factor
+    ax = fig.add_subplot(gs[0, 1])
+    ax.axis("off")
+    ax.set_title("B  Criterion trail and factor ownership", loc="left", fontweight="bold")
+    applied = list(ev.genetic_codes)
+    withheld = [("PP4", "phenotype specificity"), ("PS3", "functional assay"),
+                ("PM5", "same residue, ClinVar-blinded"), ("PS4", "case-control counts")]
+    ax.text(0.0, 0.92, "applied", fontsize=6.6, fontweight="bold", color=BLUE)
+    for i, code in enumerate(applied):
+        ax.text(0.05, 0.80 - i * 0.11, f"{code}  ->  {owner(code).replace('_', ' ')}",
+                fontsize=6.4)
+    base = 0.80 - len(applied) * 0.11 - 0.06
+    ax.text(0.0, base, "not applied here", fontsize=6.6, fontweight="bold", color=ORANGE)
+    for i, (code, why) in enumerate(withheld):
+        fac = owner(code) or "?"
+        ax.text(0.05, base - 0.12 - i * 0.115, f"{code}  ->  {fac.replace('_', ' ')}   ({why})",
+                fontsize=6.0, color=GREY)
+    ax.text(0.0, base - 0.12 - len(withheld) * 0.115 - 0.04,
+            "variant remains VUS on intrinsic evidence", fontsize=6.4, style="italic", color=VERM)
+    ax.set_xlim(0, 1.25)
+    ax.set_ylim(0, 1)
+
+    # C - the differential
+    ax = fig.add_subplot(gs[1, 0])
+    ids = [d for d, _ in ranked]
+    vals = [v[1] * 100 for _, v in ranked]
+    cols = [BLUE if i == 0 else (VERM if d == "vwd2b" else GREY) for i, d in enumerate(ids)]
+    ax.barh(range(len(ids))[::-1], vals, color=cols, alpha=0.85)
+    for i, (_d, v) in enumerate(zip(ids, vals, strict=False)):
+        ax.text(min(v + 2, 88), len(ids) - 1 - i, f"{v:.1f}%", va="center", fontsize=6.5)
+    ax.set_yticks(range(len(ids))[::-1])
+    ax.set_yticklabels([names.get(d, d).replace(" (pseudo)", "") for d in ids],
+                       fontsize=6.0)
+    ax.set_xlim(0, 108)
+    ax.set_xlabel("posterior probability (%)")
+    ax.set_title("C  Ranked differential", loc="left", fontweight="bold")
+
+    # D - the output that changes management
+    ax = fig.add_subplot(gs[1, 1])
+    ax.axis("off")
+    ax.set_title("D  Decision output", loc="left", fontweight="bold")
+    hard = [f for f in rec.safety_flags if "HARD STOP" in f.message]
+    ax.add_patch(mpatches.FancyBboxPatch((0.0, 0.60), 1.08, 0.34, boxstyle="round,pad=0.015",
+                                         facecolor=VERM, alpha=0.13, edgecolor=VERM, lw=1.3))
+    ax.text(0.04, 0.86, "HARD STOP", fontsize=8, fontweight="bold", color=VERM)
+    if hard:
+        p2b = next((f.p_competitor for f in hard if f.competitor_id == "vwd2b"), None)
+        shown = f"{p2b:.1%}" if p2b else "non-zero"
+        ax.text(0.04, 0.755,
+                "desmopressin is contraindicated if type 2B\n"
+                f"von Willebrand disease, which the gene-blind\n"
+                f"safety view still gives {shown} and has not excluded",
+                fontsize=6.2, va="top")
+    ax.text(0.0, 0.50, "leading call", fontsize=6.6, color=GREY)
+    ax.text(0.0, 0.42, f"{names.get(rec.posterior.leading, rec.posterior.leading).replace(' (pseudo)', '')} "
+                       f"({rec.posterior.confidence:.1%}), decided", fontsize=6.4,
+            fontweight="bold", color=BLUE)
+    ax.text(0.0, 0.30, "variant classification", fontsize=6.6, color=GREY)
+    ax.text(0.0, 0.22, "uncertain significance - abstained", fontsize=6.6)
+    ax.text(0.0, 0.10, "recommended next observation", fontsize=6.6, color=GREY)
+    ax.text(0.0, 0.02, rec.next_observation.name if rec.next_observation else "-",
+            fontsize=6.6, fontweight="bold", color=GREEN)
+    ax.set_xlim(0, 1.25)
+    ax.set_ylim(-0.02, 1)
+    return _save(fig, outdir, "figS5_worked_example")
+
 FIGURES = [fig1_architecture, fig2_discrimination_calibration, fig3_per_criterion_kappa,
            fig4_intrinsic_ceiling, fig5_clinvar_circularity, fig6_diagnosis_baselines,
            figS1_gene_term_sweep, figS2_safety_matrix, figS3_diagnosis_calibration,
-           figS4_champ_chbmp]
+           figS4_champ_chbmp, figS5_worked_example]
 
 
 def main():

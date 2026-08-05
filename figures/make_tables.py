@@ -300,8 +300,57 @@ def tableS8(outdir):
                   "the phenotype_only arm for the architectural claim.")
 
 
+def tableS9(outdir):
+    """Software and tool versions. Reproducibility reviewers check for this specifically."""
+    import platform
+    import subprocess
+
+    def _v(mod):
+        try:
+            return __import__(mod).__version__
+        except Exception:                                            # noqa: BLE001
+            return "not installed in this environment"
+
+    commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True,
+                            text=True).stdout.strip() or "unknown"
+    rows = [
+        ["DISCERN", commit, "this work", "https://github.com/ahmedanees-m/discern"],
+        ["Python", platform.python_version(), "runtime", ""],
+        ["numpy", _v("numpy"), "arithmetic and resampling", ""],
+        ["scipy", _v("scipy"), "binomial test, normal quantiles", ""],
+        ["scikit-learn", _v("sklearn"), "isotonic calibration, AUROC, Brier, kappa", ""],
+        ["matplotlib", _v("matplotlib"), "figure rendering", ""],
+        ["PyYAML", _v("yaml"), "cluster and specification loading", ""],
+        ["ruff", "0.15.12 (pinned in CI)", "lint", ""],
+        ["LIRICAL", "2.4.1", "external phenotype-driven comparator",
+         "https://github.com/TheJacksonLaboratory/LIRICAL"],
+        ["eclipse-temurin JRE", "17", "container runtime for LIRICAL", ""],
+        ["REVEL", "as bundled in the GeneBe annotation cache", "PP3/BP4 missense signal", ""],
+        ["AlphaMissense", "hg38 release, Zenodo record 8360242", "alternative missense predictor",
+         "https://zenodo.org/records/8360242"],
+        ["gnomAD", "v4.0 constraint metrics; v2.1.1/v4 allele frequencies", "population frequency",
+         "https://gnomad.broadinstitute.org"],
+        ["ClinGen eRepo", "2026 snapshot", "expert-panel truth surface",
+         "https://erepo.clinicalgenome.org"],
+        ["ClinVar", "20260503", "supporting surface, blinded in the primary protocol",
+         "https://www.ncbi.nlm.nih.gov/clinvar"],
+        ["Human Phenotype Ontology", "2026 release", "HPO terms and gene-disease annotation",
+         "https://hpo.jax.org"],
+        ["ANNOVAR", "as used for the prior InterVar comparison", "annotation for the H4 arm", ""],
+        ["InterVar", "prior full-database run", "ACMG classifier comparator", ""],
+        ["CHAMP / CHBMP", "2022 variant lists", "independent F8/F9 truth",
+         "https://www.cdc.gov/hemophilia-data/champ-mutation-project/"],
+    ]
+    return _write(outdir, "tableS9_software_versions",
+                  ["component", "version", "role in this work", "resource"], rows,
+                  f"Generated on the machine that produced the deposit. DISCERN's own commit is the "
+                  f"authoritative version: {commit}. Python package versions record the environment "
+                  f"the committed results were produced in; continuous integration pins ruff and "
+                  f"installs the remainder from pyproject.toml.")
+
+
 TABLES = [table1, table2, table3, tableS1, tableS2, tableS3, tableS4, tableS5, tableS6, tableS7,
-          tableS8]
+          tableS8, tableS9]
 
 
 def main():
