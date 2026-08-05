@@ -1,4 +1,4 @@
-"""Odyssey simulator harness (plan Phase 2.8 / 6.2).
+"""Odyssey simulator harness.
 
 These assertions validate the harness and the *defensible* findings only - VOI beats
 the naive (random) baseline, graceful-degradation saves cost, and VOI uses no more

@@ -54,7 +54,7 @@ ClinVar-derived codes (the ClinVar-blinded protocol).
   coupling motivation). It does not over-call.
 - **GeneBe:** abstention 1%, accuracy-on-resolved 1.000, MCC 1.000 - because it reproduces ClinVar.
 
-**The ClinVar-circularity finding (plan section 0, guard #2 - made empirical):**
+**The ClinVar-circularity finding:**
 GeneBe's `acmg_score` is perfectly separable on this ClinVar P/B set (benign max -1, pathogenic min
 +4) and its class matches the ClinVar direction on **337/337 resolved calls**. The named ClinVar codes
 (PP5/BP6) appear on only 12% of calls, yet the AUROC stays 1.000 even on the PP5/BP6-name-blind subset
@@ -226,4 +226,4 @@ python -m bench.track1_variant_headtohead     # -> bench/track1_*.{csv,json}
 python -m bench.track3_trustworthiness        # -> bench/track3_*.{json,csv}
 python -m pytest tests/test_bench.py -q        # regression guards on the headline numbers
 ```
-All comparator data is public; no patient data is used (Gate G7).
+All comparator data is public; no patient data is used.

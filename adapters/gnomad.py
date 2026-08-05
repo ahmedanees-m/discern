@@ -1,4 +1,4 @@
-"""gnomAD adapter - PM2 / BS1 / BA1 (plan Step 1.1).
+"""gnomAD adapter - PM2 / BS1 / BA1.
 
 Ancestry-resolved population frequency, mapped to ACMG codes via the gene's VCEP
 allele-frequency thresholds:

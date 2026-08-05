@@ -1,7 +1,7 @@
 # DISCERN - Pre-Registration Protocol v1 (DRAFT for OSF)
 
 **Status:** DRAFT. To be time-stamped on the Open Science Framework (osf.io) **before any
-cohort data is analysed** (Gate G12). No paired-cohort data has been examined at the time of
+cohort data is analysed**. No paired-cohort data has been examined at the time of
 registration. **Author:** Anees Ahmed Mahaboob Ali (`ahmedanees-m`). **Date drafted:** 2026-06-13.
 
 ## 1. Background & the claim under test
@@ -37,7 +37,7 @@ tested so the result is credible whether positive or negative.
 - **BRIDGE-BPD** EGA `EGAS00001001172` ("Sequencing of heritable Bleeding and Platelet
   Disorders"; Downes 2019, PMID 31064749) - NIHR BioResource DAC.
 - **80-patient ITP cohort** (Joshi/Cooper, Blood Adv 2025;9(7):1497, PMID 39808791) - DAC.
-- **a controlled-access paired cohort** - controlled access, aggregate-only, no patient data in public artifacts (Gate G7).
+- **a controlled-access paired cohort** - controlled access, aggregate-only, no patient data in public artifacts.
 - Truth labels: ClinVar `variant_summary` review-status 2-star+; VCEP classifications.
 
 ## 5. Pre-specified analysis

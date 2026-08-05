@@ -1,4 +1,4 @@
-"""CI guard for the ERepo per-code eval (plan validation cleanup).
+"""CI guard for the ERepo per-code eval.
 
 Runs eval/erepo_reconstruction.run on a tiny hand-built ERepo fixture (including
 bundled-code variants). Asserts the partition vocabulary covers every applied code

@@ -1,4 +1,4 @@
-"""Phenopacket Store diagnosis benchmark (plan section 3A, Tier A; PhEval-compatible).
+"""Phenopacket Store diagnosis benchmark.
 
 Runs DISCERN on the bleeding-cluster subset of the open GA4GH Phenopacket Store: for each
 real published case it takes the causal gene and the HPO terms (observed and excluded) and

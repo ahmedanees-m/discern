@@ -1,4 +1,4 @@
-"""Verifiable learning loop - Bayesian prior updating (plan Step 5.2).
+"""Verifiable learning loop - Bayesian prior updating.
 
 Only the action cost/yield/attainability *priors* update from realized outcomes - the
 verdict logic is NEVER opaquely retrained. Each update is a Beta-Bernoulli posterior

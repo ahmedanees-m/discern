@@ -1,4 +1,4 @@
-"""autoPVS1 adapter - PVS1 (plan Step 1.4).
+"""autoPVS1 adapter - PVS1.
 
 Wraps autoPVS1 (github.com/JiguangPeng/autopvs1, GPL-3.0) to assign PVS1 strength for
 null variants per the ClinGen SVI null-variant decision tree, honoring gene-specific

@@ -1,4 +1,4 @@
-"""Partial-input mode (plan Phase 6b) - the equity-load-bearing feature.
+"""Partial-input mode - the equity-load-bearing feature.
 
 The settings that most need disambiguation have the least complete structured input, so
 usefulness cannot assume clean inputs. DISCERN runs on any subset of

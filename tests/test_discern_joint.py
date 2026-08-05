@@ -1,4 +1,4 @@
-"""DISCERN Phase 3: the coupled joint model (the novel core) + circularity guarantee."""
+"""Coupled joint model and the circularity guarantee."""
 from core.dx_schemas import Feature, FeatureKind, VariantState
 from diseases.ontology import cluster_for
 from jointdx.factorgraph import Evidence, joint
@@ -46,7 +46,7 @@ def test_functional_upgrades_vus():
     assert old is VariantState.VUS
 
 
-# ---- the per-code circularity guarantee (Gate G3) ----
+# ---- the per-code circularity guarantee ----
 def test_each_code_enters_once():
     cluster = cluster_for("integrin")
     base = Evidence(variant_gene="ITGB3", genetic_codes=["PVS1", "PM2"],

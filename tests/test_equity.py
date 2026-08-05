@@ -1,4 +1,4 @@
-"""Phase 3 equity: reliability down-weighting, routing, ancestry, dashboard."""
+"""Equity layer: reliability down-weighting, routing, ancestry, dashboard."""
 from core.schemas import (
     Action,
     EvidenceContribution,

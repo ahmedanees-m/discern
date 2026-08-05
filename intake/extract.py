@@ -1,4 +1,4 @@
-"""Free-text -> HPO extractor with pertinent-negative capture (plan Phase 8.1).
+"""Free-text -> HPO extractor with pertinent-negative capture.
 
 The legitimate LLM soft task: turn a clinical narrative into HPO terms, capturing both
 **present** and **explicitly excluded** features (pertinent negatives - "no leukocytosis"

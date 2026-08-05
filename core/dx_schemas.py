@@ -1,4 +1,4 @@
-"""DISCERN data model - the coupled disease x variant vocabulary (plan Section 3).
+"""DISCERN data model - the coupled disease x variant vocabulary.
 
 Extends the base core data model (`core/schemas.py`) with the disease-discrimination
 types. The engine's output is named ``DxRecommendation`` to avoid colliding with the
@@ -94,7 +94,7 @@ class SafetyFlag:
 
 @dataclass
 class DxRecommendation:
-    """The engine's output (plan Section 3 `Recommendation`)."""
+    """The engine's output."""
 
     posterior: JointPosterior
     reclassified_variants: dict = field(default_factory=dict)   # variant_id -> (old, new, drivers)

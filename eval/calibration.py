@@ -1,4 +1,4 @@
-"""Calibration - reliability diagram + Expected Calibration Error (plan Section A.5).
+"""Calibration - reliability diagram + Expected Calibration Error.
 
 The engine's *promises* (predicted posterior / predicted yield) must be calibrated,
 not just its classifications. Bins predicted probabilities and compares to observed

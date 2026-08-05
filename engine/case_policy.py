@@ -1,7 +1,7 @@
-"""Whole-odyssey case policy (plan Phase 4 / design Section 4.5).
+"""Whole-odyssey case policy.
 
 Lifts the engine from single-variant to whole-case decisions. Routes by failure mode:
-  * interpretation failure (a VUS candidate exists) -> variant-level VOI (Phase 2);
+  * interpretation failure (a VUS candidate exists) -> variant-level VOI;
   * detection failure (no candidate / missing second hit / hard region) -> modality
     escalation (long-read / optical / RNA / methylation);
 and decides whether to stop/report, wait (reanalysis), or matchmake.
@@ -39,7 +39,7 @@ def _best_modality(names: list[str], done: set[str]) -> ModalityAction | None:
 
 def decide_case(state: CaseState) -> CasePlan:
     """Pick the next whole-case step (variant resolution vs modality escalation vs wait)."""
-    # Interpretation failure: an interpretable VUS exists -> resolve it (Phase 2 VOI).
+    # Interpretation failure: an interpretable VUS exists -> resolve it.
     if state.has_vus_candidate:
         return CasePlan("variant_voi", None,
                         "Interpretable VUS present -> resolve via variant-level value-of-information.")

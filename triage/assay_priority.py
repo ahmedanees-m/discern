@@ -1,4 +1,4 @@
-"""Scientist-facing VUS-triage (plan Phase 10.1).
+"""Scientist-facing VUS-triage.
 
 Of all the VUS in a cohort, which - if functionally assayed - would resolve the **most**
 diagnoses (highest expected information gain toward resolution)? This turns DISCERN into a

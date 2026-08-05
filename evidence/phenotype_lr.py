@@ -1,4 +1,4 @@
-"""Phenotype likelihood ratios with pertinent negatives (plan Phase 1.2; LIRICAL-style).
+"""Phenotype likelihood ratios with pertinent negatives.
 
 For each observed HPO feature, LR(term | disease) = freq(term | disease) / freq(term | bg).
 A **pertinent negative** (an explicitly *absent* term, ``observed=False``) contributes

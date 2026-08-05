@@ -1,5 +1,5 @@
 # Curated published-case benchmark (v3.1 Track B4; expanded 2026-06-17). REAL published cases,
-# CITATIONS ONLY - no patient identifiers (Gate G7). Each case = the presenting discriminating
+# CITATIONS ONLY - no patient identifiers. Each case = the presenting discriminating
 # features (as DISCERN feature ids), the cluster, the causal gene, the true diagnosis, and the
 # source PMID. Features are the documented presentation of the cited case TYPE, not any individual's
 # record. Every PMID was independently re-verified against NCBI E-utilities on 2026-06-17 (author/

@@ -1,4 +1,4 @@
-"""Phenotype adapter - PP4 (plan Step 1.7).
+"""Phenotype adapter - PP4.
 
 Computes semantic similarity between the patient's HPO terms and the gene-disease HPO
 profile (Resnik IC over the HPO DAG, best-match-average between the two term sets), then

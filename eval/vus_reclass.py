@@ -1,4 +1,4 @@
-"""VUS-reclassification accuracy (plan Phase 9.2) - the falsifiable headline metric.
+"""VUS-reclassification accuracy - the falsifiable headline metric.
 
 % of input VUS reclassified by the joint disease model, **concordant with the VCEP/ClinVar
 3-star truth**. This turns "mitigates VUS" from a slogan into a number (the v2 thesis,

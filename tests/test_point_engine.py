@@ -1,4 +1,4 @@
-"""Deterministic classification band checks (plan Section A.1)."""
+"""Deterministic classification band checks."""
 from core.schemas import Classification, EvidenceContribution, PointsLedger, Strength, Variant
 from rules.point_engine import classify
 

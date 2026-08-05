@@ -1,4 +1,4 @@
-"""Domain-agnosticism (Phase 7 packs) + API handlers (Section 9)."""
+"""Domain-agnosticism + API handlers (Section 9)."""
 from api.main import handle_case, handle_classify, handle_recommend
 from core.schemas import EvidenceContribution, PatientContext, PointsLedger, Strength, Variant
 from engine.recommend import recommend_next_action

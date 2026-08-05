@@ -1,4 +1,4 @@
-"""Stats (Phase 6.1), learning loop (Phase 5.2), and whole-odyssey policy (Phase 4)."""
+"""Stats, learning loop, and whole-odyssey policy."""
 from engine.case_policy import CaseState, decide_case
 from eval.stats import bootstrap_ci, mcnemar, wilcoxon_signed_rank
 from learn.outcome_store import Outcome, OutcomeStore

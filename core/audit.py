@@ -1,4 +1,4 @@
-"""Immutable, hash-chained audit ledger (plan Step 5.1, gate G6).
+"""Immutable, hash-chained audit ledger.
 
 Every classification, recommendation, and LLM call is appended here with a hash
 linking it to the previous entry, so the full reasoning trace is tamper-evident

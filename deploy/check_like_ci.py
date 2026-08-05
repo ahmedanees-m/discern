@@ -2,7 +2,7 @@
 
 A working tree is not the repository. `app/`, the root `Dockerfile`, `tests/test_app.py` and
 `manuscript/` are gitignored on purpose, so a local `ruff check .` and a local `pytest` both cover
-files CI never receives - and, less obviously, ruff's own import classification changes when a
+files CI never receives. Ruff's import classification also changes when a
 package directory is present, which once made a file lint clean locally and fail in CI.
 
 This materialises the tracked-file set into a temporary directory and runs the CI commands there.

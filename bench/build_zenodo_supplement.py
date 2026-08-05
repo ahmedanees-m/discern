@@ -1,4 +1,4 @@
-"""Assemble the DISCERN Paper 1 Zenodo supporting-data supplement (DISCERN_Zenodo_Deposit_Manifest).
+"""Assemble the Zenodo supporting-data supplement.
 
 Deposits DERIVED results + variant IDs + public labels + manifests + configs + figures. It never
 copies a raw third-party database (eRepo/ClinVar/gnomAD/REVEL/AlphaMissense/CHAMP-CHBMP), never any
@@ -464,7 +464,7 @@ def gen_coupling_poc():
                 0.208,
                 0.082,
                 0.126,
-                "directionally consistent; motivates the cohort study (Gate G13)",
+                "directionally consistent; motivates the cohort study",
             ]
         )
 

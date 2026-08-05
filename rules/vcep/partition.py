@@ -1,4 +1,4 @@
-"""Per-code ACMG partition - the deep circularity fix (plan Phase 1.1 / Section A.1 / Gate G3).
+"""Per-code ACMG partition - the deep circularity fix.
 
 A VCEP bottom-line label bundles PS3 (functional), PP4 (phenotype), PM3 (phasing),
 PP1 (segregation) etc. - the very codes DISCERN owns in *other* factors. Consuming the
@@ -19,13 +19,13 @@ def _register(factor: str, codes: list[str]) -> None:
 
 
 # variant-intrinsic: everything about the variant itself (frequency, in-silico, null,
-# same-residue) - enters P(E_geno | V) in the genetic factor (Phase 1.1).
+# same-residue) - enters P(E_geno | V) in the genetic factor.
 _register("variant_intrinsic",
           ["PM2", "BS1", "BA1", "PP3", "BP4", "PVS1", "PM5", "PS1", "PM4", "BP3", "BP7",
            "PM1", "PS4", "PP2", "BP1", "PP5", "BP6", "BS2", "BP5"])
-# PP4 -> the disease->variant coupling P(V|D) (Phase 3); never added in the genetic factor.
+# PP4 -> the disease->variant coupling P(V|D); never added in the genetic factor.
 _register("disease_pp4", ["PP4"])
-# functional -> P(E_func | D, V) (Phase 3); touches both disease and variant, counted once.
+# functional -> P(E_func | D, V); touches both disease and variant, counted once.
 _register("functional", ["PS3", "BS3"])
 # segregation / phasing / de-novo -> next-observation factors; enter only when performed.
 _register("segregation", ["PP1", "BS4"])

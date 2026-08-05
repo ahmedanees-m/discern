@@ -1,4 +1,4 @@
-"""Evidence-gap & conflict analysis (plan Phase 2.1 / design Section 4.1).
+"""Evidence-gap & conflict analysis.
 
 A VUS is an evidence deficit (not enough points either way) or an evidence conflict
 (opposing codes). This module:
@@ -87,7 +87,7 @@ def detect_conflict(ledger: PointsLedger) -> ConflictReport:
 
 
 # Modalities that provide *orthogonal* evidence - used to break VUS-by-conflict by
-# acquiring an independent readout rather than stacking more of the same (design Section 6).
+# acquiring an independent readout rather than stacking more of the same.
 ORTHOGONAL_MODALITIES = {"functional", "rna", "segregation"}
 
 

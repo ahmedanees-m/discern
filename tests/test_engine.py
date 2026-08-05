@@ -1,4 +1,4 @@
-"""Phase 2 decision core: gap, mechanism-aware action mapping, VOI, recommend."""
+"""Decision core: gap, mechanism-aware action mapping, VOI, recommend."""
 from core.schemas import EvidenceContribution, PatientContext, PointsLedger, Strength, Variant
 from engine.action_map import actions_for_code, expand_actions
 from engine.gap import attainable_codes, detect_conflict, gap_to_target
@@ -62,7 +62,7 @@ def test_conflict_detection():
     assert detect_conflict(led).in_conflict
 
 
-# ---- end-to-end recommendation (design doc Glanzmann example) ----
+# ---- end-to-end recommendation ----
 def test_recommend_glanzmann_flow_cytometry():
     led = _vus_ledger([("PM2", Strength.PM), ("PP3", Strength.PP)])   # VUS at +3
     rec = recommend_next_action(led, PatientContext(), mechanism="integrin_expression")

@@ -1,4 +1,4 @@
-"""Phase 2 completeness vs design doc: risk gate, Pareto, conflict, recessive, audit."""
+"""Decision core completeness: risk gate, Pareto, conflict, recessive, audit."""
 from core.audit import AuditLedger
 from core.schemas import (
     Action,

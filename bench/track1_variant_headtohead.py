@@ -1,4 +1,4 @@
-"""TRACK 1 - variant arm head-to-head (DISCERN_Benchmark_Execution_Plan_v1).
+"""Variant-arm head-to-head against current tools.
 
 Compares DISCERN against the current ACMG/predictor tool set on the missense / VUS-adjacent axis -
 the surface where intrinsic tools actually differ. Tools:

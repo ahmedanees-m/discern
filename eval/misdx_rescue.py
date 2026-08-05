@@ -1,8 +1,8 @@
-"""Management-aware misdiagnosis-rescue (plan Phase 9.3) - case-control.
+"""Management-aware misdiagnosis-rescue - case-control.
 
 On documented **mislabelled** cases ("2B"->PT-VWD; "ITP"->BSS), does DISCERN flag the
 danger from the **pre-correction** evidence (corrected label hidden, no leakage)? Reported
-as small / not powered, pre-registered (Gate G6).
+as small / not powered, pre-registered.
 """
 from __future__ import annotations
 

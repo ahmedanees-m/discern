@@ -1,4 +1,4 @@
-"""Phenotype PP4 adapter (plan Step 1.7)."""
+"""Phenotype PP4 adapter."""
 from adapters.phenotype import PhenotypeAdapter
 from core.adapter import EvidenceAdapter
 from core.schemas import PatientContext, Strength, Variant

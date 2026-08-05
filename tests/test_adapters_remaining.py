@@ -1,4 +1,4 @@
-"""Remaining Phase 1 adapters: insilico, splice, autopvs1, mave, litmine, prioritizer."""
+"""Remaining evidence adapters: insilico, splice, autopvs1, mave, litmine, prioritizer."""
 from adapters.autopvs1 import AutoPVS1Adapter
 from adapters.insilico import InSilicoAdapter, revel_strength
 from adapters.litmine_pm3 import LitMineAdapter, MinedEvidence

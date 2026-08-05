@@ -1,4 +1,4 @@
-"""Evidence-reliability flags (plan Phase 3, Step 3.1).
+"""Evidence-reliability flags.
 
 Documented fact: non-European-ancestry patients receive VUS results 1.5-2x more
 often, driven by the allele-frequency (PM2/BS1) and in-silico (PP3/BP4) codes being

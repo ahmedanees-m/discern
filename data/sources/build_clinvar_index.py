@@ -1,4 +1,4 @@
-"""Build a PS1/PM5 lookup index from the kept ClinVar variant_summary (plan Step 1.5).
+"""Build a PS1/PM5 lookup index from the kept ClinVar variant_summary.
 
 PS1 = same amino-acid change as a known pathogenic variant.
 PM5 = a *different* pathogenic missense at the *same* residue.

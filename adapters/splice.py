@@ -1,4 +1,4 @@
-"""Splice adapter - PP3 / BP4 / BP7 + RNA-resolvable flag (plan Step 1.3).
+"""Splice adapter - PP3 / BP4 / BP7 + RNA-resolvable flag.
 
 Scores splice impact with Pangolin (github.com/tkzeng/Pangolin, GPL-3.0) against the
 VCEP cutoffs, and - crucially for the synonymous-but-not-silent ITGB3 class of case -

@@ -2,7 +2,7 @@ name: release
 
 # Build the service images and push them to GHCR on a version tag, so anyone can
 # `docker compose -f deploy/compose.vm.yml up` and reproduce. A GitHub Release also
-# triggers the GitHub-Zenodo integration to mint a DOI (plan Phase 8).
+# triggers the GitHub-Zenodo integration to mint a DOI.
 on:
   push:
     tags: ["v*"]

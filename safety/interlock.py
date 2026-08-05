@@ -1,4 +1,4 @@
-"""Management-aware misdiagnosis / treatment-safety interlock (plan Phase 5 / Section A.3).
+"""Management-aware misdiagnosis / treatment-safety interlock.
 
 Fires on **treatment danger**, not posterior gap: a small probability of a
 *treatment-changing* competitor fires; a large probability of a management-irrelevant one

@@ -1,5 +1,5 @@
 # DISCERN worker image - async long jobs (batch validation, reanalysis
-# sweeps, simulator runs). Plan Phase 9. Shares the engine code with the API image.
+# sweeps, simulator runs). Shares the engine code with the API image.
 FROM python:3.11-slim
 WORKDIR /app
 ENV PYTHONUNBUFFERED=1 PYTHONPATH=/app

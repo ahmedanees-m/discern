@@ -1,4 +1,4 @@
-"""Disease ontology + discrimination-cluster loader (plan Phase 2).
+"""Disease ontology + discrimination-cluster loader.
 
 Loads the provenance-tagged discrimination clusters (six YAML files) into
 ``DiscriminationCluster`` objects, and routes a patient to the relevant cluster(s) by

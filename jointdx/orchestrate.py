@@ -1,4 +1,4 @@
-"""End-to-end orchestration - one auditable diagnose() call (plan Phase 8.2).
+"""End-to-end orchestration - one auditable diagnose() call.
 
 route -> joint -> abstain -> safety flags -> next observation -> assemble. Returns a
 ``DxRecommendation`` with the ranked diagnosis (credible intervals), the measured VUS

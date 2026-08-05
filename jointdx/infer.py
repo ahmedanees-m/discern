@@ -1,4 +1,4 @@
-"""Inference over the joint posterior (plan Phase 3.1 / 3.2).
+"""Inference over the joint posterior.
 
 Marginals P(D|E)=Sum_V and P(V|E)=Sum_D from the joint, the leading disease with its
 confidence, and VUS reclassification (old->new state with drivers) - the measured,

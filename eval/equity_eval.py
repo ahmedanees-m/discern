@@ -1,4 +1,4 @@
-"""Ancestry-stratified resolution-gap evaluation (plan Section A.5, Step 6.2).
+"""Ancestry-stratified resolution-gap evaluation.
 
 Measures the gap in resolution rate across genetic-similarity groups, with bootstrap
 CIs, and compares the equity-aware config vs the non-equity-aware one. Target: the

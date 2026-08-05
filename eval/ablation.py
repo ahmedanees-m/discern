@@ -1,9 +1,9 @@
-"""Core ablation - full system vs underlying-tools-only (plan Step 6.1, headline).
+"""Core ablation - full system vs underlying-tools-only.
 
 Paired comparison on identical cases: does the decision/orchestration layer add VUS
 resolution and/or reduce cost/time over using the same tools WITHOUT it? Metrics +
 paired statistics (McNemar on resolution, Wilcoxon on cost/time). **Pre-register
-before running** (gate G4); report negatives.
+before running**; report negatives.
 """
 from __future__ import annotations
 

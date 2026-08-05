@@ -4,7 +4,7 @@ Generalizes eval/erepo_reconstruction.py by dropping the bleeding-cluster gene r
 the partition (rules/vcep/partition.owner) is gene-agnostic, so it runs over EVERY eRepo
 variant. Reports the two A1 hypotheses:
 
-  H1 (Gate G9) - partition vocabulary coverage genome-wide: recognized_codes / total_codes,
+  H1 - partition vocabulary coverage genome-wide: recognized_codes / total_codes,
      with the ENUMERATED uncovered code vocabulary (the <=1% the partition does not map).
   H2 - inflation-prevented rate genome-wide with a Wilson 95% CI: among variants carrying a
      non-genetic owned code, how many a naive all-codes band would push above the

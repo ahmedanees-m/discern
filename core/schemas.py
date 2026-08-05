@@ -1,8 +1,7 @@
 """Core data model for DISCERN.
 
-Defined once; used by every phase (plan Section 3). These dataclasses are the shared
-vocabulary between the evidence adapters (Phase 1), the deterministic rule engine
-(Phase 0), and the value-of-information decision core (Phase 2).
+Defined once and shared by the evidence adapters, the deterministic rule engine, and the
+value-of-information decision core.
 """
 from __future__ import annotations
 

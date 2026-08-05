@@ -1,4 +1,4 @@
-"""Equity reporting (plan Phase 3, Step 3.2).
+"""Equity reporting.
 
 Per-case and cohort-level metrics quantifying how much of a classification rests on
 ancestry-biased vs ancestry-equitable evidence, and the resolution-rate gap across

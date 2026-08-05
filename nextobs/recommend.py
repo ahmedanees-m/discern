@@ -1,4 +1,4 @@
-"""Cheapest decisive next observation (plan Phase 6 / Section A.2) - usefulness-load-bearing.
+"""Cheapest decisive next observation - usefulness-load-bearing.
 
 Ranks candidate observations (lab / functional **+ segregation + phasing**) by expected
 information gain over the JOINT P(D,V|E) - one score that values disease-resolving and

@@ -1,4 +1,4 @@
-"""PHASE R - variant-arm robustness, run before submission.
+"""Variant-arm robustness checks, run before submission.
 
 Three questions a methods reviewer asks first, answered on the same eRepo expert-panel surface
 Track 1' scores:
@@ -47,7 +47,7 @@ N_FOLDS = 5
 SEED = 0
 
 # ClinGen-calibrated REVEL thresholds (Pejaver 2022): the supporting-evidence bands, which give the
-# most generous (highest-coverage) two-sided rule a REVEL-only classifier could honestly run.
+# most generous (highest-coverage) two-sided rule a REVEL-only classifier could run.
 REVEL_PATH_SUPPORTING = 0.644
 REVEL_BENIGN_SUPPORTING = 0.290
 
@@ -292,8 +292,8 @@ def ceiling_attribution(mis_pb):
 
 
 def added_value(rows_all, mis_pb, discern_oof):
-    """Outputs DISCERN produces that a ranking score structurally cannot - and, honestly, the
-    places where the ACMG framework's own conservatism costs it against a free-running score."""
+    """Outputs DISCERN produces that a ranking score structurally cannot, and the places where
+    the ACMG framework's conservatism costs it against a free-running score."""
     y = [r["label"] for r in mis_pb]
 
     # (a) the ACMG band itself, checked against the expert panel's band direction

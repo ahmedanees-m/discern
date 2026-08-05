@@ -1,4 +1,4 @@
-"""Literature-mining adapter - PM3 / PS4 (plan Step 1.5).
+"""Literature-mining adapter - PM3 / PS4.
 
 AutoPM3 (Bioinformatics 2025, PMC12263107) extracts PM3 evidence (in trans with a
 pathogenic variant) from literature via LLM + RAG; RAG over literature also supports

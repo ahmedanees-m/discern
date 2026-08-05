@@ -2,7 +2,7 @@
 
 Runs DISCERN over the hand-curated, citation-only case set (`eval/cases/curated_cases.yaml`)
 and reports Top-1 / Top-3 diagnosis accuracy + abstention. Small-n BY DESIGN (the cohorts
-carry the headline; Gate B/C). No patient identifiers are used (Gate G7).
+carry the headline; Gate B/C). No patient identifiers are used.
 
 Run:  python3 -m eval.curated_case_benchmark
 """

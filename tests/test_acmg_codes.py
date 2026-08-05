@@ -1,4 +1,4 @@
-"""ACMG code-string -> points parsing (plan Step 0.2 / Gate G1)."""
+"""ACMG code-string -> points parsing."""
 from rules.acmg_codes import code_points, contributions_from_codes
 from rules.point_engine import classify
 

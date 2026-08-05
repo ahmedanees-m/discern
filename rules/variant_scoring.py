@@ -5,7 +5,7 @@ against the gene's CSpec thresholds (the loader's per-gene af, PM2 strength, and
 PP3/BP4 cut-offs), applies the variant-dependent PVS1 (Abou Tayoun et al. 2018 decision tree)
 and PS4 (case-control OR / proband-ratio) strength trees, sums Tavtigian points, and returns the
 band. Predictors (gnomAD AF, REVEL, Pangolin/SpliceAI, AlphaMissense) are INJECTABLE via the
-Annotations object; missing predictors degrade gracefully to reduced confidence (Gate G2).
+Annotations object; missing predictors degrade gracefully to reduced confidence.
 
 Routed codes (PP4/PS3/PM3/PP1) are deliberately NOT assembled here - they belong to the other
 DISCERN factors (the per-code partition). The computational cut-offs live in each spec's

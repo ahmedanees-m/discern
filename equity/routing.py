@@ -1,4 +1,4 @@
-"""Equitable-evidence routing (plan Phase 3, Step 3.2 / design Section 3.7).
+"""Equitable-evidence routing.
 
 In action selection, the engine penalizes actions whose only yield is a
 low-reliability (ancestry-biased) code, and prefers ancestry-robust actions

@@ -1,4 +1,4 @@
-"""Engine API (plan Section 9 interface contract; Phases 5 / 9).
+"""Engine API.
 
 Endpoints: POST /classify, POST /recommend, POST /case. The deterministic engine
 computes everything; the LLM (if wired) only phrases explanations.
@@ -78,7 +78,7 @@ def handle_case(payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def handle_diagnose(payload: dict[str, Any]) -> dict[str, Any]:
-    """DISCERN coupled disease x variant diagnosis (plan Section 9; Phase 8)."""
+    """DISCERN coupled disease x variant diagnosis."""
     from core.dx_schemas import Feature, FeatureKind
     from jointdx.factorgraph import Evidence
     from jointdx.orchestrate import diagnose

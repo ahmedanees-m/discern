@@ -1,4 +1,4 @@
-"""Genetic-similarity (ancestry) inference (plan Phase 3, Step 3.1).
+"""Genetic-similarity (ancestry) inference.
 
 Infers a genetic-similarity group (NOT self-reported race/ethnicity) by projecting the
 sample onto reference principal components, plus a confidence. The production path uses

@@ -1,4 +1,4 @@
-"""Validation modules: ablation, calibration, equity-eval, retrospective (Phase 6)."""
+"""Validation modules: ablation, calibration, equity-eval, retrospective."""
 from eval.ablation import PairedCase, run_ablation
 from eval.calibration import expected_calibration_error, reliability_curve
 from eval.equity_eval import compare_equity_configs

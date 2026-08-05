@@ -1,4 +1,4 @@
-"""Load gene-specific VCEP specifications into a VCEPSpec (plan Step 0.2 / 0.4).
+"""Load gene-specific VCEP specifications into a VCEPSpec.
 
 A VCEPSpec carries the gene-specific parameters the engine needs: allele-frequency
 thresholds (PM2/BS1/BA1), the prior probability, disease mechanism (for action

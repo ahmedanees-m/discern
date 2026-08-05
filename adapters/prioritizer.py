@@ -1,4 +1,4 @@
-"""Prioritizer adapter - candidate belief state (plan Step 1.8).
+"""Prioritizer adapter - candidate belief state.
 
 Normalizes the output of upstream gene/variant prioritizers (Exomiser, AI-MARRVEL,
 optionally DeepRare) into a common ``CandidateSet``, and records cross-tool

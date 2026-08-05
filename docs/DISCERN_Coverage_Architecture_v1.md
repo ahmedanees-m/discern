@@ -100,7 +100,7 @@ The variant side targets the **full ISTH TIER1 curated panel** (Megy 2019, maint
 - **Coagulation:** F8, F9, F11, F2, F5, F7, F10, F12, F13A1, F13B, FGA, FGB, FGG, LMAN1, MCFD2, GGCX, VKORC1.
 - **Vascular/fibrinolytic (catalog):** SERPINF2, SERPINE1, ENG, ACVRL1, SMAD4, COL3A1.
 
-**Gene-specific ACMG rules (ClinGen VCEPs) that anchor the coupled variant call** - already partly extracted (v2): Platelet Disorders VCEP (**ITGA2B/ITGB3**, **GP1BA**/BSS), Coagulation Factor Deficiency VCEP (**F8, F9**), von Willebrand Disease VCEP (**VWF**), RUNX1 VCEP (**RUNX1**). Genes outside a VCEP fall back to general ACMG with reduced confidence (Gate G2) - and the genome-wide validation (A1) reports exactly how many panel variants that affects.
+**Gene-specific ACMG rules (ClinGen VCEPs) that anchor the coupled variant call** - already partly extracted (v2): Platelet Disorders VCEP (**ITGA2B/ITGB3**, **GP1BA**/BSS), Coagulation Factor Deficiency VCEP (**F8, F9**), von Willebrand Disease VCEP (**VWF**), RUNX1 VCEP (**RUNX1**). Genes outside a VCEP fall back to general ACMG with reduced confidence - and the genome-wide validation (A1) reports exactly how many panel variants that affects.
 
 ---
 

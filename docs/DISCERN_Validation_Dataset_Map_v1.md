@@ -1,4 +1,4 @@
-# DISCERN - Validation Dataset Map v1
+# Validation dataset map
 
 **Date:** 2026-06-15 - **Companion to:** `DISCERN_Coverage_Architecture_v1.md`.
 **Purpose:** the cited, accessibility-tagged catalog of every dataset that can prove DISCERN's two abilities, mapped to the diseases/genes it covers - and a clear statement of which abilities can be validated **now on public data** vs which remain **cohort-gated**.
@@ -7,7 +7,7 @@
 
 ---
 
-## 0. The two abilities -> what each needs
+## Requirements by capability
 
 DISCERN does two coupled jobs; each needs a different kind of truth set:
 
@@ -18,7 +18,7 @@ DISCERN does two coupled jobs; each needs a different kind of truth set:
 
 ---
 
-## PART 1 - Variant / VUS truth datasets (the variant engine) - *mostly public, do now*
+## Part 1. Variant truth datasets, largely public
 
 | Dataset | What it gives | Access | DISCERN coverage / use |
 |---|---|---|---|
@@ -35,7 +35,7 @@ DISCERN does two coupled jobs; each needs a different kind of truth set:
 
 ---
 
-## PART 2 - Diagnosis / paired phenotype+genotype datasets (the coupling) - *mostly gated*
+## Part 2. Paired phenotype and genotype datasets, largely access-controlled
 
 | Dataset | What it gives | Access | Use |
 |---|---|---|---|
@@ -53,7 +53,7 @@ DISCERN does two coupled jobs; each needs a different kind of truth set:
 
 ---
 
-## PART 3 - Functional / orthogonal truth (optional, strengthens VUS claims)
+## Part 3. Functional and orthogonal truth
 
 - **EAHAD structure/function annotations** - per-variant structural/functional consequence for F7/F8/F9/VWF (use as orthogonal support for PS3-type evidence).
 - **MaveDB / ProteinGym (deep mutational scanning)** - *sparse for bleeding genes* (DMS is concentrated on cancer/known genes). **Check per covered gene**; do not assume availability. Where a DMS map exists for a covered gene, it is strong orthogonal functional truth for VUS.
@@ -61,7 +61,7 @@ DISCERN does two coupled jobs; each needs a different kind of truth set:
 
 ---
 
-## PART 4 - Per-cluster data coverage (where we are rich vs thin)
+## Part 4. Per-cluster data coverage
 
 | Cluster | Key genes | Variant truth (Part 1) | Diagnosis truth (Part 2) |
 |---|---|---|---|
@@ -80,13 +80,13 @@ DISCERN does two coupled jobs; each needs a different kind of truth set:
 
 ---
 
-## PART 5 - Bottom line (the answer to "can we get datasets for all of it?")
+## Part 5. Conclusion
 
 - **VUS / variant classification - YES, broadly, now.** Public resources (GoldVariants, EAHAD F7/F8/F9/VWF, LOVD) plus what's in hand (eRepo, ClinVar, gnomAD) cover essentially all common covered genes. The variant engine can be validated *much* more broadly than the current run, with no permissions. **This is the recommended next validation expansion.**
 - **Differential diagnosis & the coupling - PARTIALLY now, fully only gated.** The curated published-case benchmark can grow from ~10 to dozens from public cohort/case literature (improves the diagnosis-accuracy evidence). But the **coupling's headline validation** - calibrated phenotype sharpening the variant call on paired data - still requires the controlled cohorts (BRIDGE-BPD DAC, local Glanzmann IRB). No public dataset substitutes for it.
 - **Ultra-rare clusters (C7/C10)** are data-thin in every database; validated weakly and tagged reduced-confidence.
 
-**One-line summary:** the *variant/VUS* half can be proven far more broadly **right now** with public databases we haven't yet used; the *diagnosis/coupling* half can be incrementally strengthened with curated public cases but is fully provable only on the gated cohorts - exactly the split the plan already encodes.
+The variant half can be validated broadly on public databases. The coupling half can be strengthened with curated published cases but is fully testable only on access-controlled cohorts.
 
 ---
 

@@ -1,4 +1,4 @@
-"""Tavtigian posterior bridge checks (plan Section A.2)."""
+"""Tavtigian posterior bridge checks."""
 from rules.posterior import posterior
 
 

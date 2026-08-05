@@ -1,4 +1,4 @@
-"""Recommendation assembly (plan Phase 2.6 / design Section 4.4).
+"""Recommendation assembly.
 
 Ties the decision core together: from a points ledger + patient context + the gene's
 disease mechanism, it (1) finds attainable evidence codes, (2) maps them to concrete
@@ -77,7 +77,7 @@ def recommend_next_action(ledger: PointsLedger, patient: PatientContext, mechani
         if orth:
             actions = orth
 
-    # Phase 3 equity routing: for under-represented-ancestry patients, route to
+    # Equity routing: for under-represented-ancestry patients, route to
     # ancestry-robust evidence (functional/segregation) over ancestry-biased codes.
     if equity_routing:
         actions = equity_filter(actions, patient)

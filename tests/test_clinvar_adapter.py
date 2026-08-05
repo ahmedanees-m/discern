@@ -1,4 +1,4 @@
-"""ClinVar PS1/PM5 adapter (plan Step 1.5)."""
+"""ClinVar PS1/PM5 adapter."""
 from adapters.clinvar import ClinVarAdapter
 from core.adapter import EvidenceAdapter
 from core.schemas import PatientContext, Variant

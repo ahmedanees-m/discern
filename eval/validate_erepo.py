@@ -3,7 +3,7 @@
 Feeds each eRepo record's *expert-applied* evidence codes through the same
 ``point_engine`` the system uses, and compares the predicted ACMG class to the
 expert's assertion. This validates the combining rule (points -> class) before any
-adapter is trusted (plan Step 0.2, Gate G1).
+adapter is trusted.
 
 Run (on the VM, where the data lives):
     python -m eval.validate_erepo data/raw/erepo/erepo_classifications.tab

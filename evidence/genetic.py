@@ -1,4 +1,4 @@
-"""Genetic evidence stream - variant-intrinsic likelihood (plan Phase 1.1).
+"""Genetic evidence stream - variant-intrinsic likelihood.
 
 Emits a likelihood over ``VariantState`` using **only the variant-intrinsic ACMG codes**
 (PM2/BS1/BA1, PP3/BP4, PVS1, PM5/PS1, PM4/BP3, BP7) scored by the gene's VCEP spec.

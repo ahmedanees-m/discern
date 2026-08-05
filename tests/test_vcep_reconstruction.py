@@ -1,4 +1,4 @@
-"""Gate G3 - VCEP reconstruction with no inflation (plan Phase 9.2 / Section A.1).
+"""Gate G3 - VCEP reconstruction with no inflation.
 
 Feeding the joint model the SAME variant-intrinsic evidence the VCEP had must reconstruct
 the VCEP's variant classification, with no inflation from the bundled codes (PP4/PS3/PP1/

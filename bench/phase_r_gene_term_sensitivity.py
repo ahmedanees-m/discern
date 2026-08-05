@@ -1,4 +1,4 @@
-"""PHASE R - sensitivity of the diagnosis arm to the strength of the P(G | D) gene term.
+"""Sensitivity of the diagnosis arm to the strength of the P(G | D) gene term.
 
 Phase R found that the gene the variant was sequenced in had no effect on the disease posterior:
 P(V | G, D) normalises over the five variant states, so the gene cancelled out on marginalisation

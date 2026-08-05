@@ -2,7 +2,7 @@
 
 Dry-runs the PRE-REGISTERED coupling primary endpoint (coupling vs intrinsic-only VUS
 reclassification) on SIMULATED paired phenotype+variant data, so the analysis pipeline and the
-circularity guard are ready and tested BEFORE any real cohort data is seen (Gate G12). It
+circularity guard are ready and tested BEFORE any real cohort data is seen. It
 proves the pipeline executes and the coupling channel is wired; it makes NO claim that the
 coupling works - that is provable only on paired cohorts and is reported regardless of outcome
 (Gate G13, H6 with its explicit falsification condition).
@@ -70,7 +70,7 @@ def run(cluster_id="integrin", n=300, seed=0) -> CouplingResult:
         n=n, intrinsic_only_path_mass=round(intr_path / n, 4),
         coupled_path_mass=round(coup_path / n, 4),
         intrinsic_invariant_to_phenotype=guard_ok,
-        note="SANITY on synthetic data; the coupling is validated only on paired cohorts (Gate G13).")
+        note="SANITY on synthetic data; the coupling is validated only on paired cohorts.")
 
 
 def main():

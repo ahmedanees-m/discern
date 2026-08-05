@@ -286,7 +286,7 @@ and it is the same finding as R4 and the coupling negative, arriving from a thir
 Re-run at the current commit over the full ClinGen eRepo (`eval/erepo_genomewide.py`):
 
 - 12,240 variants across 170 genes, 38,802 applied evidence codes
-- partition vocabulary coverage 100.0000%, zero uncovered codes (Gate G9)
+- partition vocabulary coverage 100.0000%, zero uncovered codes
 - variants carrying a non-genetic owned code: 6,357 (51.9%)
 - **inflation prevented: 4,068 variants, 33.2%, 95% CI 32.4% - 34.1%** (Wilson)
 
@@ -330,7 +330,7 @@ re-reading a conclusion, the partition prevents re-using the evidence behind one
 
 ## What still needs the author
 
-- OSF time-stamp for the pre-registration (Gate G12)
+- OSF time-stamp for the pre-registration
 - A tagged release to mint the Zenodo code DOI, then the supporting-data DOI
 - The randomized reader-study arms
-- Paired-cohort access for the coupling endpoint H6 (Gate G13)
+- Paired-cohort access for the coupling endpoint H6

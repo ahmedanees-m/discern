@@ -1,4 +1,4 @@
-"""ClinVar adapter - PS1 / PM5 (plan Step 1.5).
+"""ClinVar adapter - PS1 / PM5.
 
 PS1: the variant's amino-acid change is already classified Pathogenic/Likely
      pathogenic in ClinVar (same AA change, established as damaging).

@@ -1,4 +1,4 @@
-"""Validation statistics (plan Section A.5 / Step 6.1).
+"""Validation statistics.
 
 Paired tests for the headline ablation (full system vs tools-only on identical cases):
 McNemar (paired binary resolution), Wilcoxon signed-rank (paired cost/time), and

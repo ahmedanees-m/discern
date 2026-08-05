@@ -1,4 +1,4 @@
-"""The coupled disease x variant joint model - THE NOVEL CORE (plan Phase 3 / Section A.1).
+"""The coupled disease x variant joint model.
 
     P(D, V | E) proportional-to
         P(E_pheno | D) - P(E_geno | V) - P(E_func | D, V) - P(V | G, D) - P(G | D) - P(D)

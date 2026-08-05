@@ -1,4 +1,4 @@
-"""Build / verify data/manifest.json (plan Step 0.4).
+"""Build / verify data/manifest.json.
 
 Walks ``data/raw`` and ``data/processed``, records each file's size and md5, and
 writes the result into ``data/manifest.json`` so the reference store is

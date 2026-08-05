@@ -1,4 +1,4 @@
-"""Whole-odyssey (cross-modality) action space (plan Phase 4, Step 4.1).
+"""Whole-odyssey (cross-modality) action space.
 
 Beyond single-variant evidence acquisition, the case-level action space includes
 modality escalations and meta-actions. Each carries cost/turnaround and a
@@ -20,7 +20,8 @@ class ModalityAction:
     note: str = ""
 
 
-# Literature-seeded priors (explicitly versioned; updated per-institution by Phase 5.2).
+# Literature-seeded priors, explicitly versioned and updated per institution by the
+# learning loop.
 MODALITY_CATALOG: list[ModalityAction] = [
     ModalityAction("rna_seq", 900, 28, 0.16, "expression_splicing",
                    "splicing/expression aberrations missed by DNA"),

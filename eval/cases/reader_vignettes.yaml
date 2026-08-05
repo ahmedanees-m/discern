@@ -1,6 +1,6 @@
 # DISCERN reader-study vignette bank (Track 4 of the coupling-proof plan; the lead "does it help"
 # validation). Each vignette is a short, citation-only clinical scenario for the randomized
-# with-vs-without reader study (non-specialist readers); NO patient identifiers (Gate G7). The
+# with-vs-without reader study (non-specialist readers); NO patient identifiers. The
 # features, gene, true diagnosis and PMID are taken verbatim from the verified curated case bank
 # (eval/cases/curated_cases.yaml); the vignette only adds (a) the prose presentation a reader sees,
 # (b) the clinically-correct deciding test (correct_next_obs, a valid observation id in the cluster

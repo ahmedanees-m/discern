@@ -1,4 +1,4 @@
-"""Hash-chained audit ledger integrity (plan Step 5.1)."""
+"""Hash-chained audit ledger integrity."""
 from core.audit import AuditLedger
 
 

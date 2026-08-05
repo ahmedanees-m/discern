@@ -1,10 +1,10 @@
-"""Calibrated decide / abstain policy (plan Phase 4.2 / Section A.4).
+"""Calibrated decide / abstain policy.
 
 DISCERN returns a call **only** when justified; otherwise it says "undecidable - here is
 the deciding observation." Abstain if the max posterior is below threshold, OR the
 credible interval is too wide (sparse LRs), OR a management-divergent competitor is not
 excluded (the link to the safety interlock). The headline safety metric is the
-**confident-and-wrong rate** - measured in Phase 9.
+**confident-and-wrong rate**.
 """
 from __future__ import annotations
 

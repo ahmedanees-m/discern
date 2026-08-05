@@ -1,4 +1,4 @@
-"""DISCERN Phase 8: end-to-end diagnose() orchestration, intake, API."""
+"""end-to-end diagnose() orchestration, intake, API."""
 from api.main import handle_diagnose
 from intake.extract import extract_features
 from jointdx.factorgraph import Evidence

@@ -1,4 +1,4 @@
-"""Parametric odyssey simulator + baseline policies (plan Phase 2.8 / 6.2).
+"""Parametric odyssey simulator + baseline policies.
 
 Generates synthetic VUS cases with a *known* ground-truth label and a set of
 attainable, costed actions (assay sens/spec/cost from the bleeding catalog). A

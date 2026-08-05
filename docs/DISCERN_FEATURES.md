@@ -1,4 +1,4 @@
-# DISCERN - Full Feature Map (start to end)
+# DISCERN feature map
 
 
 > **Superseded in part by Phase R.** Read
@@ -14,30 +14,30 @@
 
 **DISCERN = Diagnostic Inference from Shared-mechanism Coupling of Evidence in Rare Nosology.**
 
-*Every feature: what it tells you, what you feed in, what you get back, how it is computed, the data behind it, and its validation status.*
+Each feature with its inputs, outputs, computation, source data, and validation status.
 
 **Status legend.** Validated (open data) = benchmarked against public reference data, number reported. Cohort-gated = pre-registered, needs a paired phenotype-genotype cohort to claim (Paper 2). Deferred = setup done or scoped but not run, with the reason stated. Not predicted = a measured clinical endpoint that the system never guesses. All probabilities are 0 to 1.
 
 ---
 
-## In one paragraph (the simple version)
+## Summary
 
 Inherited bleeding and platelet disorders are a set of rare diseases that look almost identical at the bedside (they present with bruising, nosebleeds, heavy periods, low platelets) but need very different treatment, and their genetic tests keep coming back "uncertain". DISCERN is a decision-support engine that takes what a clinician already has (the affected gene, a few clinical and laboratory findings, and optionally a specific variant) and returns four things, each computed by rule and never invented: a ranked differential across the look-alike diseases, a calibrated classification of the variant with the exact ACMG criteria applied, a safety alert when the likely diagnosis makes a planned treatment dangerous, and the single next test that would resolve the case. It covers 10 confusable disease clusters, 31 diseases, 29 causal genes on the clinical side, and a 170-gene bleeding/platelet panel on the variant side. Its one hard rule is no fabrication: every number is a tool-computed value with a stated scope, and when the evidence does not support a call the engine abstains and tells you which test would settle it.
 
-## The problem it solves
+## Problem
 
 - **Look-alike diseases, divergent treatment.** Type 2B von Willebrand disease and platelet-type VWD present the same way, but desmopressin helps one and harms the other. Bernard-Soulier syndrome is routinely mistaken for immune thrombocytopenia, leading to unnecessary splenectomy. Inherited thrombocytopenia with leukaemia risk (RUNX1) can be mistaken for ITP, with catastrophic consequences if a relative carrying the same variant is used as a transplant donor. Getting the differential right is treatment-changing.
 - **The variant-of-uncertain-significance (VUS) problem.** Most missense variants in these genes come back as VUS. On the eRepo bleeding set, 974 of 2,239 expert-classified single-nucleotide variants (about 43 percent) are Uncertain Significance. A VUS stalls the diagnosis. DISCERN scores the variant and, where sequence evidence alone cannot cross the threshold, names the functional or phenotype evidence that would.
 - **Double-counting and over-calling.** Many tools re-use the same evidence in more than one place (for example, letting the phenotype both suggest the disease and boost the variant), which manufactures false confidence. DISCERN enforces a strict partition: each piece of evidence is owned by exactly one factor.
 
-## What you feed in (input) and what you get back (output)
+## Inputs and outputs
 
 **Input (all optional except the gene):**
 - Gene (from the covered panel), grouped by disease cluster.
 - Clinical and laboratory features, each marked present, absent (a pertinent negative), or not assessed.
 - A variant: consequence plus REVEL/allele-frequency, or GRCh38 coordinates for an automatic lookup.
 - A planned management action (for example, desmopressin) to check the safety interlock.
-- No patient identifiers, ever (Gate G7).
+- No patient identifiers, ever.
 
 **Output:**
 - **Differential diagnosis:** the diseases in the relevant cluster ranked by posterior probability, with the leading call and a decided-or-abstains verdict.
@@ -48,7 +48,7 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 
 ---
 
-## STAGE 1 - INTAKE (turn a case into structured evidence)
+## Stage 1. Intake
 
 | Feature | What it tells you | How it is computed | Data / source | Output and status |
 |---|---|---|---|---|
@@ -58,7 +58,7 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 
 ---
 
-## STAGE 2 - VARIANT CLASSIFICATION (the ACMG band, calibrated, no double-counting)
+## Stage 2. Variant classification
 
 | Feature | What it tells you | How it is computed | Data / source | Output and status |
 |---|---|---|---|---|
@@ -72,7 +72,7 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 
 ---
 
-## STAGE 3 - DIFFERENTIAL DIAGNOSIS (rank the look-alike diseases)
+## Stage 3. Differential diagnosis
 
 | Feature | What it tells you | How it is computed | Data / source | Output and status |
 |---|---|---|---|---|
@@ -83,17 +83,17 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 
 ---
 
-## STAGE 4 - DISEASE-VARIANT COUPLING (the novel core)
+## Stage 4. Disease-variant coupling
 
 | Feature | What it tells you | How it is computed | Data / source | Output and status |
 |---|---|---|---|---|
 | PP4 coupling | lets a confirmed disease help resolve an uncertain variant | a calibrated phenotype likelihood drives the disease-to-variant link (PP4), tilting the variant posterior on-gene; each ACMG code still enters exactly one factor (the partition holds) | the joint model | reclassification signal - Cohort-gated (Paper 2), pre-registered on OSF |
 | Public proof-of-concept | a first, circularity-safe test of the coupling on open data | three disjoint streams (sequence band / clinical phenotype / independent truth); matched-versus-mismatched lift; the deciding functional finding withheld from the coupling input | Phenopacket Store bleeding subset (PMID 39394689) | Reported: public working set n=2; binary lift 0.0; continuous lift +0.126 (directionally consistent). The public corpus is too thin to power the endpoint, which is what motivates the cohort study |
-| Confirmatory endpoint (H6) | whether the coupling improves VUS reclassification versus intrinsic-only | pre-registered net reclassification improvement on a paired cohort, with an explicit null and the independence audit as a hard gate | BRIDGE-BPD (EGA EGAS00001001172) / an IRB cohort | Cohort-gated - Not claimed until the endpoint is reported on real paired data (Gate G13) |
+| Confirmatory endpoint (H6) | whether the coupling improves VUS reclassification versus intrinsic-only | pre-registered net reclassification improvement on a paired cohort, with an explicit null and the independence audit as a hard gate | BRIDGE-BPD (EGA EGAS00001001172) / an IRB cohort | Cohort-gated - Not claimed until the endpoint is reported on real paired data |
 
 ---
 
-## STAGE 5 - SAFETY INTERLOCK (treatment-divergence hard-stops)
+## Stage 5. Safety interlock
 
 | Feature | What it tells you | How it is computed | Data / source | Output and status |
 |---|---|---|---|---|
@@ -102,7 +102,7 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 
 ---
 
-## STAGE 6 - NEXT-BEST TEST (value of information)
+## Stage 6. Next observation
 
 | Feature | What it tells you | How it is computed | Data / source | Output and status |
 |---|---|---|---|---|
@@ -111,7 +111,7 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 
 ---
 
-## STAGE 7 - TRUSTWORTHINESS (calibration, abstention, selective prediction)
+## Stage 7. Calibration and abstention
 
 | Feature | What it tells you | How it is computed | Data / source | Output and status |
 |---|---|---|---|---|
@@ -122,7 +122,7 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 
 ---
 
-## STAGE 8 - HEAD-TO-HEAD POSITIONING (versus current tools)
+## Stage 8. Comparison with existing tools
 
 | Feature | What it tells you | How it is computed | Data / source | Output and status |
 |---|---|---|---|---|
@@ -135,6 +135,6 @@ Inherited bleeding and platelet disorders are a set of rare diseases that look a
 
 ---
 
-## The one rule across all of it
+## Invariant
 
-Every number above is a tool-computed value with a stated scope. Validated axes are benchmarked on public data with the number reported (negatives included). The coupling is pre-registered and never claimed as clinically validated until its paired-data endpoint is reported (Gate G13). Anything outside scope - a patient's actual bleeding severity, an in-vivo response, a clinical outcome - is a known-unknown that the system does not predict. The product is a traceable answer, or an explicit abstention that names the test which would resolve it, never a fabricated one.
+Every number above is a tool-computed value with a stated scope. Validated axes are benchmarked on public data with the number reported (negatives included). The coupling is pre-registered and never claimed as clinically validated until its paired-data endpoint is reported. Anything outside scope - a patient's actual bleeding severity, an in-vivo response, a clinical outcome - is a known-unknown that the system does not predict. The product is a traceable answer, or an explicit abstention that names the test which would resolve it, never a fabricated one.

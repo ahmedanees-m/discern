@@ -342,7 +342,7 @@ files used, so the pinned inputs can be recovered. This keeps the deposit small 
 while remaining reproducible.
 
 **No patient-level data.** None was used in this work. A local consanguinity-enriched cohort exists
-for Paper 2 under controlled access and appears nowhere here (Gate G7).
+for Paper 2 under controlled access and appears nowhere here.
 
 **No copyrighted case-report text.** The 42-case diagnosis benchmark ships as PMIDs, extracted HPO
 terms, gene, and expected diagnosis only.

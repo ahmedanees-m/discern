@@ -1,4 +1,4 @@
-"""Mechanism-aware code -> action mapping (plan Phase 2.2 / design Section 4.2).
+"""Mechanism-aware code -> action mapping.
 
 Loads a domain action catalog (e.g. action_catalog/bleeding.yaml). The same code
 (PS3) maps to different assays depending on the gene's disease *mechanism* - e.g.

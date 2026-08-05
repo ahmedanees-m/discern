@@ -1,4 +1,4 @@
-"""DISCERN Phase 0/1.1: extended schemas, VCEP loader, per-code partition, genetic factor."""
+"""extended schemas, VCEP loader, per-code partition, genetic factor."""
 from core.dx_schemas import (
     DiscriminationCluster,
     Disease,
@@ -39,7 +39,7 @@ def test_spec_loads_and_reduced_confidence():
     assert f8.covered and f8.inheritance == "XLR"
     runx1 = get_spec("RUNX1")
     assert runx1.covered and "RUNX1" in runx1.genes
-    lad3 = get_spec("FERMT3")          # no VCEP spec -> reduced confidence (Gate G2)
+    lad3 = get_spec("FERMT3")          # no VCEP spec -> reduced confidence
     assert not lad3.covered
 
 

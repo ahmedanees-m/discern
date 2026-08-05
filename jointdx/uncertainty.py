@@ -1,4 +1,4 @@
-"""Sparse-LR uncertainty propagation (plan Phase 4.1 / Section A.4).
+"""Sparse-LR uncertainty propagation.
 
 Each disease-feature frequency is treated as Beta(freq-n+1, (1-freq)-n+1) with n = n_cases
 (the provenance sample size). Monte-Carlo resampling of the frequencies propagates the

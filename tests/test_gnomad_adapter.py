@@ -1,4 +1,4 @@
-"""gnomAD PM2/BS1/BA1 adapter + VCEP loader (plan Step 1.1 / 0.2)."""
+"""gnomAD PM2/BS1/BA1 adapter + VCEP loader."""
 from adapters.gnomad import GnomadAdapter
 from core.adapter import EvidenceAdapter
 from core.schemas import EvidenceContribution, PatientContext, PointsLedger, Strength, Variant

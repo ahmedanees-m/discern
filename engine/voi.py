@@ -1,4 +1,4 @@
-"""Value-of-information scoring - the decision core (plan Phase 2.3 / design Section 4.3).
+"""Value-of-information scoring - the decision core.
 
 From the current points -> posterior `p`. For an action whose positive result adds
 `+k_pos` points and negative adds `-k_neg`, with sensitivity/specificity, we compute:

@@ -13,7 +13,7 @@ def _clin(fid, present):
     return Feature(fid, FeatureKind.CLINICAL, present, observed=present)
 
 
-# ---- Phase 4: abstention ----
+# ---- Abstention ----
 def test_decide_confident_case():
     cluster = cluster_for("integrin")
     ev = Evidence(variant_gene="ITGB3", genetic_codes=["PVS1", "PS1", "PM2"],
@@ -29,7 +29,7 @@ def test_abstain_when_below_confidence_threshold():
     assert not d.decided and "below threshold" in d.reason    # not confident enough -> abstain
 
 
-# ---- Phase 5: management-aware safety ----
+# ---- Management-aware safety ----
 def test_safety_flag_fires_on_treatment_danger():
     cluster = cluster_for("integrin")
     # leaning GT, but LAD-III (HSCT) retains some probability (infections present)
@@ -68,7 +68,7 @@ def test_ddavp_hard_stop_fires_when_contraindicated_disease_is_leading():
     assert "[leading diagnosis]" in hard[0].message
 
 
-# ---- Phase 6: next observation + what-if + partial ----
+# ---- Next observation, what-if, and partial input ----
 def test_next_observation_prefers_management_changing():
     cluster = cluster_for("integrin")
     ev = Evidence(variant_gene="ITGB3", genetic_codes=["PM2"],

@@ -1,4 +1,4 @@
-"""VM orchestration over SSH/SFTP (plan Section 2.4, adapted).
+"""VM orchestration over SSH/SFTP.
 
 Division of labor: the laptop authors code and drives the VM; the VM runs all
 heavy work inside Docker. This helper opens an SSH session and provides SFTP

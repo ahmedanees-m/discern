@@ -1,4 +1,4 @@
-"""Calibrated in-silico adapter - PP3 / BP4 (plan Step 1.2, Section A.3).
+"""Calibrated in-silico adapter - PP3 / BP4.
 
 Maps a single predefined predictor's score to ACMG strength via the *calibrated* local
 posteriors of Pejaver et al. 2022 (AJHG 109:2163) - not a flat "Supporting". One tool

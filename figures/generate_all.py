@@ -1,4 +1,4 @@
-"""Programmatic manuscript figures (plan Phase 8) - 300 dpi, reproducible.
+"""Programmatic manuscript figures - 300 dpi, reproducible.
 
 Generates the headline figures from the deterministic engine + simulator so the paper's
 figures are regenerable from code. Run: ``python -m figures.generate_all``.

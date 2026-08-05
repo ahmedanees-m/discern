@@ -1,5 +1,4 @@
-"""Lab / functional evidence - the one factor that touches BOTH disease and variant
-(plan Phase 1.3 / Section 3.1).
+"""Lab / functional evidence, the one factor that touches both disease and variant.
 
 A functional result (flow %, RIPA pattern, aggregometry, factor activity, smear)
 informs the disease (it fits one disease's predicted pattern) AND the variant (a

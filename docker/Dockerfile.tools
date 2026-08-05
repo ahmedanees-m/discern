@@ -1,4 +1,4 @@
-# DISCERN external-tools image (plan section 2.4). The Docker-only rule means
+# DISCERN external-tools image. The Docker-only rule means
 # every external tool is baked here, not installed on the VM host. Reached via the
 # adapters (autopvs1.py, splice.py, mave.py, ...), which keep the engine tool-agnostic.
 #

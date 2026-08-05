@@ -1,4 +1,4 @@
-# DISCERN - VM deployment stack (plan Phase 9). Docker-only on the VM.
+# DISCERN - VM deployment stack. Docker-only on the VM.
 # Bring up:  docker compose -f deploy/compose.vm.yml up -d --build
 # LLM is cloud Nemotron (NVIDIA NIM) - no local GPU LLM container; api/worker read
 # NVIDIA_API_KEY from the environment (.env, git-ignored). Reference data is bind-

@@ -1,4 +1,4 @@
-"""The swappability contract (plan Step 0.1).
+"""The swappability contract.
 
 Every external tool / data source sits behind an ``EvidenceAdapter`` so it can be
 replaced without touching the engine. Contract tests guarantee this. No primary

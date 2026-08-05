@@ -1,4 +1,4 @@
-"""Build a GRCh38 VCF from the eRepo bleeding SNV set, for Nirvana/BIAS-2015 (Phase A2 Part A).
+"""Build a GRCh38 VCF from the eRepo bleeding SNV set, for Nirvana and BIAS-2015.
 
 Reads bench/data/erepo_bleeding.tsv and writes a sorted, deduplicated, chr-prefixed VCFv4.2 that
 Nirvana (3.18.1) annotates. SNVs only (already filtered upstream). Output: bench/data/erepo_bleeding.vcf

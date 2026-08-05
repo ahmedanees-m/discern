@@ -1,4 +1,4 @@
-"""Points -> posterior probability of pathogenicity (plan Step 0.3, Section A.2).
+"""Points -> posterior probability of pathogenicity.
 
 Tavtigian et al. 2018 Bayesian bridge. Needed by the value-of-information core,
 which reasons over probabilities, not raw points.

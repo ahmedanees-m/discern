@@ -233,7 +233,7 @@ def tableS5(outdir):
                   ["case_id", "source_pmid", "gene", "cluster", "expected_diagnosis",
                    "extracted_hpo_terms", "stratum", "discern_lead", "discern_top1",
                    "gene_lookup_lead", "gene_lookup_top1"], rows,
-                  "PMIDs and extracted HPO terms only. No article text is reproduced (Gate G7).")
+                  "PMIDs and extracted HPO terms only. No article text is reproduced.")
 
 
 def tableS6(outdir):

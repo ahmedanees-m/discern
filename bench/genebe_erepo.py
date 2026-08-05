@@ -1,4 +1,4 @@
-"""Annotate the eRepo bleeding SNV set via GeneBe (Phase A2 Part A) - DISK-FREE (API + cache only).
+"""Annotate the eRepo bleeding SNV set via GeneBe, using the API and a local cache only.
 
 Reuses the cached GeneBe client from Track 1. Resumable; caches to bench/data/genebe_erepo.jsonl.
 Run:  python -m bench.genebe_erepo

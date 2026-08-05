@@ -1,4 +1,4 @@
-"""Interactive what-if (plan Phase 6c).
+"""Interactive what-if.
 
 Shows how the ranking shifts *before* ordering a test - e.g. "RIPA platelet-origin ->
 PT-VWD 95%; plasma-origin -> 2B 90%" - so the clinician sees the value of each outcome

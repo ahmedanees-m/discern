@@ -34,6 +34,6 @@ exposing them publicly.
 
 ## Patient data
 This is decision support, not a medical device. **No real patient data** is stored
-in the repository or in any public or hosted artifact (Gate G7). Public demos run
+in the repository or in any public or hosted artifact. Public demos run
 on synthetic and public data only. No protected health information is written to
 logs or the audit ledger in hosted contexts.

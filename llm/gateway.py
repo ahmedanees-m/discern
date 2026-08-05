@@ -1,4 +1,4 @@
-"""LLM gateway (plan Section 2.5, adapted for cloud Nemotron).
+"""LLM gateway.
 
 Deployment decision for this project: the reasoning/soft-task LLM is the
 **cloud-hosted NVIDIA Nemotron** endpoint (NVIDIA NIM, OpenAI-compatible) rather

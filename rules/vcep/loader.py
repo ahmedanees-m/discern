@@ -1,10 +1,10 @@
-"""VCEP spec loader (plan Phase 0 / 1.1).
+"""VCEP spec loader.
 
 Loads a machine-readable ClinGen gene-specific VCEP specification: per-code calibrated
 strengths, allele-frequency thresholds, the disease/inheritance/mechanism, and a source
 provenance string. Genes without a spec resolve to a ``covered=False`` reduced-confidence
-record (Gate G2). The spec is consumed **per code** (via ``rules/vcep/partition.py``),
-never as a bottom-line label (Gate G3).
+record. The spec is consumed **per code** (via ``rules/vcep/partition.py``),
+never as a bottom-line label.
 """
 from __future__ import annotations
 
@@ -51,7 +51,7 @@ class VcepSpec:
         return float(self.af[kind])
 
     def variant_intrinsic_codes(self, codes: list[str]) -> list[str]:
-        """Subset of applied codes owned by the variant-intrinsic factor (Phase 1.1)."""
+        """Subset of applied codes owned by the variant-intrinsic factor."""
         return [c for c in codes if is_variant_intrinsic(c)]
 
 

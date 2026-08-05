@@ -1,4 +1,4 @@
-"""Retrospective journey replay (plan Step 6.2).
+"""Retrospective journey replay.
 
 On cases where the *resolving action* is known (eRepo/EAHAD curated trails;
 Solve-RD/UDN as managed access clears), test whether the engine's #1 recommended

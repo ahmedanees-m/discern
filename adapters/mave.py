@@ -1,4 +1,4 @@
-"""MaveDB adapter - PS3 / BS3 functional (plan Step 1.6).
+"""MaveDB adapter - PS3 / BS3 functional.
 
 Looks up the variant in any MaveDB score set for the gene and maps the functional
 score to ACMG strength via OddsPath calibration (Brnich et al. 2020, Genome Medicine):

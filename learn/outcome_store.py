@@ -1,9 +1,9 @@
-"""Outcome store (plan Step 5.2).
+"""Outcome store.
 
 Records human accept/override decisions and realized assay outcomes, keyed by
 (gene, assay), so per-institution priors can be updated auditably (each update
-attributable to specific cases). In production this is the Postgres `db` service
-(Phase 9); here it is an in-memory/JSON store with the same interface.
+attributable to specific cases). In production this is the Postgres `db` service; here it is
+an in-memory/JSON store with the same interface.
 """
 from __future__ import annotations
 

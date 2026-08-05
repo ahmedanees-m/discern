@@ -1,4 +1,4 @@
-# DISCERN API image (FastAPI engine endpoints). Plan Phase 8/9.
+# DISCERN API image (FastAPI engine endpoints).
 FROM python:3.11-slim
 WORKDIR /app
 ENV PYTHONUNBUFFERED=1 PYTHONPATH=/app

@@ -1,4 +1,4 @@
-"""Templated explanation (plan Phase 8.2).
+"""Templated explanation.
 
 Composed deterministically from the joint result, the reclassification, the safety flags,
 and the next observation. An LLM (Qwen via the gateway) may *phrase* this for readability

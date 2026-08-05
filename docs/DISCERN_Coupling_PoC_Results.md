@@ -64,7 +64,7 @@ The instrument works end-to-end on real public data, the independence guards hol
 shows a directionally-correct disease-specific signal - but the public corpus (2 usable intrinsic-VUS
 bleeding cases, sparse phenotypes) cannot power the binary endpoint. **This is exactly the result the PoC
 was designed to surface: it de-risks the method and quantifies why the confirmatory test requires the
-controlled-access, richly-phenotyped cohort (Gate G13).** The full instrument - extractor, OLS-verified
+controlled-access, richly-phenotyped cohort.** The full instrument - extractor, OLS-verified
 crosswalk, engine, independence audit, tests, and the pre-registered endpoint + falsification condition -
 is built and ready to run unchanged the moment cohort access clears.
 
