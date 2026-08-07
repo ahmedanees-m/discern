@@ -24,6 +24,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 DRIVE = os.path.join(os.path.dirname(ROOT), "v3.1", "Current status_DISCERN")
+PKG_HOME = os.path.join(os.path.dirname(ROOT), "manuscript_files")
 
 VERSION = "v0.1.0"
 DEPOSIT = f"discern-paper1-supplement-{VERSION}"
@@ -185,11 +186,26 @@ def build(out_root, skip_vm=False):
     print(f"repository at {short}{' (DIRTY)' if dirty else ''}")
 
     # ---- manuscript layer -------------------------------------------------------------
+    # Two sources. The planning documents live on the author's Drive; the submission documents were
+    # written in the package itself and have no other home, so a build to a different --out must
+    # collect them from the canonical package rather than silently produce an empty manuscript
+    # directory.
     print("manuscript layer")
     for fn in ("DISCERN_Paper1_Manuscript_v2.md", "DISCERN_Paper1_Submission_Package.md",
                "DISCERN_PreSubmission_Analysis_Plan_PhaseR.md", "DISCERN_Zenodo_Deposit_Manifest.md"):
         if copy(os.path.join(DRIVE, fn), pkg):
             print(f"  + {fn}")
+    for fn in MANUSCRIPT_DOCS + ARCHIVE_DOCS:
+        if os.path.exists(os.path.join(pkg, fn)):
+            continue
+        for cand in (os.path.join(PKG_HOME, fn),
+                     os.path.join(PKG_HOME, "01_manuscript", fn),
+                     os.path.join(PKG_HOME, "archive", fn)):
+            if copy(cand, pkg):
+                print(f"  + {fn}")
+                break
+        else:
+            print(f"  ! {fn} not found in {PKG_HOME}")
 
     # ---- figures and tables, regenerated then placed in both layers --------------------
     print("figures and tables")
@@ -202,22 +218,19 @@ def build(out_root, skip_vm=False):
             fn()
         finally:
             sys.argv = argv
-    for sub in ("figures", "tables"):
-        target = os.path.join(dep, sub)
-        # Google Drive holds directory handles open, so rmtree raises PermissionError on a synced
-        # path. Overwrite in place instead, then drop anything no longer produced, so a renamed or
-        # deleted display item does not linger in the deposit.
-        src = os.path.join(pkg, sub)
-        try:
-            shutil.copytree(src, target, dirs_exist_ok=True)
-            for stale in set(os.listdir(target)) - set(os.listdir(src)):
-                path = os.path.join(target, stale)
-                shutil.rmtree(path) if os.path.isdir(path) else os.remove(path)
-        except OSError as exc:
-            # Drive occasionally holds a directory handle open mid-sync, and a display item that
-            # failed to refresh must be visible rather than silently stale.
-            print(f"  ! {sub}/ could not be refreshed in the deposit ({exc.strerror}); "
-                  f"the copy under manuscript_files/{sub}/ is current, the deposit copy may not be")
+    # Figures, tables and the compiled supplement are display items, published with the article.
+    # None is deposited: every one regenerates from the JSON and YAML in this deposit using the
+    # four generator scripts in code/harnesses/. The rule is to deposit what cannot be regenerated
+    # from the deposit, so any that survive an earlier build are removed here.
+    for sub in ("figures", "tables", "supplemental"):
+        stale = os.path.join(dep, sub)
+        if os.path.isdir(stale):
+            try:
+                shutil.rmtree(stale)
+                print(f"  - removed {sub}/ from the deposit (display items, not deposited)")
+            except OSError as exc:
+                print(f"  ! {sub}/ is still in the deposit and could not be removed "
+                      f"({exc.strerror}); remove it before uploading")
 
     # ---- deposit: configs --------------------------------------------------------------
     print("deposit: configs")
@@ -298,9 +311,9 @@ def build(out_root, skip_vm=False):
             copy(os.path.join(ROOT, "docs", fn), d)
     # The compiled supplement and the Excel display items travel with the record, and also sit at
     # the package root: these are the files the journal is uploaded, not just archived copies.
-    for dest in (os.path.join(dep, "supplemental"), os.path.join(pkg, "supplemental")):
-        copy(os.path.join(ROOT, "figures", "Document_S1_Supplemental_Information.pdf"), dest)
-        copy(os.path.join(ROOT, "figures", "excel"), dest, name="excel_tables")
+    dest = os.path.join(pkg, "supplemental")
+    copy(os.path.join(ROOT, "figures", "Document_S1_Supplemental_Information.pdf"), dest)
+    copy(os.path.join(ROOT, "figures", "excel"), dest, name="excel_tables")
     copy(os.path.join(ROOT, "docs", "DISCERN_OSF_PreRegistration_v1.md"),
          os.path.join(dep, "preregistration"))
 
@@ -319,6 +332,9 @@ def build(out_root, skip_vm=False):
                 entry["files"].append({"path": rel, "note": "not present in this checkout"})
         with open(os.path.join(dm, f"{key}_manifest.json"), "w", encoding="utf-8") as fh:
             json.dump(entry, fh, indent=2)
+    # Lay the package out before writing the READMEs, since the package README embeds a file map
+    # of the tree as it will actually be delivered.
+    lay_out_submission(pkg)
     write_readmes(pkg, dep, sha, short)
     return pkg, dep, sha, short, dirty
 
@@ -371,18 +387,32 @@ terms, gene, and expected diagnosis only.
 | Gene-term sensitivity sweep | `benchmarks/gene_term/phase_r_gene_term_sensitivity.json` |
 | The 33.2% inflation figure | regenerate with `code/harnesses/erepo_genomewide.py` |
 | The evidence partition itself | `configs/partition_map.json` |
-| Every discrimination likelihood ratio with its PMID | `tables/tableS3_cluster_likelihood_ratios.csv` |
+| Every discrimination likelihood ratio with its PMID | `configs/cluster_definitions/` |
+
+## Why there are no figures or tables here
+
+The rule applied to this deposit is to include what cannot be regenerated from it, and to exclude
+what can. Every figure and every table in the article is a display item rendered from the JSON and
+YAML files in this record, by `make_figures.py` and `make_tables.py`, both of which are included in
+`code/harnesses/`. Depositing the rendered output as well would add copies that any reader can
+reproduce in one command, and would leave two versions to fall out of step. The figures and tables
+are published with the article.
+
+The benchmark outputs are a different case and are all present. They cannot be regenerated without
+re-pulling roughly a hundred gigabytes of third-party databases, so they are the surface on which
+the article's numbers can actually be checked.
 
 ## Reproducing
 
 1. Clone the repository at the commit above, or install the code record.
 2. Re-pull the third-party sources at the versions in `data_manifests/` and verify the md5s.
 3. Run the harnesses in `code/harnesses/`. Each writes the JSON it is named for.
-4. Regenerate the display items. From a clone of the code record, `python -m figures.make_figures`,
+4. Regenerate the display items from a clone of the code record: `python -m figures.make_figures`,
    `python -m figures.make_tables`, `python -m figures.make_excel_tables` and
-   `python -m figures.make_document_s1`. Copies of those scripts are in `code/harnesses/` here for
-   reading; run them from the code record, not from this directory, since they import the package.
-5. Re-run the test suite **from the code record** - `tests/` is part of Record A and is deliberately
+   `python -m figures.make_document_s1`. Copies of those four scripts are in `code/harnesses/` here
+   so they can be read without a clone, but run them from the code record, not from this directory,
+   since they import the package.
+5. Re-run the test suite **from the code record**. `tests/` belongs to Record A and is deliberately
    not duplicated here. `tests/test_phase_r.py` and `tests/test_docs_claims.py` fail if a reported
    value drifts or a retired claim is reasserted.
 
@@ -518,20 +548,16 @@ python -m deploy.build_submission_package
 {tree}
 ```
 
+The numbered directories are the upload order.
+
 | Item | What it is |
 |---|---|
-| `DISCERN_Paper1_HGG_Advances_SUBMISSION.md` | **the manuscript to submit**, in HGG Advances format: unstructured abstract, Material and methods, Web resources, display items cited in order. The remaining placeholders are the by-line, the funding sanction number, and the three DOIs |
-| `DISCERN_Paper1_HGG_Advances_COVER_LETTER.md` | the cover letter, ready apart from the date, the corresponding-author block, and the preprint DOI |
-| `DISCERN_Paper1_HGG_Advances_v3.md` | the drafting version this was assembled from |
-| `DISCERN_Display_Items_and_Deposit_Audit.md` | the pre-submission audit of every display item and of the deposit, with the action list it generated |
-| `DISCERN_Paper1_Manuscript_v2.md` | the preceding generic-journal version, kept for provenance |
-| `DISCERN_Paper1_Submission_Package.md` | the submission plan: corrections, consistency checks, display-item specifications, journal-required statements, submission sequence |
-| `DISCERN_PreSubmission_Analysis_Plan_PhaseR.md` | the Phase R plan with its dispositions filled in |
-| `DISCERN_Zenodo_Deposit_Manifest.md` | the original deposit design |
-| `figures/` | Figures 1-6 and S1-S5, vector PDF plus 300 dpi PNG, generated from committed JSON |
-| `tables/` | Tables 1-3 and S1-S9 as CSV, generated from the same sources |
-| `supplemental/` | what the journal receives as supplemental material: `Document_S1_Supplemental_Information.pdf` (methods, legends, Figures S1-S5, the inline supplemental tables) and `excel_tables/` (Tables S3, S5, S7, S9, too large to typeset) |
-| `zenodo_deposit/` | the supporting-data record, ready to upload. `MANIFEST.md` inside it lists every file with its md5 |
+| `01_manuscript/` | `DISCERN_Paper1_HGG_Advances_SUBMISSION.md`, the manuscript to submit, in HGG Advances format: unstructured abstract, Material and methods, Web resources, every display item cited. Alongside it, the cover letter. The remaining placeholders in both are the by-line, the funding sanction number, and the three DOIs |
+| `02_figures/` | `Figure1.pdf` to `Figure6.pdf`, vector, with 300 dpi PNG alongside each. Upload individually |
+| `03_tables/` | `Table1.csv` to `Table3.csv`. These are embedded in the manuscript as formatted tables; the CSVs are the machine-readable source |
+| `04_supplemental/` | exactly what is uploaded as supplemental material: `Document_S1_Supplemental_Information.pdf`, and `Table_S3`, `Table_S5`, `Table_S7`, `Table_S9` as Excel, being too large to typeset. `components/` holds the individual figures and tables that were compiled into Document S1, for editing rather than upload |
+| `zenodo_deposit/` | the supporting-data record, ready to upload to Zenodo. `MANIFEST.md` inside it lists every file with its md5 and a one-line description. It deliberately contains no figures or tables: those are display items published with the article, and each regenerates from the data in the deposit |
+| `archive/` | superseded drafts and the planning documents, kept for provenance and not part of the submission: the v3 draft this was assembled from, the preceding generic-journal v2, the display-item and deposit audits, the pre-submission analysis plan, and the original deposit design |
 
 ## Version
 
@@ -572,6 +598,85 @@ deposit records every disposition, including the unfavourable ones.
 """
 
 
+# The submission tree. Display items are renamed to what a Cell Press portal expects, because
+# "Figure3.pdf" is what the upload form asks for and "fig3_per_criterion_kappa.pdf" is not.
+# Numbered directories put the upload in order: manuscript, then figures, then tables, then
+# supplemental, then the data record.
+MAIN_FIGURES = ["fig1_architecture_and_partition", "fig2_discrimination_and_calibration",
+                "fig3_per_criterion_kappa", "fig4_intrinsic_ceiling",
+                "fig5_clinvar_circularity", "fig6_diagnosis_baselines"]
+SUPP_FIGURES = ["figS1_gene_term_sensitivity", "figS2_safety_matrix",
+                "figS3_diagnosis_calibration", "figS4_champ_chbmp_recall",
+                "figS5_worked_example"]
+MAIN_TABLES = ["table1_variant_head_to_head", "table2_decision_quality_matched_coverage",
+               "table3_diagnosis_vs_baselines"]
+SUPP_TABLES = [f"tableS{i}_" for i in range(1, 10)]
+MANUSCRIPT_DOCS = ["DISCERN_Paper1_HGG_Advances_SUBMISSION.md",
+                   "DISCERN_Paper1_HGG_Advances_COVER_LETTER.md"]
+ARCHIVE_DOCS = ["DISCERN_Paper1_HGG_Advances_v3.md", "DISCERN_Paper1_Manuscript_v2.md",
+                "DISCERN_Display_Items_and_Deposit_Audit.md",
+                "DISCERN_Final_PreSubmission_Report.md",
+                "DISCERN_Paper1_Submission_Package.md",
+                "DISCERN_PreSubmission_Analysis_Plan_PhaseR.md",
+                "DISCERN_Zenodo_Deposit_Manifest.md"]
+
+
+def lay_out_submission(pkg):
+    """Arrange the package as the journal receives it, renaming display items to portal names."""
+    d_ms = os.path.join(pkg, "01_manuscript")
+    d_fig = os.path.join(pkg, "02_figures")
+    d_tab = os.path.join(pkg, "03_tables")
+    d_sup = os.path.join(pkg, "04_supplemental")
+    d_sup_f = os.path.join(d_sup, "components", "figures")
+    d_sup_t = os.path.join(d_sup, "components", "tables")
+    d_arc = os.path.join(pkg, "archive")
+    for d in (d_ms, d_fig, d_tab, d_sup_f, d_sup_t, d_arc):
+        os.makedirs(d, exist_ok=True)
+
+    src_f, src_t = os.path.join(pkg, "figures"), os.path.join(pkg, "tables")
+    n = 0
+    for i, stem in enumerate(MAIN_FIGURES, 1):
+        for ext in ("pdf", "png"):
+            if copy(os.path.join(src_f, f"{stem}.{ext}"), d_fig, name=f"Figure{i}.{ext}"):
+                n += 1
+    for i, stem in enumerate(SUPP_FIGURES, 1):
+        for ext in ("pdf", "png"):
+            if copy(os.path.join(src_f, f"{stem}.{ext}"), d_sup_f, name=f"FigureS{i}.{ext}"):
+                n += 1
+    for i, stem in enumerate(MAIN_TABLES, 1):
+        if copy(os.path.join(src_t, f"{stem}.csv"), d_tab, name=f"Table{i}.csv"):
+            n += 1
+    for fn in sorted(os.listdir(src_t)) if os.path.isdir(src_t) else []:
+        if fn.startswith("tableS"):
+            i = fn.split("_")[0].replace("tableS", "")
+            if copy(os.path.join(src_t, fn), d_sup_t, name=f"TableS{i}.csv"):
+                n += 1
+
+    # Document S1 and the large Excel tables are the supplemental upload itself, so they sit at the
+    # top of 04_supplemental; the components that went into Document S1 sit beneath it.
+    sup_src = os.path.join(pkg, "supplemental")
+    copy(os.path.join(sup_src, "Document_S1_Supplemental_Information.pdf"), d_sup)
+    xls = os.path.join(sup_src, "excel_tables")
+    for fn in sorted(os.listdir(xls)) if os.path.isdir(xls) else []:
+        copy(os.path.join(xls, fn), d_sup)
+        n += 1
+
+    for fn in MANUSCRIPT_DOCS:
+        copy(os.path.join(pkg, fn), d_ms)
+    for fn in ARCHIVE_DOCS:
+        copy(os.path.join(pkg, fn), d_arc)
+
+    # The flat copies were staging for this layout; remove them so there is one home per file.
+    for path in [os.path.join(pkg, x) for x in ("figures", "tables", "supplemental")]:
+        shutil.rmtree(path, ignore_errors=True)
+    for fn in MANUSCRIPT_DOCS + ARCHIVE_DOCS:
+        flat = os.path.join(pkg, fn)
+        if os.path.exists(flat):
+            os.remove(flat)
+    print(f"submission layout: {n} display items placed")
+    return n
+
+
 # Descriptions for the manifest. Exact relative paths win; otherwise the longest matching path
 # prefix applies, so a directory rule covers everything under it without listing each file.
 FILE_NOTES = {
@@ -598,11 +703,7 @@ DIR_NOTES = {
     "configs": "engine configuration as run",
     "data_manifests": "third-party sources with URL, version and role; none is redistributed here",
     "docs": "the Phase R record, the claims map, and the supplemental methods and legends",
-    "figures": "Figures 1-6 and S1-S5 as vector PDF and 300 dpi PNG, generated from committed JSON",
     "preregistration": "the pre-registered analysis plan and its gates",
-    "supplemental/excel_tables": "the large supplemental tables as formatted spreadsheets",
-    "supplemental": "Document S1 and the supplemental tables supplied separately",
-    "tables": "Tables 1-3 and S1-S9 as CSV, generated from the same sources as the figures",
 }
 
 
