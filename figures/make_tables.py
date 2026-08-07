@@ -149,21 +149,60 @@ def table3(outdir):
 
 
 # --------------------------------------------------------------------------------------------
+# Three distinct reasons a criterion is never applied, which a single "zero" would conflate. Only
+# the first is evidence about the partition; the others are scope boundaries of this pipeline.
+ROUTED_AWAY = {"PS3", "BS3", "PP4", "PP1", "BS4", "PM3", "BP2", "PS2", "PM6"}
+NOT_IMPLEMENTED = {"BP7", "BS2"}
+NOTES = {
+    "PVS1": "applied at Moderate here against Very Strong or Strong by the panels, so the "
+            "criterion agrees but the strength is deliberately more conservative",
+    "PP3": "derived from the same predictor scores the panels cite, at the ClinGen thresholds",
+    "PM2": "applied more liberally than the panels: DISCERN applies it wherever the gnomAD "
+           "frequency is below the gene-specific threshold, whereas panels apply it selectively",
+    "BA1": "frequency-based; DISCERN is the more conservative of the two",
+    "BS1": "frequency-based; DISCERN is the more conservative of the two",
+    "BP4": "applied more sparingly than the panels, at the ClinGen benign-side threshold",
+    "PS3": "routed to the functional factor by the partition, so the variant factor never applies "
+           "it; this is the partition operating as specified",
+    "PM1": "hotspot and critical-domain annotation is not implemented for every in-scope gene",
+    "PM5": "requires a same-residue ClinVar lookup, disabled by the blinding protocol",
+    "PS1": "requires a same-residue ClinVar lookup, disabled by the blinding protocol",
+    "PS4": "requires case-control counts, which no public surface supplies at this scale",
+    "BP7": "applies to synonymous variants, which fall outside the missense scope of every "
+           "reported result; not implemented",
+    "BS2": "requires observation in healthy adults at a frequency inconsistent with penetrance; "
+           "not implemented",
+}
+
+
 def tableS1(outdir):
     m = _load(os.path.join(BENCH, "track1b_erepo_metrics.json"))["per_code_kappa_vs_erepo"]
-    routed = {"PS3", "BS3", "PP4", "PP1", "BS4", "PM3", "BP2", "PS2", "PM6"}
     rows = []
     for code, v in m.items():
         if v["discern_applied"] == 0:
-            cause = ("routed to another factor by the partition" if code in routed
+            cause = ("routed to another factor by the partition" if code in ROUTED_AWAY
+                     else "not implemented" if code in NOT_IMPLEMENTED
                      else "variant-intrinsic; no input in this pipeline")
         else:
-            cause = "applied"
+            cause = "applied by both"
         rows.append([code, v["erepo_applied"], v["discern_applied"],
-                     "" if v["kappa"] is None else v["kappa"], cause])
+                     "" if v["kappa"] is None else v["kappa"],
+                     v.get("both_applied", ""),
+                     "" if v.get("strength_agreement") is None else v["strength_agreement"],
+                     cause, NOTES.get(code, "")])
+    # Criteria with a kappa first, strongest agreement down to weakest, then the zero-application
+    # rows: the table then reads as a gradient from sequence-derivable to evidence-dependent.
+    rows.sort(key=lambda r: (1, r[0]) if r[3] == "" else (0, -float(r[3])))
     return _write(outdir, "tableS1_per_criterion_kappa",
                   ["ACMG_criterion", "erepo_applied", "discern_applied", "kappa",
-                   "zero_application_cause"], rows)
+                   "both_applied", "strength_agreement", "zero_application_cause", "note"], rows,
+                  "Criteria applied by neither the expert panels nor DISCERN on this surface are "
+                  "omitted (PS2, PM3, PM4, PM6, PP1, PP2, PP4, PP5, BP1, BP2, BP3, BP5, BP6), so "
+                  "these thirteen rows are not the whole of ACMG/AMP. Agreement is reported at two "
+                  "levels: kappa asks whether the criterion was applied at all, and "
+                  "strength_agreement asks, among variants where both applied it, how often they "
+                  "applied it at the same ClinGen strength. An unmodified code is resolved to its "
+                  "criterion's default strength before comparison.")
 
 
 def tableS2(outdir):

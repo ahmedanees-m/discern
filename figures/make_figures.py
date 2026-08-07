@@ -29,6 +29,7 @@ EVAL = os.path.join(ROOT, "eval")
 
 # Okabe-Ito
 BLUE, ORANGE, GREEN, YELLOW = "#0072B2", "#E69F00", "#009E73", "#F0E442"
+GREY = "#8C8C8C"
 VERM, SKY, PURPLE, GREY = "#D55E00", "#56B4E9", "#CC79A7", "#666666"
 
 plt.rcParams.update({
@@ -185,38 +186,69 @@ def fig2_discrimination_calibration(outdir):
 
 # --------------------------------------------------------------------------------------------
 def fig3_per_criterion_kappa(outdir):
-    """The corrected claim lives here: zero-application criteria split by cause."""
+    """Agreement per criterion, ordered by kappa, with the three zero-application causes distinct.
+
+    Panel A reads as a gradient from criteria a sequence-only pipeline can derive to those it
+    cannot, which is the paper's thesis rather than a wall of low values. Panel B shows the applied
+    counts on both sides, so a reader sees the direction and size of each disagreement without
+    leaving the figure.
+    """
     m = _load(os.path.join(BENCH, "track1b_erepo_metrics.json"))["per_code_kappa_vs_erepo"]
     routed = {"PS3", "BS3", "PP4", "PP1", "BS4", "PM3", "BP2", "PS2", "PM6"}
+    not_implemented = {"BP7", "BS2"}
 
-    scored = [(c, v["kappa"]) for c, v in m.items() if v["kappa"] is not None]
-    scored.sort(key=lambda kv: kv[1])
-    zero = [(c, v) for c, v in m.items() if v["discern_applied"] == 0]
+    def cause_colour(code):
+        if code in routed:
+            return GREEN
+        return GREY if code in not_implemented else ORANGE
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(5.2, 4.4),
-                                   gridspec_kw={"height_ratios": [len(scored), max(len(zero), 1)]})
-    ax1.barh([c for c, _ in scored], [k for _, k in scored], color=BLUE, alpha=0.85)
+    scored = sorted(((c, v["kappa"]) for c, v in m.items() if v["kappa"] is not None),
+                    key=lambda kv: kv[1])
+    zero = sorted(((c, v) for c, v in m.items() if v["discern_applied"] == 0),
+                  key=lambda kv: kv[1]["erepo_applied"])
+
+    fig, axes = plt.subplots(1, 2, figsize=(7.4, 3.9), gridspec_kw={"width_ratios": [1, 1]})
+    ax1, ax2 = axes
+
+    # barh puts index 0 at the bottom, so the never-applied block is listed first to place it under
+    # the kappa gradient. Read top to bottom the panel then runs from strongest agreement to none.
+    labels = [c for c, _ in zero] + [""] + [c for c, _ in scored]
+    values = [0] * len(zero) + [0] + [k for _, k in scored]
+    colours = [cause_colour(c) for c, _ in zero] + ["none"] + [BLUE] * len(scored)
+    ax1.barh(range(len(labels)), values, color=colours, alpha=0.9)
+    ax1.set_yticks(range(len(labels)))
+    ax1.set_yticklabels(labels, fontsize=7)
     for i, (_, k) in enumerate(scored):
-        ax1.text(k + 0.015, i, f"{k:.2f}", va="center", fontsize=6.5)
-    ax1.set_xlim(0, 1.08)
-    ax1.set_xlabel("Cohen's kappa vs eRepo expert applications")
-    ax1.set_title("A  Criteria DISCERN applies", loc="left", fontweight="bold")
+        ax1.text(k + 0.02, len(zero) + 1 + i, f"{k:.2f}", va="center", fontsize=6.5)
+    for j, (c, _) in enumerate(zero):
+        ax1.text(0.02, j, "never applied", va="center", fontsize=6.5,
+                 color=cause_colour(c), style="italic")
+    ax1.set_xlim(0, 1.12)
+    ax1.set_xlabel("Cohen's kappa vs expert applications", fontsize=8)
+    ax1.set_title("A  Criterion-level agreement", loc="left", fontweight="bold", fontsize=9)
+    ax1.tick_params(axis="x", labelsize=7)
 
-    names = [c for c, _ in zero]
-    colours = [GREEN if c in routed else ORANGE for c, _ in zero]
-    ax2.barh(names, [v["erepo_applied"] for _, v in zero], color=colours, alpha=0.85)
-    for i, (_, v) in enumerate(zero):
-        ax2.text(v["erepo_applied"] + 1, i, f"{v['erepo_applied']} by experts", va="center",
-                 fontsize=6.5)
-    ax2.set_xlabel("times the expert panel applied it (DISCERN: zero)")
-    ax2.set_title("B  Criteria DISCERN applies zero times, by cause", loc="left", fontweight="bold")
-    ax2.legend(handles=[mpatches.Patch(color=GREEN, alpha=0.85,
-                                       label="routed to another factor by the partition"),
-                        mpatches.Patch(color=ORANGE, alpha=0.85,
-                                       label="variant-intrinsic; no input in this pipeline")],
-               loc="lower right", frameon=False)
-    ax2.set_xlim(0, max(v["erepo_applied"] for _, v in zero) * 1.45 + 2)
-    fig.tight_layout()
+    y = range(len(labels))
+    ax2.barh([i + 0.2 for i in y],
+             [m[c]["erepo_applied"] if c else 0 for c in labels], height=0.38,
+             color="#555555", alpha=0.85, label="expert panels")
+    ax2.barh([i - 0.2 for i in y],
+             [m[c]["discern_applied"] if c else 0 for c in labels], height=0.38,
+             color=BLUE, alpha=0.85, label="DISCERN")
+    ax2.set_yticks(list(y))
+    ax2.set_yticklabels([""] * len(labels))
+    ax2.set_xlabel("variants on which the criterion was applied", fontsize=8)
+    ax2.set_title("B  How often each side applied it", loc="left", fontweight="bold", fontsize=9)
+    ax2.legend(loc="upper right", frameon=False, fontsize=7)
+    ax2.set_xlim(0, max(v["erepo_applied"] for v in m.values()) * 1.18)
+    ax2.tick_params(axis="x", labelsize=7)
+
+    fig.legend(handles=[
+        mpatches.Patch(color=GREEN, alpha=0.9, label="routed to another factor by the partition"),
+        mpatches.Patch(color=ORANGE, alpha=0.9, label="variant-intrinsic; no input available here"),
+        mpatches.Patch(color=GREY, alpha=0.9, label="not implemented (outside missense scope)")],
+        loc="lower center", ncol=3, frameon=False, fontsize=7, bbox_to_anchor=(0.5, -0.02))
+    fig.tight_layout(rect=(0, 0.07, 1, 1))
     return _save(fig, outdir, "fig3_per_criterion_kappa")
 
 

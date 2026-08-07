@@ -42,4 +42,4 @@ hps1_albinism,25117010,HPS1,granule,hps,HP:0001010;HP:0002218;HP:0033535,unique_
 hps_pulmonary_fibrosis,25379352,HPS1,granule,hps,HP:0001010;HP:0002206;HP:0002218;HP:0033535,unique_gene,hps,1,hps,1
 scott_ps_exposure,21107324,ANO6,scott,scott,,unique_gene,scott,1,scott,1
 
-NOTE: PMIDs and extracted HPO terms only. No article text is reproduced (Gate G7).
+NOTE: PMIDs and extracted HPO terms only. No article text is reproduced.

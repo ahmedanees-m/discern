@@ -95,69 +95,108 @@
   },
   "per_code_kappa_vs_erepo": {
     "PVS1": {
-      "erepo_applied": 130,
+      "erepo_applied": 178,
       "discern_applied": 173,
-      "kappa": 0.809
+      "kappa": 0.977,
+      "both_applied": 172,
+      "same_strength": 7,
+      "strength_agreement": 0.041
     },
     "PS1": {
-      "erepo_applied": 1,
+      "erepo_applied": 7,
       "discern_applied": 0,
-      "kappa": null
+      "kappa": null,
+      "both_applied": 0,
+      "same_strength": 0,
+      "strength_agreement": null
     },
     "PS3": {
-      "erepo_applied": 77,
+      "erepo_applied": 131,
       "discern_applied": 0,
-      "kappa": null
+      "kappa": null,
+      "both_applied": 0,
+      "same_strength": 0,
+      "strength_agreement": null
     },
     "PS4": {
-      "erepo_applied": 60,
+      "erepo_applied": 173,
       "discern_applied": 0,
-      "kappa": null
+      "kappa": null,
+      "both_applied": 0,
+      "same_strength": 0,
+      "strength_agreement": null
     },
     "PM1": {
-      "erepo_applied": 27,
+      "erepo_applied": 53,
       "discern_applied": 0,
-      "kappa": null
+      "kappa": null,
+      "both_applied": 0,
+      "same_strength": 0,
+      "strength_agreement": null
     },
     "PM2": {
-      "erepo_applied": 8,
+      "erepo_applied": 812,
       "discern_applied": 479,
-      "kappa": 0.004
+      "kappa": 0.084,
+      "both_applied": 336,
+      "same_strength": 316,
+      "strength_agreement": 0.94
     },
     "PM5": {
-      "erepo_applied": 46,
+      "erepo_applied": 97,
       "discern_applied": 0,
-      "kappa": null
+      "kappa": null,
+      "both_applied": 0,
+      "same_strength": 0,
+      "strength_agreement": null
     },
     "PP3": {
-      "erepo_applied": 295,
+      "erepo_applied": 305,
       "discern_applied": 293,
-      "kappa": 0.925
+      "kappa": 0.947,
+      "both_applied": 287,
+      "same_strength": 278,
+      "strength_agreement": 0.969
     },
     "BA1": {
       "erepo_applied": 183,
       "discern_applied": 98,
-      "kappa": 0.64
+      "kappa": 0.64,
+      "both_applied": 95,
+      "same_strength": 95,
+      "strength_agreement": 1.0
     },
     "BS1": {
       "erepo_applied": 85,
       "discern_applied": 58,
-      "kappa": 0.297
+      "kappa": 0.297,
+      "both_applied": 24,
+      "same_strength": 24,
+      "strength_agreement": 1.0
     },
     "BS2": {
       "erepo_applied": 5,
       "discern_applied": 0,
-      "kappa": null
+      "kappa": null,
+      "both_applied": 0,
+      "same_strength": 0,
+      "strength_agreement": null
     },
     "BP4": {
       "erepo_applied": 615,
       "discern_applied": 91,
-      "kappa": 0.074
+      "kappa": 0.074,
+      "both_applied": 67,
+      "same_strength": 67,
+      "strength_agreement": 1.0
     },
     "BP7": {
       "erepo_applied": 541,
       "discern_applied": 0,
-      "kappa": null
+      "kappa": null,
+      "both_applied": 0,
+      "same_strength": 0,
+      "strength_agreement": null
     }
   },
   "note_genebe": "GeneBe shown as circularity exhibit only (queries live ClinVar; cannot be time-split).",
