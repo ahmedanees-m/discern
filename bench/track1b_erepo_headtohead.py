@@ -21,7 +21,6 @@ from __future__ import annotations
 
 import json
 import os
-import re
 
 from sklearn.metrics import brier_score_loss, cohen_kappa_score
 
@@ -33,6 +32,12 @@ from bench.track1_variant_headtohead import (
 )
 from rules.variant_scoring import Annotations, score_variant
 
+# The applied-code vocabulary is owned by rules.vcep.partition, so this analysis and the
+# partition-coverage analysis cannot drift apart.
+from rules.vcep.partition import applied_codes as _erepo_codes
+from rules.vcep.partition import applied_codes_with_strength as _erepo_codes_with_strength
+from rules.vcep.partition import default_strength
+
 HERE = os.path.dirname(__file__)
 CACHE = os.path.join(HERE, "data", "genebe_erepo.jsonl")
 OUT_JSON = os.path.join(HERE, "track1b_erepo_metrics.json")
@@ -41,46 +46,8 @@ TIMESPLIT_AFTER = "2021-05-01"   # InterVar clinvar_20210501 bundle date
 
 PATHL = {"P", "LP"}
 BENL = {"B", "LB"}
-# The criterion, optionally followed by a ClinGen strength modifier. The modifier must be part of
-# the match: an earlier version anchored the criterion with \b, and because "_" is a word character
-# "\bPM2\b" does not match "PM2_Supporting". That silently discarded every strength-modified code,
-# which is most of them - PM2_Supporting alone is applied 7,168 times against 1,588 bare PM2. The
-# criterion is matched on its base form and the modifier is kept separately, so agreement can be
-# reported both at criterion level (was it applied) and at strength level (was it applied equally).
-CODE_RE = re.compile(
-    r"\b(PVS1|PS[1-4]|PM[1-6]|PP[1-5]|BA1|BS[1-4]|BP[1-7])"
-    r"(_(?:Very[ _]Strong|Strong|Moderate|Supporting|Stand[ _]?Alone))?")
-
-
 def _label(a):
     return 1 if a in PATHL else 0 if a in BENL else None
-
-
-def _erepo_codes(s):
-    """Base ACMG criteria applied, with any strength modifier stripped."""
-    return {m.group(1) for m in CODE_RE.finditer(s or "")}
-
-
-# An unmodified code carries its criterion's default strength, so "PP3" and "PP3_Supporting" are
-# the same assertion. Comparing the literal strings instead makes identical strengths look like
-# disagreement, which is the same normalization mistake one level down.
-DEFAULT_STRENGTH = {"PVS1": "Very Strong", "BA1": "Stand Alone"}
-
-
-def default_strength(code):
-    if code in DEFAULT_STRENGTH:
-        return DEFAULT_STRENGTH[code]
-    return {"PS": "Strong", "PM": "Moderate", "PP": "Supporting",
-            "BS": "Strong", "BP": "Supporting"}[code[:2]]
-
-
-def _erepo_codes_with_strength(s):
-    """Criterion -> applied strength, with an unmodified code resolved to its default strength."""
-    out = {}
-    for m in CODE_RE.finditer(s or ""):
-        mod = (m.group(2) or "").lstrip("_").replace("_", " ").strip()
-        out[m.group(1)] = mod or default_strength(m.group(1))
-    return out
 
 
 def load_rows():

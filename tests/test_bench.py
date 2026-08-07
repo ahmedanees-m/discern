@@ -89,12 +89,11 @@ def test_criterion_parsing_matches_the_partition_vocabulary():
     Two paths over one input, one normalized and one not, is invisible until someone reads the
     supplementary table. This asserts they agree.
     """
-    from bench.track1b_erepo_headtohead import _erepo_codes
-    from rules.vcep.partition import base_code
+    from rules.vcep.partition import applied_codes, base_code
 
     applied = ("PM2_Supporting, PP3_Moderate, PVS1_Strong, PM3_Very Strong, "
                "PS3_Supporting, BS1_Supporting, PP1_Strong, PM2, PP3")
-    parsed = _erepo_codes(applied)
+    parsed = applied_codes(applied)
 
     # Every criterion present in the raw string is recovered, in base form.
     assert {"PM2", "PP3", "PVS1", "PM3", "PS3", "BS1", "PP1"} == parsed
@@ -107,11 +106,11 @@ def test_criterion_parsing_matches_the_partition_vocabulary():
 
 def test_strength_modified_codes_are_not_dropped():
     """A strength-modified code must be counted, not discarded."""
-    from bench.track1b_erepo_headtohead import _erepo_codes, _erepo_codes_with_strength
+    from rules.vcep.partition import applied_codes, applied_codes_with_strength
 
-    assert _erepo_codes("PM2_Supporting") == {"PM2"}
-    assert _erepo_codes_with_strength("PM2_Supporting") == {"PM2": "Supporting"}
+    assert applied_codes("PM2_Supporting") == {"PM2"}
+    assert applied_codes_with_strength("PM2_Supporting") == {"PM2": "Supporting"}
     # An unmodified code carries its criterion's default strength, so these two agree.
-    assert _erepo_codes_with_strength("PP3")["PP3"] == "Supporting"
-    assert _erepo_codes_with_strength("PP3_Supporting")["PP3"] == "Supporting"
-    assert _erepo_codes_with_strength("PVS1")["PVS1"] == "Very Strong"
+    assert applied_codes_with_strength("PP3")["PP3"] == "Supporting"
+    assert applied_codes_with_strength("PP3_Supporting")["PP3"] == "Supporting"
+    assert applied_codes_with_strength("PVS1")["PVS1"] == "Very Strong"

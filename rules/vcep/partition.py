@@ -9,6 +9,8 @@ is given.
 """
 from __future__ import annotations
 
+import re
+
 # code (base, strength-suffix stripped) -> owning factor.
 FACTOR_OF: dict[str, str] = {}
 
@@ -36,6 +38,42 @@ _register("denovo", ["PS2", "PM6"])
 def base_code(code: str) -> str:
     """Strip a strength suffix: 'PM2_Supporting' -> 'PM2'."""
     return code.split("_", 1)[0].strip()
+
+
+# The applied-code vocabulary lives here, beside base_code, so every analysis that reads applied
+# criteria shares one parser. It used to be duplicated in the benchmark with a word-boundary
+# anchor, and because "_" is a word character that copy silently dropped every strength-modified
+# code such as PM2_Supporting while this module kept them. One owner prevents that recurring.
+CODE_RE = re.compile(
+    r"\b(PVS1|PS[1-4]|PM[1-6]|PP[1-5]|BA1|BS[1-4]|BP[1-7])"
+    r"(_(?:Very[ _]Strong|Strong|Moderate|Supporting|Stand[ _]?Alone))?")
+
+# An unmodified code carries its criterion's default strength, so "PP3" and "PP3_Supporting" are
+# the same assertion. Comparing the literal strings makes identical strengths look like a
+# disagreement, which is the same normalization mistake one level down.
+_DEFAULT_STRENGTH = {"PVS1": "Very Strong", "BA1": "Stand Alone"}
+_TIER_DEFAULT = {"PS": "Strong", "PM": "Moderate", "PP": "Supporting",
+                 "BS": "Strong", "BP": "Supporting"}
+
+
+def default_strength(code: str) -> str:
+    """The ClinGen default strength an unmodified code carries."""
+    base = base_code(code)
+    return _DEFAULT_STRENGTH.get(base) or _TIER_DEFAULT[base[:2]]
+
+
+def applied_codes(s: str) -> set[str]:
+    """Base ACMG criteria in an applied-code string, with any strength modifier stripped."""
+    return {m.group(1) for m in CODE_RE.finditer(s or "")}
+
+
+def applied_codes_with_strength(s: str) -> dict[str, str]:
+    """Criterion -> applied strength, with an unmodified code resolved to its default."""
+    out = {}
+    for m in CODE_RE.finditer(s or ""):
+        mod = (m.group(2) or "").lstrip("_").replace("_", " ").strip()
+        out[m.group(1)] = mod or default_strength(m.group(1))
+    return out
 
 
 def owner(code: str) -> str | None:
