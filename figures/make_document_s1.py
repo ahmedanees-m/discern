@@ -34,12 +34,13 @@ BODY, HEAD, SUB = 8.2, 13.5, 10.0
 LEADING = 0.0165
 
 # Supplemental tables small enough to typeset inside the document. The large ones ship as Excel.
+# Ordered and numbered by first citation in the main text; the four large data tables are cited
+# first and ship as Excel, so the tables typeset here are S5 to S9.
 INLINE_TABLES = ["tableS1_per_criterion_kappa", "tableS2_ceiling_attribution",
-                 "tableS4_safety_scenarios", "tableS6_champ_chbmp_recall",
-                 "tableS8_lirical_arms"]
-FIGURE_ORDER = ["figS1_gene_term_sensitivity", "figS2_safety_matrix",
-                "figS3_diagnosis_calibration", "figS4_champ_chbmp_recall",
-                "figS5_worked_example"]
+                 "tableS4_safety_scenarios", "tableS8_lirical_arms",
+                 "tableS6_champ_chbmp_recall"]
+FIGURE_ORDER = ["figS5_worked_example", "figS1_gene_term_sensitivity", "figS2_safety_matrix",
+                "figS3_diagnosis_calibration", "figS4_champ_chbmp_recall"]
 
 
 class Pages:
@@ -208,21 +209,21 @@ def build(fig_dir, tab_dir, out_path):
     pg.heading("Contents", size=SUB)
     contents = [
         "Supplemental Methods",
-        "Figure S1. Sensitivity of the diagnosis arm to the strength of the gene term",
-        "Figure S2. Treatment-divergence safety interlock, by scenario",
-        "Figure S3. Diagnosis-posterior calibration on the curated benchmark",
-        "Figure S4. Independent sensitivity on the CDC hemophilia mutation projects",
-        "Figure S5. A worked example: the safety interlock on a single case",
-        "Table S1. Per-criterion agreement with expert-panel applications",
-        "Table S2. Attribution of the intrinsic-evidence ceiling",
-        "Table S4. Treatment-divergence scenarios",
-        "Table S6. CHAMP and CHBMP recall by gene",
+        "Figure S1. A worked example: the safety interlock on a single case",
+        "Figure S2. Sensitivity of the diagnosis arm to the strength of the gene term",
+        "Figure S3. Treatment-divergence safety interlock, by scenario",
+        "Figure S4. Diagnosis-posterior calibration on the curated benchmark",
+        "Figure S5. Independent sensitivity on the CDC hemophilia mutation projects",
+        "Table S5. Per-criterion agreement with expert-panel applications",
+        "Table S6. Attribution of the intrinsic-evidence ceiling",
+        "Table S7. Treatment-divergence scenarios",
         "Table S8. LIRICAL comparison arms",
+        "Table S9. CHAMP and CHBMP recall by gene",
     ]
     for c in contents:
         pg.text(c, indent=0.012)
     pg.y -= 0.012
-    pg.para("Tables S3, S5, S7 and S9 are supplied as separate Excel files, being large data "
+    pg.para("Tables S1, S2, S3 and S4 are supplied as separate Excel files, being large data "
             "tables. All supplemental figures and tables are also archived, with the scripts that "
             "generate them, in the data record.", size=BODY - 0.4, style="italic")
     pg.flush()
@@ -254,10 +255,10 @@ def build(fig_dir, tab_dir, out_path):
     pg2 = Pages(tmp)
     pg2.heading("Supplemental tables", size=HEAD)
     titles = {
-        "tableS1_per_criterion_kappa": "Table S1. Per-criterion agreement with expert-panel applications",
-        "tableS2_ceiling_attribution": "Table S2. Attribution of the intrinsic-evidence ceiling",
-        "tableS4_safety_scenarios": "Table S4. Treatment-divergence scenarios",
-        "tableS6_champ_chbmp_recall": "Table S6. CHAMP and CHBMP recall by gene",
+        "tableS1_per_criterion_kappa": "Table S5. Per-criterion agreement with expert-panel applications",
+        "tableS2_ceiling_attribution": "Table S6. Attribution of the intrinsic-evidence ceiling",
+        "tableS4_safety_scenarios": "Table S7. Treatment-divergence scenarios",
+        "tableS6_champ_chbmp_recall": "Table S9. CHAMP and CHBMP recall by gene",
         "tableS8_lirical_arms": "Table S8. LIRICAL comparison arms",
     }
     for stem in INLINE_TABLES:

@@ -15,6 +15,8 @@ import os
 
 import yaml
 
+from core.stats import fmt
+
 HERE = os.path.dirname(__file__)
 ROOT = os.path.dirname(HERE)
 BENCH = os.path.join(ROOT, "bench")
@@ -40,7 +42,7 @@ def _write(outdir, name, header, rows, note=None):
 
 
 def _ci(v):
-    return "" if not v else f"[{v[0]:.3f}-{v[1]:.3f}]"
+    return "" if not v else f"[{fmt(v[0])}-{fmt(v[1])}]"
 
 
 # --------------------------------------------------------------------------------------------
@@ -69,7 +71,7 @@ def table1(outdir):
             c = s["calibration"].get(calkey, {})
             rows.append([tool, label, d.get("n", ""), d.get("auroc", ""), _ci(d.get("auroc_ci95")),
                          c.get("ece", ""), _ci(c.get("ece_ci95")), c.get("brier", ""),
-                         f"{p:.3f}" if base == "REVEL" else "", cal_ok, cls, trail, absta, "yes"])
+                         fmt(p) if base == "REVEL" else "", cal_ok, cls, trail, absta, "yes"])
         g = t1b.get(surf, {}).get("discrimination", {}).get("GeneBe_exhibit") or {}
         if g:
             rows.append(["GeneBe (circularity exhibit)", label, g.get("n", ""), g.get("auroc", ""),

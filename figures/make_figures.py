@@ -22,6 +22,8 @@ import matplotlib.patches as mpatches  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
+from core.stats import fmt  # noqa: E402
+
 HERE = os.path.dirname(__file__)
 ROOT = os.path.dirname(HERE)
 BENCH = os.path.join(ROOT, "bench")
@@ -140,7 +142,7 @@ def fig2_discrimination_calibration(outdir):
         fpr, tpr, _ = roc_curve([b for _, b in pairs], [float(a) for a, _ in pairs])
         d = m["eRepo_primary"]["discrimination"][name]
         ax.plot(fpr, tpr, color=c, lw=1.3,
-                label=f"{name} {d['auroc']:.3f} [{d['auroc_ci95'][0]:.3f}-{d['auroc_ci95'][1]:.3f}]")
+                label=f"{name} {fmt(d['auroc'])} [{fmt(d['auroc_ci95'][0])}-{fmt(d['auroc_ci95'][1])}]")
     ax.plot([0, 1], [0, 1], ls=":", color=GREY, lw=0.8)
     dv = m["eRepo_primary"]["discern_vs_revel"]["delong"]
     ax.set_title(f"A  eRepo missense (n={m['eRepo_primary']['n_missense_PB']})", loc="left",

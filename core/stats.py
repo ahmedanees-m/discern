@@ -14,6 +14,7 @@ covered by tests/test_stats.py against closed-form or hand-computed values.
 from __future__ import annotations
 
 import math
+from decimal import ROUND_HALF_UP, Decimal
 
 import numpy as np
 from scipy.stats import binomtest, norm
@@ -136,3 +137,16 @@ def rank_metrics(hit_ranks, ks=(1, 3, 5, 10)) -> dict:
         out[f"recall@{k}"] = round(sum(1 for h in hit_ranks if h is not None and h <= k) / n, 4)
     out["mrr"] = round(sum(1.0 / h for h in hit_ranks if h is not None) / n, 4)
     return out
+
+
+def fmt(x, ndigits: int = 3) -> str:
+    """Format a number with half-up rounding.
+
+    Python rounds halves to even, in both ``round()`` and f-string formatting, so a value landing
+    exactly on a half at the next digit renders differently from the half-up convention used in
+    the manuscript text. Several bootstrap bounds here do land exactly on a half (0.9315, 0.8825,
+    -0.0435), so the two conventions disagreed between the prose and the generated tables. Every
+    reported number is formatted through this function so one convention applies everywhere.
+    """
+    q = Decimal(1).scaleb(-ndigits)
+    return str(Decimal(repr(float(x))).quantize(q, rounding=ROUND_HALF_UP))

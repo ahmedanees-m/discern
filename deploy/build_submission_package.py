@@ -612,12 +612,18 @@ deposit records every disposition, including the unfavourable ones.
 MAIN_FIGURES = ["fig1_architecture_and_partition", "fig2_discrimination_and_calibration",
                 "fig3_per_criterion_kappa", "fig4_intrinsic_ceiling",
                 "fig5_clinvar_circularity", "fig6_diagnosis_baselines"]
-SUPP_FIGURES = ["figS1_gene_term_sensitivity", "figS2_safety_matrix",
-                "figS3_diagnosis_calibration", "figS4_champ_chbmp_recall",
-                "figS5_worked_example"]
+# Ordered by first citation in the main text, which is what the S-numbers must follow.
+SUPP_FIGURES = ["figS5_worked_example", "figS1_gene_term_sensitivity", "figS2_safety_matrix",
+                "figS3_diagnosis_calibration", "figS4_champ_chbmp_recall"]
 MAIN_TABLES = ["table1_variant_head_to_head", "table2_decision_quality_matched_coverage",
                "table3_diagnosis_vs_baselines"]
-SUPP_TABLES = [f"tableS{i}_" for i in range(1, 10)]
+# Likewise ordered by first citation; the four large data tables happen to be cited first and
+# therefore become S1 to S4, which are the ones supplied as Excel.
+SUPP_TABLES = ["tableS3_cluster_likelihood_ratios", "tableS5_curated_cases",
+               "tableS7_data_source_manifest", "tableS9_software_versions",
+               "tableS1_per_criterion_kappa", "tableS2_ceiling_attribution",
+               "tableS4_safety_scenarios", "tableS8_lirical_arms",
+               "tableS6_champ_chbmp_recall"]
 MANUSCRIPT_DOCS = ["DISCERN_Paper1_BMC_HumanGenomics_SUBMISSION.md",
                    "DISCERN_Paper1_BMC_HumanGenomics_COVER_LETTER.md"]
 # The HGG Advances variant of the same science, kept for provenance rather than submission.
@@ -669,11 +675,9 @@ def lay_out_submission(pkg):
     for i, stem in enumerate(MAIN_TABLES, 1):
         if copy(os.path.join(src_t, f"{stem}.csv"), d_tab, name=f"Table{i}.csv"):
             n += 1
-    for fn in sorted(os.listdir(src_t)) if os.path.isdir(src_t) else []:
-        if fn.startswith("tableS"):
-            i = fn.split("_")[0].replace("tableS", "")
-            if copy(os.path.join(src_t, fn), d_sup_t, name=f"TableS{i}.csv"):
-                n += 1
+    for i, stem in enumerate(SUPP_TABLES, 1):
+        if copy(os.path.join(src_t, f"{stem}.csv"), d_sup_t, name=f"TableS{i}.csv"):
+            n += 1
 
     # The additional files are the supplemental upload itself, named as the portal expects and in
     # citation order; the components that were compiled into Additional file 1 sit beneath them.

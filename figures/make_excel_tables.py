@@ -30,25 +30,25 @@ BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
 # csv stem -> (workbook name, sheet title, caption placed above the table)
 EXPORTS = {
     "tableS3_cluster_likelihood_ratios": (
-        "Table_S3", "S3 likelihood ratios",
-        "Table S3. Discrimination likelihood ratios for the ten confusable-disease clusters. "
+        "Table_S1", "S1 likelihood ratios",
+        "Table S1. Discrimination likelihood ratios for the ten confusable-disease clusters. "
         "Each value is the probability of the finding given the disease, with the sample size and "
         "the PubMed identifier of the primary source from which it was taken. Continuous "
         "integration fails if any entry lacks a source."),
     "tableS5_curated_cases": (
-        "Table_S5", "S5 curated cases",
-        "Table S5. The curated published-case benchmark (n = 42). Each case is represented by its "
+        "Table_S2", "S2 curated cases",
+        "Table S2. The curated published-case benchmark (n = 42). Each case is represented by its "
         "PubMed identifier, causal gene, cluster, expected diagnosis and extracted Human Phenotype "
         "Ontology terms, together with the rank each method assigned. No article text is "
         "reproduced."),
     "tableS7_data_source_manifest": (
-        "Table_S7", "S7 data sources",
-        "Table S7. Third-party data sources, with the files used, the version or snapshot date and "
+        "Table_S3", "S3 data sources",
+        "Table S3. Third-party data sources, with the files used, the version or snapshot date and "
         "the role each plays. None is redistributed; checksums for the exact files used are in the "
         "deposit manifest."),
     "tableS9_software_versions": (
-        "Table_S9", "S9 software versions",
-        "Table S9. Software, tool and database versions used to produce every reported result."),
+        "Table_S4", "S4 software versions",
+        "Table S4. Software, tool and database versions used to produce every reported result."),
 }
 
 
@@ -108,6 +108,14 @@ def export(csv_path, out_dir, book, sheet, caption):
     return path, len(body)
 
 
+def _prune(outdir, keep):
+    """Remove workbooks from an earlier numbering so the directory matches the current set."""
+    for f in sorted(os.listdir(outdir)) if os.path.isdir(outdir) else []:
+        if f.endswith(".xlsx") and f[:-5] not in keep:
+            os.remove(os.path.join(outdir, f))
+            print(f"  - removed stale {f}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--csv", default=os.path.join(HERE, "tables"))
@@ -120,6 +128,7 @@ def main():
             continue
         path, n = export(src, args.out, book, sheet, caption)
         print(f"  {book:<10} {n:>4} rows -> {os.path.basename(path)}")
+    _prune(args.out, {book for book, _, _ in EXPORTS.values()})
     print(f"\nwrote Excel tables to {args.out}")
 
 
