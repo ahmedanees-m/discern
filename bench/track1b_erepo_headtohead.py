@@ -140,6 +140,10 @@ def run():
         "set": "eRepo cluster-gene expert-panel surface (GRCh38)",
         "n_total": len(rows), "n_timesplit": len(ts_rows), "timesplit_after": TIMESPLIT_AFTER,
         "eRepo_primary": primary, "time_split": timesplit,
+        # Agreement needs a graded variant on both sides, so it is computed on the labelled
+        # pathogenic/benign subset rather than on all n_total. Published because every kappa in
+        # per_code_kappa_vs_erepo only reconciles with its applied counts at this denominator.
+        "n_agreement_surface": sum(1 for r in rows if r["label"] is not None),
         "per_code_kappa_vs_erepo": _per_code_kappa(rows),
         "note_genebe": "GeneBe shown as circularity exhibit only (queries live ClinVar; cannot be time-split).",
         "note_intervar": "InterVar (legacy anchor) added by the VM step once hg38 DBs staged; prior ClinVar-set missense AUROC 0.811.",

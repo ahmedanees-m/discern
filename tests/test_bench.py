@@ -114,3 +114,25 @@ def test_strength_modified_codes_are_not_dropped():
     assert applied_codes_with_strength("PP3")["PP3"] == "Supporting"
     assert applied_codes_with_strength("PP3_Supporting")["PP3"] == "Supporting"
     assert applied_codes_with_strength("PVS1")["PVS1"] == "Very Strong"
+
+
+@pytest.mark.skipif(not os.path.exists(T1B), reason="track1b_erepo_metrics.json not generated")
+def test_every_kappa_reconciles_with_its_own_marginals():
+    """Each kappa must be recomputable from the counts printed beside it, at the stated n.
+
+    A reader checking one row of Table S1 will recompute it from the applied counts. That only
+    works if the denominator is published, because agreement is measured on the labelled
+    pathogenic/benign subset rather than on every variant of the surface. Getting this wrong makes
+    a correct kappa look like an arithmetic error, so the denominator is part of the result.
+    """
+    m = json.load(open(T1B, encoding="utf-8"))
+    n = m["n_agreement_surface"]
+    assert n > 0
+    for code, v in m["per_code_kappa_vs_erepo"].items():
+        if v["kappa"] is None:
+            continue
+        a, b, both = v["erepo_applied"], v["discern_applied"], v["both_applied"]
+        po = (both + (n - a - b + both)) / n
+        pe = (a / n) * (b / n) + ((n - a) / n) * ((n - b) / n)
+        assert abs((po - pe) / (1 - pe) - v["kappa"]) < 0.002, (
+            f"{code}: kappa {v['kappa']} does not follow from {a}/{b}/{both} at n={n}")

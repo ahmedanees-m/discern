@@ -48,10 +48,15 @@ but treatment-divergent competitor is not silently retired by the gene. Related 
 ---
 
 **Table S1. Per-criterion agreement with expert-panel applications.**
-Every ACMG/AMP criterion encountered on the Evidence Repository surface, with the number of times the
-expert panels applied it, the number of times DISCERN applied it, Cohen's kappa where both applied
-it at least once, and, for criteria applied zero times, the reason: routed to another factor by the
-evidence partition, or variant-intrinsic with no input under this protocol.
+Every ACMG/AMP criterion encountered on the Evidence Repository surface, with the number of times
+the expert panels applied it, the number of times DISCERN applied it, Cohen's kappa where both
+applied it at least once, the number of variants on which both applied it, and the fraction of
+those on which both applied it at the same ClinGen strength. Computed on the 1,265 variants
+carrying a pathogenic or benign expert classification, since agreement requires a graded variant on
+both sides; each kappa reconciles with the applied counts in its own row at that denominator. An
+unmodified code is resolved to its criterion's default strength before the strength comparison.
+Criteria applied zero times carry the reason, in three categories: routed to another factor by the
+evidence partition, variant-intrinsic with no input under this protocol, or not implemented.
 
 **Table S2. Attribution of the intrinsic-evidence ceiling.**
 Variants reaching Likely Pathogenic under each restoration condition: as scored; restoring the

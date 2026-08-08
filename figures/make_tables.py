@@ -154,11 +154,15 @@ def table3(outdir):
 ROUTED_AWAY = {"PS3", "BS3", "PP4", "PP1", "BS4", "PM3", "BP2", "PS2", "PM6"}
 NOT_IMPLEMENTED = {"BP7", "BS2"}
 NOTES = {
-    "PVS1": "applied at Moderate here against Very Strong or Strong by the panels, so the "
-            "criterion agrees but the strength is deliberately more conservative",
+    "PVS1": "the criterion agrees almost perfectly; the strength does not, because the PVS1 "
+            "decision tree needs transcript geometry (NMD prediction and the fraction of protein "
+            "removed) that this annotation surface does not carry, so it downgrades to Moderate. "
+            "Where those inputs are available, as in the CHAMP and CHBMP analysis, PVS1 reaches "
+            "Very Strong",
     "PP3": "derived from the same predictor scores the panels cite, at the ClinGen thresholds",
-    "PM2": "applied more liberally than the panels: DISCERN applies it wherever the gnomAD "
-           "frequency is below the gene-specific threshold, whereas panels apply it selectively",
+    "PM2": "the panels apply it more often than DISCERN does (812 against 479); DISCERN requires "
+           "the gnomAD frequency to be below the gene-specific threshold, and the annotation "
+           "surface leaves that undetermined for many variants",
     "BA1": "frequency-based; DISCERN is the more conservative of the two",
     "BS1": "frequency-based; DISCERN is the more conservative of the two",
     "BP4": "applied more sparingly than the panels, at the ClinGen benign-side threshold",
@@ -173,6 +177,10 @@ NOTES = {
     "BS2": "requires observation in healthy adults at a frequency inconsistent with penetrance; "
            "not implemented",
 }
+
+
+def _kappa_n():
+    return f"{_load(os.path.join(BENCH, 'track1b_erepo_metrics.json'))['n_agreement_surface']:,}"
 
 
 def tableS1(outdir):
@@ -196,13 +204,17 @@ def tableS1(outdir):
     return _write(outdir, "tableS1_per_criterion_kappa",
                   ["ACMG_criterion", "erepo_applied", "discern_applied", "kappa",
                    "both_applied", "strength_agreement", "zero_application_cause", "note"], rows,
-                  "Criteria applied by neither the expert panels nor DISCERN on this surface are "
-                  "omitted (PS2, PM3, PM4, PM6, PP1, PP2, PP4, PP5, BP1, BP2, BP3, BP5, BP6), so "
-                  "these thirteen rows are not the whole of ACMG/AMP. Agreement is reported at two "
-                  "levels: kappa asks whether the criterion was applied at all, and "
-                  "strength_agreement asks, among variants where both applied it, how often they "
-                  "applied it at the same ClinGen strength. An unmodified code is resolved to its "
-                  "criterion's default strength before comparison.")
+                  f"Computed on the {_kappa_n()} variants of the bleeding-panel surface carrying a "
+                  "pathogenic or benign expert classification, not on all 2,239: agreement "
+                  "requires a graded variant on both sides. Every kappa here reconciles with the "
+                  "applied counts in the same row at that denominator. Criteria applied by neither "
+                  "the expert panels nor DISCERN are omitted (PS2, PM3, PM4, PM6, PP1, PP2, PP4, "
+                  "PP5, BP1, BP2, BP3, BP5, BP6), so these thirteen rows are not the whole of "
+                  "ACMG/AMP. Agreement is reported at two levels: kappa asks whether the criterion "
+                  "was applied at all, and strength_agreement asks, among variants where both "
+                  "applied it, how often they applied it at the same ClinGen strength. An "
+                  "unmodified code is resolved to its criterion's default strength before "
+                  "comparison.")
 
 
 def tableS2(outdir):
