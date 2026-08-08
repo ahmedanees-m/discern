@@ -1,5 +1,5 @@
 component,version,role in this work,resource
-DISCERN,1eee38c3af8d3f256bfc523f02c46cec52c91af0,this work,https://github.com/ahmedanees-m/discern
+DISCERN,c1eb6efef2a106e242a50b00fbe2d6f4d1ab010c,this work,https://github.com/ahmedanees-m/discern
 Python,3.12.10,runtime,
 numpy,2.4.6,arithmetic and resampling,
 scipy,1.16.3,"binomial test, normal quantiles",
@@ -19,4 +19,4 @@ ANNOVAR,as used for the prior InterVar comparison,annotation for the H4 arm,
 InterVar,prior full-database run,ACMG classifier comparator,
 CHAMP / CHBMP,2022 variant lists,independent F8/F9 truth,https://www.cdc.gov/hemophilia-data/champ-mutation-project/
 
-NOTE: Generated on the machine that produced the deposit. DISCERN's own commit is the authoritative version: 1eee38c3af8d3f256bfc523f02c46cec52c91af0. Python package versions record the environment the committed results were produced in; continuous integration pins ruff and installs the remainder from pyproject.toml.
+NOTE: Generated on the machine that produced the deposit. DISCERN's own commit is the authoritative version: c1eb6efef2a106e242a50b00fbe2d6f4d1ab010c. Python package versions record the environment the committed results were produced in; continuous integration pins ruff and installs the remainder from pyproject.toml.
