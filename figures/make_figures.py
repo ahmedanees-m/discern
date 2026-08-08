@@ -628,20 +628,68 @@ def figS5_worked_example(outdir):
     ax.set_ylim(-0.02, 1)
     return _save(fig, outdir, "figS5_worked_example")
 
+def graphical_abstract(outdir):
+    """The graphical abstract BMC requires: landscape, 920 x 300 px, carrying the ceiling result.
+
+    Sized exactly at the requested pixel dimensions (9.2 x 3.0 in at 100 dpi) and kept to a single
+    idea, since it is displayed small and beneath the abstract.
+    """
+    m = _load(os.path.join(BENCH, "phase_r_variant_metrics.json"))
+    ca = m["ceiling_attribution"]
+    ic = m["added_value_over_ranking_score"]["intrinsic_only_ceiling"]
+    reached = ic["max_discern_points_on_missense"]
+    need = ca["lp_threshold_points"]
+
+    fig = plt.figure(figsize=(9.2, 3.0), dpi=100)
+    ax = fig.add_axes([0.055, 0.30, 0.40, 0.50])
+    ax.barh([0], [reached], color=BLUE, height=0.5)
+    ax.axvline(need, color=ORANGE, lw=2.2)
+    ax.text(need + 0.12, 0, f"{need:.0f} points needed\nfor Likely Pathogenic",
+            va="center", fontsize=9, color=ORANGE, fontweight="bold")
+    ax.text(reached - 0.12, 0, f"{reached:.0f}", va="center", ha="right", fontsize=11,
+            color="white", fontweight="bold")
+    ax.set_xlim(0, 8.6)
+    ax.set_ylim(-0.6, 0.6)
+    ax.set_yticks([])
+    ax.set_xlabel("ACMG points reachable from sequence evidence alone", fontsize=9)
+    for side in ("top", "right", "left"):
+        ax.spines[side].set_visible(False)
+
+    fig.text(0.505, 0.83, "Intrinsic sequence evidence cannot", fontsize=12.5,
+             fontweight="bold", va="top")
+    fig.text(0.505, 0.655, "classify a missense variant as pathogenic", fontsize=12.5,
+             fontweight="bold", va="top")
+    fig.text(0.505, 0.44, f"{ca['reach_lp_as_scored']} of {ca['n']} expert-classified missense "
+                         f"variants reach a\npathogenic band under a partitioned ACMG framework.",
+             fontsize=10, va="top")
+    fig.text(0.505, 0.185, f"Restoring every criterion the partition withholds or\ncannot annotate "
+                          f"recovers only {ca['reach_lp_with_both']} of {m['eRepo_primary']['n_path']}.",
+             fontsize=10, va="top", color="#444444")
+    out = os.path.join(outdir, "graphical_abstract.png")
+    os.makedirs(outdir, exist_ok=True)
+    fig.savefig(out, dpi=100, facecolor="white")
+    plt.close(fig)
+    return [out]
+
+
 FIGURES = [fig1_architecture, fig2_discrimination_calibration, fig3_per_criterion_kappa,
            fig4_intrinsic_ceiling, fig5_clinvar_circularity, fig6_diagnosis_baselines,
            figS1_gene_term_sweep, figS2_safety_matrix, figS3_diagnosis_calibration,
            figS4_champ_chbmp, figS5_worked_example]
+# The graphical abstract is a submission requirement rather than a numbered display
+# item, and is a single PNG at a fixed pixel size, so it is generated alongside them.
+EXTRA = [graphical_abstract]
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(HERE, "out"))
     args = ap.parse_args()
-    for fn in FIGURES:
+    for fn in FIGURES + EXTRA:
         paths = fn(args.out)
         print(f"  {fn.__name__:32} -> {os.path.basename(paths[0])}")
     print(f"\nwrote {len(FIGURES)} figures (pdf + png) to {args.out}")
+
 
 
 if __name__ == "__main__":

@@ -556,10 +556,11 @@ The numbered directories are the upload order.
 
 | Item | What it is |
 |---|---|
-| `01_manuscript/` | `DISCERN_Paper1_HGG_Advances_SUBMISSION.md`, the manuscript to submit, in HGG Advances format: unstructured abstract, Material and methods, Web resources, every display item cited. Alongside it, the cover letter. The remaining placeholders in both are the by-line, the funding sanction number, and the three DOIs |
+| `01_manuscript/` | `DISCERN_Paper1_BMC_HumanGenomics_SUBMISSION.md`, the manuscript to submit, in BMC Human Genomics format (structured abstract, Background/Methods/Results/Discussion/Conclusions, the mandatory Declarations block, web links as numbered references). The HGG Advances variant of the same science is kept beside it: unstructured abstract, Material and methods, Web resources, every display item cited. Alongside it, the cover letter. The remaining placeholders in both are the by-line, the funding sanction number, and the three DOIs |
 | `02_figures/` | `Figure1.pdf` to `Figure6.pdf`, vector, with 300 dpi PNG alongside each. Upload individually |
 | `03_tables/` | `Table1.csv` to `Table3.csv`. These are embedded in the manuscript as formatted tables; the CSVs are the machine-readable source |
-| `04_supplemental/` | exactly what is uploaded as supplemental material: `Document_S1_Supplemental_Information.pdf`, and `Table_S3`, `Table_S5`, `Table_S7`, `Table_S9` as Excel, being too large to typeset. `components/` holds the individual figures and tables that were compiled into Document S1, for editing rather than upload |
+| `04_additional_files/` | exactly what is uploaded as supplemental material, named as the portal expects: `Additional_file_1.pdf` (the compiled supplement) through `Additional_file_5.xlsx`. Its README maps each file to the S-numbers used in the text. `components/` holds the individual figures and tables compiled into Additional file 1, for editing rather than upload |
+| `05_graphical_abstract/` | `graphical_abstract.png`, 920 x 300 px landscape, required by BMC Human Genomics at submission |
 | `zenodo_deposit/` | the supporting-data record, ready to upload to Zenodo. `MANIFEST.md` inside it lists every file with its md5 and a one-line description. It deliberately contains no figures or tables: those are display items published with the article, and each regenerates from the data in the deposit |
 | `archive/` | superseded drafts and the planning documents, kept for provenance and not part of the submission: the v3 draft this was assembled from, the preceding generic-journal v2, the display-item and deposit audits, the pre-submission analysis plan, and the original deposit design |
 
@@ -615,8 +616,21 @@ SUPP_FIGURES = ["figS1_gene_term_sensitivity", "figS2_safety_matrix",
 MAIN_TABLES = ["table1_variant_head_to_head", "table2_decision_quality_matched_coverage",
                "table3_diagnosis_vs_baselines"]
 SUPP_TABLES = [f"tableS{i}_" for i in range(1, 10)]
-MANUSCRIPT_DOCS = ["DISCERN_Paper1_HGG_Advances_SUBMISSION.md",
+MANUSCRIPT_DOCS = ["DISCERN_Paper1_BMC_HumanGenomics_SUBMISSION.md",
+                   "DISCERN_Paper1_HGG_Advances_SUBMISSION.md",
                    "DISCERN_Paper1_HGG_Advances_COVER_LETTER.md"]
+
+# BMC publishes supplementary material as separately uploaded, individually cited Additional
+# files, so the compiled supplement becomes Additional file 1 and each large table follows it in
+# citation order. The mapping to the S-numbering used in the text is written into the directory.
+ADDITIONAL_FILES = [
+    ("Document_S1_Supplemental_Information.pdf", "Additional_file_1.pdf",
+     "Supplementary methods, Figures S1-S5, and Tables S1, S2, S4, S6, S8"),
+    ("Table_S3.xlsx", "Additional_file_2.xlsx", "Table S3, cluster likelihood ratios"),
+    ("Table_S5.xlsx", "Additional_file_3.xlsx", "Table S5, the curated published-case benchmark"),
+    ("Table_S7.xlsx", "Additional_file_4.xlsx", "Table S7, third-party data sources"),
+    ("Table_S9.xlsx", "Additional_file_5.xlsx", "Table S9, software and database versions"),
+]
 ARCHIVE_DOCS = ["DISCERN_Paper1_HGG_Advances_v3.md", "DISCERN_Paper1_Manuscript_v2.md",
                 "DISCERN_Display_Items_and_Deposit_Audit.md",
                 "DISCERN_Final_PreSubmission_Report.md",
@@ -630,11 +644,12 @@ def lay_out_submission(pkg):
     d_ms = os.path.join(pkg, "01_manuscript")
     d_fig = os.path.join(pkg, "02_figures")
     d_tab = os.path.join(pkg, "03_tables")
-    d_sup = os.path.join(pkg, "04_supplemental")
+    d_sup = os.path.join(pkg, "04_additional_files")
+    d_ga = os.path.join(pkg, "05_graphical_abstract")
     d_sup_f = os.path.join(d_sup, "components", "figures")
     d_sup_t = os.path.join(d_sup, "components", "tables")
     d_arc = os.path.join(pkg, "archive")
-    for d in (d_ms, d_fig, d_tab, d_sup_f, d_sup_t, d_arc):
+    for d in (d_ms, d_fig, d_tab, d_sup_f, d_sup_t, d_ga, d_arc):
         os.makedirs(d, exist_ok=True)
 
     src_f, src_t = os.path.join(pkg, "figures"), os.path.join(pkg, "tables")
@@ -656,14 +671,33 @@ def lay_out_submission(pkg):
             if copy(os.path.join(src_t, fn), d_sup_t, name=f"TableS{i}.csv"):
                 n += 1
 
-    # Document S1 and the large Excel tables are the supplemental upload itself, so they sit at the
-    # top of 04_supplemental; the components that went into Document S1 sit beneath it.
+    # The additional files are the supplemental upload itself, named as the portal expects and in
+    # citation order; the components that were compiled into Additional file 1 sit beneath them.
     sup_src = os.path.join(pkg, "supplemental")
-    copy(os.path.join(sup_src, "Document_S1_Supplemental_Information.pdf"), d_sup)
     xls = os.path.join(sup_src, "excel_tables")
-    for fn in sorted(os.listdir(xls)) if os.path.isdir(xls) else []:
-        copy(os.path.join(xls, fn), d_sup)
+    rows = []
+    for src_name, dest_name, what in ADDITIONAL_FILES:
+        src = (os.path.join(sup_src, src_name) if src_name.endswith(".pdf")
+               else os.path.join(xls, src_name))
+        if copy(src, d_sup, name=dest_name):
+            rows.append(f"| `{dest_name}` | {what} |")
+            n += 1
+        else:
+            print(f"  ! additional file source missing: {src_name}")
+    with open(os.path.join(d_sup, "README.md"), "w", encoding="utf-8") as fh:
+        fh.write("# Additional files\n\nUploaded individually, in citation order. The manuscript "
+                 "refers to the items inside them by their S-numbers, which are kept because "
+                 "readers and reviewers use them; this table maps the two.\n\n"
+                 "| File | Contents |\n|---|---|\n" + "\n".join(rows) + "\n\n"
+                 "Additional file 1 is the same compiled supplement that a Cell Press submission "
+                 "would call Document S1.\n")
+
+    # The graphical abstract is a separate, required upload rather than a numbered figure.
+    ga = os.path.join(pkg, "figures", "graphical_abstract.png")
+    if copy(ga, d_ga):
         n += 1
+    else:
+        print("  ! graphical_abstract.png not found; BMC requires it at submission")
 
     for fn in MANUSCRIPT_DOCS:
         copy(os.path.join(pkg, fn), d_ms)
