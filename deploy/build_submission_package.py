@@ -705,6 +705,19 @@ def lay_out_submission(pkg):
 
     for fn in MANUSCRIPT_DOCS:
         copy(os.path.join(pkg, fn), d_ms)
+
+    # BMC accepts DOC/DOCX/RTF/TeX for the main text and will not take markdown or PDF, so the
+    # submission manuscript is also emitted as Word, with the double spacing and the line and page
+    # numbering the guidelines ask for. Optional dependency: a missing python-docx must not fail
+    # the whole package.
+    md = os.path.join(d_ms, MANUSCRIPT_DOCS[0])
+    if os.path.exists(md):
+        try:
+            from deploy.make_manuscript_docx import convert
+            out = convert(md, md.replace(".md", ".docx"))
+            print(f"  + {os.path.basename(out)}")
+        except ImportError:
+            print("  ! python-docx unavailable; the .docx BMC requires was not generated")
     for fn in ARCHIVE_DOCS:
         copy(os.path.join(pkg, fn), d_arc)
 
