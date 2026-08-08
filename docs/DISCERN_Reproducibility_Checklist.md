@@ -1,42 +1,77 @@
-# DISCERN v3.1 - Reproducibility Checklist (Track D2)
+# Reproducibility checklist
 
-Every public number is reproducible from a clean clone + the named open datasets. Heavy runs
-execute on the VM inside Docker (Gate G8: no host installs; secrets from env, never in git).
+Every reported number is reproducible from a clean clone and the named open datasets. No
+third-party database is redistributed; `data/manifest.json` records each source with its URL,
+version and checksum so the pinned inputs can be recovered.
 
 ## Environment
-```
+
+```bash
 git clone https://github.com/ahmedanees-m/discern && cd discern
 conda env create -f environment.yml        # or: pip install -e ".[dev]"
-make test                                   # ruff + pytest (135 tests, CI-green)
+make test                                  # ruff and pytest
 ```
 
-## Datasets (open; pull fresh at run time - versions drift)
-| Dataset | Source | Version used |
-|---|---|---|
-| ClinGen eRepo | erepo.clinicalgenome.org (download .tab) | 2026-05 export, 170 genes / 12,240 variants |
-| ClinVar variant_summary | NCBI FTP `tab_delimited/variant_summary.txt.gz` | 2026-05-04 |
-| gnomAD | gnomad.broadinstitute.org | v4.1 callset / v4.1.1 annotations (per-variant AFs needed for the freq cross-check - not yet on the VM) |
-| Predictors | REVEL (dbNSFP), Pangolin (tkzeng v1.0.1 / Invitae v1.4.x), AlphaMissense (CC BY 4.0) | pin at run time |
+Python 3.11 or later. The test suite runs without the heavy bioinformatics dependencies; the
+harnesses that read large third-party files require them.
 
-## Reproduce the public numbers
-| Result | Command | Expected |
-|---|---|---|
-| Genome-wide partition (H1/H2) | `python3 -m eval.erepo_genomewide <erepo.tab>` | 100% coverage; 33.2% inflation-prevented (CI 32.4-34.1) |
-| ACMG combining fidelity | `python3 -m eval.erepo_reconstruction <erepo.tab>` | 93.0% exact / 100% within-1-bin |
-| ClinVar concordance (H3) | `python3 -m eval.clinvar_concordance <erepo.tab> <variant_summary.gz>` | 62.4% exact / 92.8% within-1-bin |
-| Variant calibration (H5) | `python3 -m eval.variant_calibration <erepo.tab> <variant_summary.gz>` | isotonic ECE 0.008 / Brier 0.0073 |
-| CSpec threshold triangulation | `python3 -m eval.erepo_thresholds <erepo.tab>` | per-gene BA1/BS1/PM2 + PM2_Supporting |
-| Curated case diagnosis (B4) | `python3 -m eval.curated_case_benchmark` | Top-1 80% / Top-3 100% (n=10) |
-| Coupling sanity (synthetic) | `python3 -m eval.synthetic_coupling_harness` | runs; circularity guard True (NOT a validation) |
-| CI guards | `pytest tests/test_erepo_eval.py tests/test_v31_clusters.py` | partition coverage 1.0; every LR PMID-sourced |
+## Datasets
 
-## Data-gated / external (cannot be reproduced from open data)
-- gnomAD per-variant frequency cross-check (A1) - needs per-variant AFs pulled to the VM.
-- H4 novel-variant AUC vs InterVar - needs real REVEL/Pangolin/AlphaMissense per variant.
-- The coupling validation, cohort diagnosis, misdiagnosis rescue, reader study, per-patient VUS
-  rate - **DAC/IRB gated** (BRIDGE-BPD EGAS00001001172; ITP cohort; a controlled-access paired cohort).
-  Pre-registered (`DISCERN_OSF_PreRegistration_v1.md`) before analysis; reported regardless of outcome.
+Pull each source fresh at run time and record the version, since upstream releases drift.
+
+| Dataset | Source | Version used here |
+|---|---|---|
+| ClinGen Evidence Repository | erepo.clinicalgenome.org, `.tab` export | 2026-05 export, 170 genes, 12240 variants |
+| ClinVar | NCBI FTP, `tab_delimited/variant_summary.txt.gz` | 2026-05-04 |
+| gnomAD | gnomad.broadinstitute.org | v4.1 callset, v4.1.1 annotations |
+| REVEL | dbNSFP release | pinned at run time |
+| AlphaMissense | Zenodo record 8360242, CC BY 4.0 | pinned at run time |
+| Human Phenotype Ontology | hpo.jax.org | release recorded in the manifest |
+| CDC CHAMP and CHBMP | cdc.gov hemophilia mutation projects | 2022 variant lists |
+| GA4GH Phenopacket Store | monarch-initiative/phenopacket-store | release recorded in the manifest |
+
+## Reproducing the reported numbers
+
+Each command writes the JSON file that the tests and `RESULTS.md` read.
+
+| Result | Command |
+|---|---|
+| ACMG combining-rule fidelity | `python -m eval.erepo_reconstruction <erepo.tab>` |
+| Genome-wide partition coverage and reuse | `python -m eval.erepo_genomewide <erepo.tab>` |
+| Per-gene frequency threshold triangulation | `python -m eval.erepo_thresholds <erepo.tab>` |
+| CDC CHAMP and CHBMP recall | `python -m eval.champ_chbmp_benchmark` |
+| Variant arm, discrimination and out-of-fold calibration | `python -m bench.phase_r_variant` |
+| Per-criterion agreement and the circularity exhibit | `python -m bench.track1b_erepo_headtohead` |
+| Gene-term sensitivity sweep | `python -m bench.phase_r_gene_term_sensitivity` |
+| Safety interlock and abstention | `python -m bench.track3_trustworthiness` |
+| Curated-case diagnosis | `python -m eval.curated_case_benchmark` |
+| Phenotype-blind baselines and strata | `python -m eval.gene_only_baseline` |
+| HPO representability of the discriminating features | `python -m eval.phenotype_tool_comparison` |
+| External comparison against LIRICAL | `python -m eval.lirical_arm` |
+| Coupling proof of concept | `python -m eval.coupling_poc` |
+
+## Verification
+
+```bash
+make ci        # lint and tests against the tracked file set, as continuous integration sees it
+```
+
+Several tests are regression guards rather than unit tests. They fail if a value quoted in the
+documentation drifts from its harness output, if a discrimination likelihood ratio loses its
+source PMID, if an ACMG criterion changes factor, or if a claim the results do not support
+appears in a document.
+
+## Not reproducible from open data
+
+The following require controlled-access data and are not part of any reported result. Their
+evaluation is pre-registered in `DISCERN_OSF_PreRegistration_v1.md` and will be reported
+regardless of outcome.
+
+- The disease-variant coupling endpoint on real paired phenotype-genotype data.
+- Cohort diagnosis, misdiagnosis rescue, and per-patient VUS rate.
+- The randomized reader study.
 
 ## Release
-Zenodo DOI minted on the first GitHub Release; no patient data in any artifact (G7); Docker
-images for reproducible deployment (`deploy/compose.vm.yml`).
+
+A Zenodo DOI is minted on each tagged GitHub release. No patient-level data appears in any
+artifact. Container images for reproducible deployment are built by the release workflow.

@@ -41,9 +41,9 @@ def base_code(code: str) -> str:
 
 
 # The applied-code vocabulary lives here, beside base_code, so every analysis that reads applied
-# criteria shares one parser. It used to be duplicated in the benchmark with a word-boundary
-# anchor, and because "_" is a word character that copy silently dropped every strength-modified
-# code such as PM2_Supporting while this module kept them. One owner prevents that recurring.
+# criteria shares one parser. A second parser anchored on word boundaries would drop every
+# strength-modified code, since "_" is a word character; a single owner keeps the vocabulary and
+# the factor map in step.
 CODE_RE = re.compile(
     r"\b(PVS1|PS[1-4]|PM[1-6]|PP[1-5]|BA1|BS[1-4]|BP[1-7])"
     r"(_(?:Very[ _]Strong|Strong|Moderate|Supporting|Stand[ _]?Alone))?")

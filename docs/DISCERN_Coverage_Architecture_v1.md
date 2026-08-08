@@ -1,7 +1,7 @@
-# DISCERN - Coverage Architecture v1 (literature-grounded)
+# Coverage architecture
 
 **Version:** 1.0.0 - **Date:** 2026-06-13
-**Purpose:** the authoritative, cited answer to *which diseases, which confusable clusters, which genes* DISCERN must cover - derived from the field's classification bodies, curated gene panels, and diagnostic-pitfall literature (not from clinical intuition). This document supplies the concrete content for Track A (variant gene panel) and Track B (diagnosis clusters).
+**Purpose:** the authoritative, cited answer to *which diseases, which confusable clusters, which genes* DISCERN must cover - derived from the field's classification bodies, curated gene panels, and diagnostic-pitfall literature (not from clinical intuition). This document supplies the concrete content for the variant gene panel and diagnosis clusters.
 
 ---
 
@@ -70,7 +70,7 @@ These are the documented diagnostic **traps** - where two+ disorders look alike 
 | **C9** | Mild bleeding, normal/borderline tests | **Type 1 VWD / low VWF** (VWF) - mild platelet function defect - normal | Repeat VWF panel, LTA, bleeding-assessment-tool score | Over-/under-diagnosis; "low VWF" is not classic VWD; avoid over-treatment | Blood Adv 2025;9:5870; Gresele 2015 | [pending] build |
 | **C10** | Procoagulant defect missed by routine tests | **Scott syndrome** (ANO6) | PS-exposure / prothrombinase assay (normal LTA & aggregation) | Easily missed (standard platelet tests normal); transfusion planning | Lentaigne 2016 | [pending] optional |
 
-**Coverage logic.** C1-C2 are built. C3-C9 are the documented, harm-bearing traps that complete the diagnosis engine for this domain; **C4 is first** (the leukemia-predisposition group has the gravest miss). C10 is optional (rare, but a clean demonstration of "tests normal yet bleeding"). Beyond these, additional disorders are *catalog entries for the variant engine* but not separate diagnosis clusters unless a genuine confusion is documented - that is the line that keeps the tool great rather than bloated.
+**Coverage logic.** C1 to C9 are the documented, harm-bearing confusions that the diagnosis engine must cover in this domain; the leukaemia-predisposition group carries the gravest consequence of a miss and is treated as the priority. C10 is included as a case where routine tests are normal yet the patient bleeds. Beyond these, additional disorders are catalog entries for the variant engine rather than separate diagnosis clusters, since a cluster is warranted only where a genuine diagnostic confusion is documented.
 
 ---
 
@@ -93,7 +93,7 @@ Each new cluster is **YAML + sourced LRs only** (no engine change) - the general
 
 ## PART 4 - Variant-engine gene panel (breadth target)
 
-The variant side targets the **full ISTH TIER1 curated panel** (Megy 2019, maintained list) across all four domains, not just cluster genes - this is what the genome-wide partition validation (v3 Track A1) and novel-variant scoring (A2) run on. Concretely the panel spans, at minimum:
+The variant side targets the **full ISTH TIER1 curated panel** (Megy 2019, maintained list) across all four domains, not just cluster genes - this is the panel the genome-wide partition validation and the novel-variant scoring run on. Concretely the panel spans, at minimum:
 
 - **Platelet (~70 genes):** ITGA2B, ITGB3, FERMT3, RASGRP2, ITGB2, GP1BA, GP1BB, GP9, MYH9, ACTN1, TUBB1, FLNA, DIAPH1, TPM4, WAS, ANKRD26, RUNX1, ETV6, MPL, THPO, CYCS, RBM8A, NBEAL2, GFI1B, VPS33B, VIPAS39, PLAU, HPS1, HPS3, HPS4, HPS5, HPS6, AP3B1, DTNBP1, BLOC1S3, BLOC1S6, LYST, P2RY12, TBXA2R, TBXAS1, GNAS, PLA2G4A, FLI1, SRC, ANO6, ... (full TIER1 list).
 - **VWD:** VWF (+ GP1BA for PT-VWD).
@@ -106,8 +106,8 @@ The variant side targets the **full ISTH TIER1 curated panel** (Megy 2019, maint
 
 ## PART 5 - How this updates the v3 plan
 
-- **Track A (variant):** panel = Part 4 (full TIER1), not the 38-gene bleeding subset; A1's genome-wide run and A2's novel-variant scoring use it. VCEP anchors per Part 4.
-- **Track B1 (clusters):** replace the sketched candidate list with the **C1-C10 catalog (Part 2)**, built in the **Part 3 priority order (C4 first)**. Each cluster's LRs and pertinent negatives are curated to the same `(freq, n_cases, PMID)` bar as the VCEP specs; each cluster's decisive observation and management divergence are encoded for the next-observation (EIG) and safety-interlock modules.
+- **Variant panel:** panel = Part 4 (full TIER1), not the 38-gene bleeding subset; A1's genome-wide run and A2's novel-variant scoring use it. VCEP anchors per Part 4.
+- **the cluster catalog (clusters):** replace the sketched candidate list with the **C1-C10 catalog (Part 2)**, built in the **Part 3 priority order (C4 first)**. Each cluster's LRs and pertinent negatives are curated to the same `(freq, n_cases, PMID)` bar as the VCEP specs; each cluster's decisive observation and management divergence are encoded for the next-observation (EIG) and safety-interlock modules.
 - **Safety interlock (B3):** the divergence/contraindication map extends to every new cluster - at minimum: **DDAVP!->2B** (C2, fix the leading-call bug), **avoid splenectomy/immunosuppression** when an inherited thrombocytopenia is plausible (C3/C4), **recombinant FXIII-A2!->F13B** (C8), **antifibrinolytics-not-platelets** for Quebec (C7), and **HSCT-relevant** flags for LAD-III/Chediak (C1/C6). Every flag sourced.
 - **Benchmark (B4):** the curated published-case set is populated **per cluster** from the case literature cited above (e.g. ANKRD26-as-MDS, ANKRD26/RUNX1-as-ITP), giving real, cited cases across C3-C8.
 

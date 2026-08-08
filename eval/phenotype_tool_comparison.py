@@ -1,8 +1,8 @@
 """PHASE R - the LIRICAL / Exomiser comparison, and the measurement that decides what it can mean.
 
-The pre-submission plan assumed sparse HPO handicaps every tool equally, so a head-to-head would
-still be fair. This module tests that assumption before relying on it, because it turns out to be
-false in a specific and reportable way: the sparsity is not random thinning, it is systematic. The
+A head-to-head against a phenotype-driven ranker is fair only if sparse HPO coverage handicaps
+both tools equally. This module measures whether it does. It does not: the sparsity is systematic
+rather than random thinning. The
 findings that separate these diseases are laboratory assay results - ristocetin-induced platelet
 aggregation and its mixing study, flow cytometry for CD42 and alphaIIbbeta3, multimer patterns,
 light transmission aggregometry, a prothrombinase assay - and the Human Phenotype Ontology does not

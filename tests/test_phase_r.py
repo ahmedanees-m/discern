@@ -177,11 +177,11 @@ def test_intrinsic_evidence_cannot_reach_a_pathogenic_missense_band():
 
 
 def test_pm1_and_pm5_are_variant_intrinsic_not_routed_away():
-    """Guards the corrected claim: the partition does not move the hotspot and same-residue codes.
+    """The partition does not move the hotspot and same-residue codes out of the genetic factor.
 
-    The ceiling is not produced by routing PM1/PM5/PS1/PS4 elsewhere - they are variant-intrinsic
-    and simply have no input in this pipeline. Saying otherwise was wrong in v1 of the manuscript
-    and this test exists so it cannot be reintroduced.
+    The intrinsic-evidence ceiling is not produced by routing PM1, PM5, PS1 and PS4 elsewhere:
+    all four are variant-intrinsic and have no input in this pipeline. This distinguishes an
+    attribution to the partition from an attribution to missing input.
     """
     from rules.vcep.partition import owner
     for code in ("PM1", "PM5", "PS1", "PS4"):

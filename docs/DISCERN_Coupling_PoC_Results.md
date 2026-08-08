@@ -1,4 +1,4 @@
-# DISCERN - Coupling Proof-of-Concept: Results
+# Disease-variant coupling: proof of concept
 
 **Date:** 2026-06-17 - **Code:** `eval/coupling_poc.py`,
 `eval/extract_phenopackets.py`, `eval/hpo_feature_crosswalk.yaml`, `tests/test_coupling_poc.py`.
@@ -6,11 +6,14 @@
 **What this is.** The first real-data, public, circularity-safe test of H6: does the clinical-phenotype
 coupling resolve variants that sequence evidence alone leaves as VUS, and ONLY when phenotype and gene
 agree? It is a proof-of-concept that de-risks and motivates the confirmatory cohort study; it is NOT
-the confirmatory validation (that remains the pre-registered, controlled-access cohort study, Gate G13).
+the confirmatory validation (that remains the pre-registered, controlled-access cohort study).
 
-> **Phase R update.** The continuous secondary value moved from +0.126 (matched 0.208) to **+0.252** (matched 0.334) because the P(G|D) correction sharpens the disease posterior that drives the coupling. The **pre-registered primary endpoint is the binary one and is unchanged at 0.0**. With n=2 usable cases neither value supports a claim; the run remains a directional proof-of-concept and Gate G13 is untouched.
+> The continuous secondary value is +0.252 (matched 0.334). The pre-registered primary
+> endpoint is the binary one and stands at 0.0. With n=2 usable cases neither value
+> supports a claim; the run is a directional proof of concept and the pre-registered
+> protocol is untouched.
 
-## Independent verification (done before the run)
+## Independent verification
 - **Phenopacket Store** (public GA4GH corpus, github.com/monarch-initiative/phenopacket-store): the
   paper snapshot is 6,668 phenopackets / 475 diseases / 423 genes (Danis et al., *Human Genetics and
   Genomics Advances*, **PMID 39394689 / PMC11564936**; cite by PMID, the record is dated 2024 not 2025).
@@ -52,7 +55,7 @@ as a coupling input):
 **Reading it.** Neither case crosses the LP reclassification threshold, so the **binary lift is
 0 on n=2**. But the **continuous signal is directionally consistent with H6 in both cases**: the matched
 clinical phenotype lifts the variant's pathogenic posterior to ~2.5x the mismatched value. The coupling
-carries the right disease-specific signal; it is simply under-threshold here because (a) n=2, (b) the
+carries the right disease-specific signal; it is under threshold here because (a) n=2, (b) the
 literature phenotypes are sparse (often only pigment dilution for Chediak, with the decisive giant-granule
 finding correctly held out as Truth), and (c) only the PM2 frequency code is in the sequence band (no
 REVEL annotation, so no PP3). The coupling mechanism itself is validated by a unit test
@@ -73,5 +76,4 @@ is built and ready to run unchanged the moment cohort access clears.
   matched/mismatched contrast (not an absolute rate) is what controls for this.
 - **VUS-at-presentation is rare in the literature** (papers resolve variants before publishing), which
   is the main reason the working set is tiny.
-- **Not confirmatory:** the gated cohort study remains the definitive test; this PoC does not replace it
-  (Gate G13 unchanged).
+- **Not confirmatory:** the gated cohort study remains the definitive test; this PoC does not replace it.

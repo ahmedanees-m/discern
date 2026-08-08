@@ -1,4 +1,4 @@
-# DISCERN - CHAMP/CHBMP Independent Sensitivity Benchmark (v1)
+# Independent sensitivity on the CDC hemophilia mutation projects
 
 **Date:** 2026-06-16 - **Code:** `eval/champ_chbmp_benchmark.py` - **Track:** A2 extension (variant engine).
 **Datasets (verified, public, PHI-free):** CDC **CHAMP** (Hemophilia A Mutation Project, F8) and

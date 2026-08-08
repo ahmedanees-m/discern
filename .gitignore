@@ -10,7 +10,11 @@
 !.env.example
 
 # ---- Private / pre-publication (keep local, do not push) ----
+# The manuscript and the display items it carries are prepared outside this repository, in
+# manuscript_files/pipeline/. These entries stop a stray copy being committed.
 manuscript/
+figures/
+manuscript_files/
 secrets/
 **/nvidia_api_key*
 **/GitHub_Access_Token*

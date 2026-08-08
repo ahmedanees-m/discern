@@ -50,9 +50,11 @@ def test_ddavp_interlock_hard_stop():
 
 
 def test_ddavp_hard_stop_fires_when_contraindicated_disease_is_leading():
-    """v3.1 B3 regression: the hard-stop must fire even when the contraindicated disease is the
-    LEADING call. Previously the loop `continue`d past the leading disease, so "DDAVP planned +
-    2B leading" emitted only a divergence flag (or nothing) instead of a hard stop."""
+    """The hard stop must fire when the contraindicated disease is the leading call.
+
+    Desmopressin planned against a leading type 2B is the case where a management-divergence flag
+    alone would be insufficient, so this asserts the hard stop itself.
+    """
     from jointdx.infer import leading_disease
     cluster = cluster_for("vwf_gpib")
     # plasma-origin RIPA + a VWF variant -> type 2B leads; DDAVP is contraindicated in 2B.

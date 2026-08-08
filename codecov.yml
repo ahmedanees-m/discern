@@ -63,7 +63,6 @@ ignore:
   - "bench/phase_r_gene_term_sensitivity.py"
   - "bench/track1_variant_headtohead.py"
   - "bench/track1b_erepo_headtohead.py"
-  - "bench/build_zenodo_supplement.py"
   - "bench/genebe_client.py"
   - "bench/genebe_erepo.py"
   - "bench/erepo_extract.py"

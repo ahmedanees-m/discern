@@ -124,15 +124,17 @@ fails if any entry lacks one.
 
 ## Results
 
-Measured on public data. Method and provenance are in `docs/`.
+Measured on public data. `docs/RESULTS.md` gives every number with the dataset and the
+harness that produced it.
 
 | Evaluation | Dataset | Result |
 |---|---|---|
 | ACMG combining-rule fidelity | ClinGen Evidence Repository, 2,653 bleeding-panel variants | 93.0% exact, 100% within one bin |
 | Evidence partition coverage | ClinGen Evidence Repository, 12,240 variants, 170 genes | every applied criterion routed to exactly one factor |
 | Bottom-line reuse inflation | same surface | 33.2% of variants band-determined by non-genetic evidence (95% CI 32.4 to 34.1) |
-| Variant classification, time-split | expert-panel surface, missense | AUROC 0.939 (95% CI 0.906 to 0.967) |
-| Calibration, out-of-fold isotonic | same | ECE 0.017 |
+| Variant classification | expert-panel surface, 425 missense | AUROC 0.939 (95% CI 0.906 to 0.967) |
+| Variant classification, time-split | approved after the split date, 383 missense | AUROC 0.927 (95% CI 0.882 to 0.961) |
+| Calibration, out-of-fold isotonic | expert-panel surface, 425 missense | ECE 0.017 (95% CI 0.011 to 0.047) |
 | Frequency threshold agreement | gnomAD frequencies cited in the expert records, 629 variants | 97.8% |
 | Null-variant recall | CDC CHAMP and CHBMP, 2,130 null variants | 91.2% (F8 97.7%, F9 65.8%) |
 | Intrinsic-evidence ceiling | 425 expert-classified missense variants | none reach a pathogenic band on sequence evidence alone |
@@ -146,22 +148,26 @@ advantage in reasoning on identical evidence is not established. Allowed the ful
 DISCERN reaches 91% (p = 0.02), which is significant but is a claim about what the model can
 represent rather than about inference.
 
-The 100% figure on the curated cases is in-sample. Those cases exposed a defect in the joint
-model, which was then corrected, so the figure is not a head-to-head result and is not reported
-as one. Before the correction the same benchmark scored 81%.
+The curated-case Top-1 figure is in-sample: those cases were used while developing the joint
+model, and the same benchmark scores 81% under the configuration that preceded the
+disease-posterior correction. It characterizes the implementation and is not a held-out
+comparison. The baseline that matters is the phenotype-blind gene lookup, against which the
+difference is not significant (exact McNemar p = 0.25).
 
 ## Reproducing the results
 
-Each harness writes the JSON file that the figures, tables and tests read.
+Each harness writes the JSON file that the tests and the reported results read.
 
 ```bash
 python -m eval.erepo_reconstruction        # ACMG fidelity and partition coverage
-python -m eval.erepo_genomewide            # genome-wide partition
+python -m eval.erepo_genomewide            # genome-wide partition coverage
 python -m eval.champ_chbmp_benchmark       # CDC catalog recall
 python -m eval.curated_case_benchmark      # curated-case diagnosis
+python -m eval.gene_only_baseline          # phenotype-blind baselines
+python -m eval.lirical_arm                 # external comparison
 python -m bench.phase_r_variant            # variant arm, out-of-fold calibration
-python -m figures.make_figures             # figures 1-6 and S1-S5
-python -m figures.make_tables              # tables 1-3 and S1-S9
+python -m bench.track1b_erepo_headtohead   # per-criterion agreement
+python -m bench.track3_trustworthiness     # safety interlock and abstention
 ```
 
 Third-party databases are not redistributed. `data/manifest.json` records each source with its
@@ -183,13 +189,16 @@ nextobs/        next-observation ranking, partial input, what-if
 equity/         ancestry reliability, evidence routing, reporting
 learn/          outcome store and auditable prior updates
 eval/           validation harnesses
-bench/          positioning benchmarks and the pre-submission re-analysis
-figures/        figure and table generation
+bench/          comparative benchmarks
 api/  llm/      FastAPI endpoint and model gateway
 deploy/ docker/ deployment helpers and images
 tests/          test suite and continuous integration guards
-docs/           validation results, claims map, reproducibility checklist, pre-registration
+docs/           results, coverage architecture, dataset map, reproducibility, pre-registration
+data/           source manifest with URL, version and checksum for every third-party dataset
 ```
+
+Every reported number is written by a harness in `eval/` or `bench/` into a JSON file committed
+alongside it, and `docs/RESULTS.md` maps each number to the harness and dataset that produced it.
 
 ## Testing
 
@@ -198,9 +207,9 @@ make test        # ruff and pytest
 make ci          # lint and tests against tracked files only, as CI sees them
 ```
 
-The suite has 245 tests. Several are regression guards rather than unit tests: they fail if a
+The suite has 241 tests. Several are regression guards rather than unit tests: they fail if a
 reported value drifts from its harness output, if a likelihood ratio loses its source, if a
-retired claim reappears in the documentation, or if an ACMG criterion changes factor.
+claim the results do not support reappears in the documentation, or if an ACMG criterion changes factor.
 
 ## Status and scope
 
@@ -210,18 +219,16 @@ paired phenotype-genotype data, because public corpora do not contain enough suc
 evaluation is pre-registered with an explicit falsification condition and is not claimed until
 that endpoint is reported.
 
-Two claims were retired during pre-submission re-analysis and are made nowhere in this
-repository. DISCERN is not the only tool emitting a calibrated probability: under the same folds
-and isotonic protocol, REVEL reaches ECE 0.043 and AlphaMissense 0.029 against DISCERN's 0.017,
-with overlapping intervals. The AUROC difference against REVEL is not significant (DeLong
-p = 0.29). A monotone risk-coverage claim was withdrawn because the diagnosis arm sits at
-ceiling at full coverage, leaving no headroom at this sample size.
+Two things are deliberately not claimed. DISCERN is not the only tool that can emit a calibrated
+probability: under the same folds and isotonic protocol, REVEL reaches ECE 0.043 and
+AlphaMissense 0.029 against DISCERN's 0.017, with overlapping intervals, and the AUROC difference
+against REVEL is not significant (DeLong p = 0.29). No monotone risk-coverage relationship is
+claimed, because the diagnosis arm sits at ceiling at full coverage and this sample size leaves no
+headroom to demonstrate one. `docs/RESULTS.md` states the full scope of what is and is not
+claimed.
 
 No patient-level data appears in any public artifact. The engine recommends; it does not
 diagnose or treat without human sign-off.
-
-`docs/DISCERN_PhaseR_Results_v1.md` records the pre-submission re-analysis in full, including
-the results that removed claims.
 
 ## Citation
 

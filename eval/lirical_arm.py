@@ -202,8 +202,8 @@ def score(path: str) -> dict:
                 "DISCERN_hpo_representable_only vs LIRICAL_restricted_to_cluster. Both tools see the "
                 "same 13 HPO-expressible findings and neither sees the gene. DISCERN leads 74 percent "
                 "to 57 percent, but at n=23 the paired test does not reach significance (McNemar "
-                "p=0.29, bootstrap CI on the difference -4 to +43 percent). The honest statement is "
-                "that DISCERN is not shown to reason better on identical evidence."),
+                "p=0.29, bootstrap CI on the difference -4 to +43 percent), so an advantage in "
+                "reasoning on identical evidence is not established."),
             "encoding_the_evidence_that_decides_these_cases": (
                 "DISCERN_phenotype_only_no_gene vs LIRICAL_restricted_to_cluster. DISCERN additionally "
                 "ingests the 35 findings HPO cannot express - RIPA mixing, CD42 and alphaIIbbeta3 flow "

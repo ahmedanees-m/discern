@@ -1,9 +1,8 @@
 """Guards on the documentation's claims, not its prose.
 
-Phase R retired two claims, withdrew a third, and corrected one factual statement about the
-partition. Each of those survived at least one correction pass somewhere in the archive, which is
-why they are asserted here: a grep is a cheap way to stop a superseded sentence being reintroduced
-by a copy-paste from an older document.
+Three statements are not supported by the results and one is factually wrong about the evidence
+partition. Each is easy to reintroduce by copying a sentence from an older draft, so each is
+asserted against here: the phrase may appear while being disclaimed, never as an assertion.
 """
 from __future__ import annotations
 
@@ -20,17 +19,16 @@ README = pathlib.Path(__file__).resolve().parents[1] / "README.md"
 # only when the same line also marks it as retired, withdrawn or superseded.
 SUPERSEDED = {
     "owned by the disease and coupling factors": (
-        "PM1, PM5, PS1 and PS4 are variant-intrinsic; only PS3 and PP4 are routed away. This "
-        "phrasing was the factual error Phase R corrected."),
+        "PM1, PM5, PS1 and PS4 are variant-intrinsic; only PS3 and PP4 are routed away."),
     "only tool emitting a calibrated probability": (
-        "retired by Phase R R2: under an identical isotonic protocol the comparators calibrate too, "
-        "with overlapping intervals."),
-    "monotone risk-coverage": "withdrawn by Phase R: the diagnosis arm is at ceiling at n=42.",
-    "monotone payoff": "withdrawn by Phase R: the diagnosis arm is at ceiling at n=42.",
+        "under an identical isotonic protocol the comparators calibrate too, with overlapping "
+        "intervals."),
+    "monotone risk-coverage": "the diagnosis arm is at ceiling at n=42, so none is demonstrable.",
+    "monotone payoff": "the diagnosis arm is at ceiling at n=42, so none is demonstrable.",
 }
-RETRACTION_MARKERS = ("retire", "Retire", "RETIRE", "withdraw", "Withdraw", "WITHDRAW",
-                      "superseded", "Superseded", "SUPERSEDED", "Phase R", "was:", "no longer",
-                      "not claim", "corrected", "uninformative")
+# Case-insensitive: a disclaimer is a disclaimer wherever it falls in a sentence.
+RETRACTION_MARKERS = ("retire", "withdraw", "superseded", "was:", "no longer", "not claim",
+                      "is not claimed", "no monotone", "corrected", "uninformative")
 
 
 def _markdown_files():
@@ -41,22 +39,23 @@ def _offending_lines(text):
     """Flag a superseded phrase only when nothing nearby retracts it.
 
     Markdown hard-wraps prose, so a claim and its retraction routinely land on adjacent lines. The
-    check therefore looks at a small window around the hit rather than the single line, which keeps
-    the guard honest without forcing documents to be rewrapped around a test.
+    check therefore looks at a small window around the hit rather than the single line, so
+    a document need not be rewrapped to satisfy the guard.
     """
     lines = text.splitlines()
     out = []
     for i, line in enumerate(lines):
         window = " ".join(lines[max(0, i - 1):i + 2])
         for phrase, why in SUPERSEDED.items():
-            if phrase in line and not any(m in window for m in RETRACTION_MARKERS):
+            low = window.lower()
+            if phrase in line and not any(m in low for m in RETRACTION_MARKERS):
                 out.append((i + 1, phrase, why, line.strip()[:160]))
     return out
 
 
 @pytest.mark.parametrize("path", _markdown_files(), ids=lambda p: p.name)
 def test_superseded_claims_are_never_asserted(path):
-    """A retired claim may be quoted while being retired, never stated as fact."""
+    """An unsupported claim may be quoted while being disclaimed, never stated as fact."""
     bad = _offending_lines(path.read_text(encoding="utf-8"))
     assert not bad, "\n".join(
         f"{path.name}:{ln} asserts '{ph}' with no retraction marker - {why}\n    {snippet}"

@@ -1,4 +1,4 @@
-# DISCERN Validation Results (Tier A, real open data)
+# Validation results on open data
 
 **Run:** 2026-06-13, on the VM, against real downloaded data. No synthetic data is used as
 a result. Sources verified against primary literature.
@@ -51,7 +51,7 @@ that *consumes that label and re-adds the same evidence* over-classifies them. C
    point-reaggregation workflows that re-run the ACMG point system on a variant whose deposited
    label already integrated those codes.
 
-**Interpretation:** Gate G3 (no double-counting) is verified two ways: (i) a unit test
+**Interpretation:** the pre-registered protocol (no double-counting) is verified two ways: (i) a unit test
 that the variant marginal is invariant to bundled PP4/PS3/PP1/PM3 codes, and (ii) the
 per-code routing on 2,653 real variants above - owned codes appear in 31.7% of variants,
 and for 549 (20.7%) the moved evidence is band-determining (a naive all-codes score would
@@ -73,7 +73,7 @@ thrombophilia cases (elevated factor VIII / DVT / PE - outside DISCERN's bleedin
 
 **Finding:** Phenopacket Store is a general rare-disease corpus and is thin on
 inherited bleeding/platelet disorders - only 4 cases fall in DISCERN's clusters (consistent
-with the plan's section 3D). DISCERN diagnoses all 4 correctly, but the diagnosis-accuracy
+with the pre-registered protocol). DISCERN diagnoses all 4 correctly, but the diagnosis-accuracy
 headline cannot rest on n=4. The PhEval-compatible runner is in place; the diagnosis
 benchmark headline requires the curated published-case set (Tier A, hand-built) and the
 cohorts (Tier B/C).
@@ -86,7 +86,7 @@ partition on real VCEP variants, including the uncertain ones). The per-patient 
 the open variant databases do not provide standalone; it is run on the cohorts (Tier B/C)
 where phenotype + variant co-occur. ClinVar 3-star remains the truth label for that run.
 
-## v3.1 expansion results (2026-06-13 -> 06-16, real open data)
+## Expansion results (2026-06-13 to 06-16, real open data)
 
 | Benchmark | Dataset | Result | Code |
 |---|---|---|---|

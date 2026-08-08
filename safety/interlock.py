@@ -64,9 +64,9 @@ def flags(cluster: DiscriminationCluster, joint: dict, planned_tx: str | None = 
                     resolving_observation=_resolving_obs(cluster),
                     message=(f"If {d.name} (p={p:.2f}) rather than {d_star.name}, management changes "
                              f"({d_star.treatment} -> {d.treatment}). Resolve before treating.")))
-        # hard-stop interlock (v3.1 B3 fix): a planned treatment contraindicated by ANY
-        # non-excluded disease fires - INCLUDING the leading call. Previously the loop skipped
-        # the leading disease, so "DDAVP planned + 2B leading" emitted no hard stop.
+        # A planned treatment contraindicated by ANY non-excluded disease fires the hard stop,
+        # the leading call included: a contraindication does not stop applying because the disease
+        # that carries it happens to be the one ranked first.
         if planned_tx and planned_tx in d.contraindications and p > 0:
             is_lead = d.id == lead_id
             out.append(SafetyFlag(
