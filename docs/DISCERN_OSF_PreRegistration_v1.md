@@ -1,8 +1,17 @@
 # DISCERN - Pre-Registration Protocol v1 (DRAFT for OSF)
 
-**Status:** DRAFT. To be time-stamped on the Open Science Framework (osf.io) **before any
-cohort data is analysed**. No paired-cohort data has been examined at the time of
-registration. **Author:** Anees Ahmed Mahaboob Ali (`ahmedanees-m`). **Date drafted:** 2026-06-13.
+**Status:** Registered on the Open Science Framework. The registration timestamp is the
+authoritative date; this document is frozen at registration and is not edited afterwards.
+**Author:** Anees Ahmed Mahaboob Ali (`ahmedanees-m`). **Date drafted:** 2026-06-13.
+
+**What is prospective, stated precisely.** The primary hypothesis H6 and every analysis in
+sections 2 to 8 are prospective: **no paired-cohort data has been examined at the time of
+registration**, and none will be until this protocol is registered (Gate G12). Section 9 is
+different and is marked as such. Its public-data proof-of-concept was specified before it ran but
+executed on 2026-06-17, before this registration was created, and its result is reported here.
+Section 9 is therefore **not** claimed as a prospectively time-stamped analysis; it is included so
+that the precursor, its falsification condition, and its actual outcome are all on the public
+record together. Nothing in section 9 relaxes Gate G13.
 
 ## 1. Background & the claim under test
 DISCERN computes one coupled posterior `P(D,V|E)` over disease (D) and variant (V). The novel,
