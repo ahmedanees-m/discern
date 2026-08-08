@@ -55,8 +55,8 @@ those on which both applied it at the same ClinGen strength. Computed on the 1,2
 carrying a pathogenic or benign expert classification, since agreement requires a graded variant on
 both sides; each kappa reconciles with the applied counts in its own row at that denominator. An
 unmodified code is resolved to its criterion's default strength before the strength comparison.
-Criteria applied zero times carry the reason, in three categories: routed to another factor by the
-evidence partition, variant-intrinsic with no input under this protocol, or not implemented.
+Criteria applied zero times carry the reason, in the same three categories Table S2 uses:
+a protocol choice, a data-availability limit, or an engine scope gap.
 
 **Table S2. Attribution of the intrinsic-evidence ceiling.**
 Variants reaching Likely Pathogenic under each restoration condition: as scored; restoring the

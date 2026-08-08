@@ -151,8 +151,18 @@ def table3(outdir):
 # --------------------------------------------------------------------------------------------
 # Three distinct reasons a criterion is never applied, which a single "zero" would conflate. Only
 # the first is evidence about the partition; the others are scope boundaries of this pipeline.
-ROUTED_AWAY = {"PS3", "BS3", "PP4", "PP1", "BS4", "PM3", "BP2", "PS2", "PM6"}
-NOT_IMPLEMENTED = {"BP7", "BS2"}
+# Table S2 classifies every unapplied criterion as a protocol choice, a data-availability limit,
+# or an engine scope gap. Table S1 uses the same three categories so the two tables cannot be read
+# as disagreeing about how many kinds of zero there are.
+ZERO_CAUSE = {
+    "PS3": "protocol choice: routed to the functional factor by the partition",
+    "PS1": "protocol choice: same-residue ClinVar lookup disabled by the blinding protocol",
+    "PM5": "protocol choice: same-residue ClinVar lookup disabled by the blinding protocol",
+    "PS4": "data-availability limit: no public surface supplies case-control counts at this scale",
+    "PM1": "engine scope gap: hotspot and critical-domain annotation not implemented",
+    "BP7": "engine scope gap: applies to synonymous variants, outside the missense scope here",
+    "BS2": "engine scope gap: observation in healthy adults not implemented",
+}
 NOTES = {
     "PVS1": "the criterion agrees almost perfectly; the strength does not, because the PVS1 "
             "decision tree needs transcript geometry (NMD prediction and the fraction of protein "
@@ -165,17 +175,8 @@ NOTES = {
            "surface leaves that undetermined for many variants",
     "BA1": "frequency-based; DISCERN is the more conservative of the two",
     "BS1": "frequency-based; DISCERN is the more conservative of the two",
-    "BP4": "applied more sparingly than the panels, at the ClinGen benign-side threshold",
-    "PS3": "routed to the functional factor by the partition, so the variant factor never applies "
-           "it; this is the partition operating as specified",
-    "PM1": "hotspot and critical-domain annotation is not implemented for every in-scope gene",
-    "PM5": "requires a same-residue ClinVar lookup, disabled by the blinding protocol",
-    "PS1": "requires a same-residue ClinVar lookup, disabled by the blinding protocol",
-    "PS4": "requires case-control counts, which no public surface supplies at this scale",
-    "BP7": "applies to synonymous variants, which fall outside the missense scope of every "
-           "reported result; not implemented",
-    "BS2": "requires observation in healthy adults at a frequency inconsistent with penetrance; "
-           "not implemented",
+    "BP4": "the panels apply it more often than DISCERN does (615 against 91); DISCERN applies it "
+           "only at the ClinGen benign-side threshold",
 }
 
 
@@ -187,12 +188,7 @@ def tableS1(outdir):
     m = _load(os.path.join(BENCH, "track1b_erepo_metrics.json"))["per_code_kappa_vs_erepo"]
     rows = []
     for code, v in m.items():
-        if v["discern_applied"] == 0:
-            cause = ("routed to another factor by the partition" if code in ROUTED_AWAY
-                     else "not implemented" if code in NOT_IMPLEMENTED
-                     else "variant-intrinsic; no input in this pipeline")
-        else:
-            cause = "applied by both"
+        cause = ZERO_CAUSE.get(code, "applied by both") if v["discern_applied"] == 0             else "applied by both"
         rows.append([code, v["erepo_applied"], v["discern_applied"],
                      "" if v["kappa"] is None else v["kappa"],
                      v.get("both_applied", ""),

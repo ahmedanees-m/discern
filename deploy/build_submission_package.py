@@ -346,8 +346,8 @@ DEPOSIT_README = """# DISCERN Paper 1 - supporting data, configurations, and res
 This is Record B of a two-record deposit. Record A is the code, archived automatically from a
 GitHub release. This record holds everything needed to check or regenerate the numbers in the
 manuscript: the derived benchmark outputs, the frozen configuration, the variant and case
-identifiers, the figures and tables, the harness scripts, and a manifest of every third-party
-source with its version so it can be re-pulled.
+identifiers, the harness scripts, and a manifest of every third-party source with its version
+so it can be re-pulled. It deliberately carries no figures or tables; see below for why.
 
 ## What is deliberately not here
 
@@ -556,7 +556,7 @@ The numbered directories are the upload order.
 
 | Item | What it is |
 |---|---|
-| `01_manuscript/` | `DISCERN_Paper1_BMC_HumanGenomics_SUBMISSION.md`, the manuscript to submit, in BMC Human Genomics format (structured abstract, Background/Methods/Results/Discussion/Conclusions, the mandatory Declarations block, web links as numbered references). The HGG Advances variant of the same science is kept beside it: unstructured abstract, Material and methods, Web resources, every display item cited. Alongside it, the cover letter. The remaining placeholders in both are the by-line, the funding sanction number, and the three DOIs |
+| `01_manuscript/` | `DISCERN_Paper1_BMC_HumanGenomics_SUBMISSION.md`, the manuscript to submit, in Human Genomics format (structured abstract, Background/Methods/Results/Discussion/Conclusions, the mandatory Declarations block, BMC Vancouver references with web links numbered), and its cover letter. The HGG Advances variant of the same science is in `archive/`: unstructured abstract, Material and methods, Web resources, every display item cited. Alongside it, the cover letter. The remaining placeholders in both are the by-line, the funding sanction number, and the three DOIs |
 | `02_figures/` | `Figure1.pdf` to `Figure6.pdf`, vector, with 300 dpi PNG alongside each. Upload individually |
 | `03_tables/` | `Table1.csv` to `Table3.csv`. These are embedded in the manuscript as formatted tables; the CSVs are the machine-readable source |
 | `04_additional_files/` | exactly what is uploaded as supplemental material, named as the portal expects: `Additional_file_1.pdf` (the compiled supplement) through `Additional_file_5.xlsx`. Its README maps each file to the S-numbers used in the text. `components/` holds the individual figures and tables compiled into Additional file 1, for editing rather than upload |
@@ -572,7 +572,7 @@ been tagged. v1.0.0 is the right label once the paper is submitted and the ident
 
 ## Before submitting
 
-Target journal is **HGG Advances** (Cell Press). Ordered, because several steps depend on the one
+Target journal is **Human Genomics** (BMC, Springer Nature). Ordered, because several steps depend on the one
 before, and every item here needs the author - none can be produced from the repository:
 
 1. Fill the by-line: authors, order, corresponding author, ORCIDs, exact unit name, and the
@@ -585,13 +585,15 @@ before, and every item here needs the author - none can be produced from the rep
    Order matters: Zenodo only snapshots releases created after the integration is switched on.
 5. Upload `zenodo_deposit/` as a Zenodo Dataset record -> **data DOI**.
 6. Insert all three DOIs into the manuscript's Data and Code Availability section.
-7. Reformat the reference list into Cell Press style, and run each reference through Retraction
-   Watch.
+7. Confirm the reference list is in BMC/Springer Vancouver style (no italics, no issue
+   numbers, abbreviated end pages, web links numbered with access dates), and run each
+   reference through Retraction Watch.
 8. Re-run the reproducibility checklist from a clean clone at the tag.
-9. Nominate suggested reviewers, and request the APC waiver in the submission form if applicable.
-10. Post the preprint, then submit `DISCERN_Paper1_HGG_Advances_SUBMISSION.md` as the manuscript,
-    the contents of `figures/` as the display items, and `supplemental/` as the supplemental
-    material.
+9. Nominate suggested reviewers, and request any APC waiver or discount **in the submission
+   form itself**: BMC cannot consider requests made during review or after acceptance.
+10. Post the preprint, then submit `DISCERN_Paper1_BMC_HumanGenomics_SUBMISSION.md` as the
+    manuscript, `02_figures/` as the display items, `04_additional_files/` as the
+    Additional files, and `05_graphical_abstract/` as the required graphical abstract.
 
 ## A note on scope
 
@@ -617,8 +619,10 @@ MAIN_TABLES = ["table1_variant_head_to_head", "table2_decision_quality_matched_c
                "table3_diagnosis_vs_baselines"]
 SUPP_TABLES = [f"tableS{i}_" for i in range(1, 10)]
 MANUSCRIPT_DOCS = ["DISCERN_Paper1_BMC_HumanGenomics_SUBMISSION.md",
-                   "DISCERN_Paper1_HGG_Advances_SUBMISSION.md",
-                   "DISCERN_Paper1_HGG_Advances_COVER_LETTER.md"]
+                   "DISCERN_Paper1_BMC_HumanGenomics_COVER_LETTER.md"]
+# The HGG Advances variant of the same science, kept for provenance rather than submission.
+HGG_DOCS = ["DISCERN_Paper1_HGG_Advances_SUBMISSION.md",
+            "DISCERN_Paper1_HGG_Advances_COVER_LETTER.md"]
 
 # BMC publishes supplementary material as separately uploaded, individually cited Additional
 # files, so the compiled supplement becomes Additional file 1 and each large table follows it in
@@ -631,7 +635,7 @@ ADDITIONAL_FILES = [
     ("Table_S7.xlsx", "Additional_file_4.xlsx", "Table S7, third-party data sources"),
     ("Table_S9.xlsx", "Additional_file_5.xlsx", "Table S9, software and database versions"),
 ]
-ARCHIVE_DOCS = ["DISCERN_Paper1_HGG_Advances_v3.md", "DISCERN_Paper1_Manuscript_v2.md",
+ARCHIVE_DOCS = HGG_DOCS + ["DISCERN_Paper1_HGG_Advances_v3.md", "DISCERN_Paper1_Manuscript_v2.md",
                 "DISCERN_Display_Items_and_Deposit_Audit.md",
                 "DISCERN_Final_PreSubmission_Report.md",
                 "DISCERN_Paper1_Submission_Package.md",

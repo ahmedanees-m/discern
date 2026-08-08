@@ -4,13 +4,13 @@ PP3,305,293,0.947,287,0.969,applied by both,"derived from the same predictor sco
 BA1,183,98,0.64,95,1.0,applied by both,frequency-based; DISCERN is the more conservative of the two
 BS1,85,58,0.297,24,1.0,applied by both,frequency-based; DISCERN is the more conservative of the two
 PM2,812,479,0.084,336,0.94,applied by both,"the panels apply it more often than DISCERN does (812 against 479); DISCERN requires the gnomAD frequency to be below the gene-specific threshold, and the annotation surface leaves that undetermined for many variants"
-BP4,615,91,0.074,67,1.0,applied by both,"applied more sparingly than the panels, at the ClinGen benign-side threshold"
-BP7,541,0,,0,,not implemented,"applies to synonymous variants, which fall outside the missense scope of every reported result; not implemented"
-BS2,5,0,,0,,not implemented,requires observation in healthy adults at a frequency inconsistent with penetrance; not implemented
-PM1,53,0,,0,,variant-intrinsic; no input in this pipeline,hotspot and critical-domain annotation is not implemented for every in-scope gene
-PM5,97,0,,0,,variant-intrinsic; no input in this pipeline,"requires a same-residue ClinVar lookup, disabled by the blinding protocol"
-PS1,7,0,,0,,variant-intrinsic; no input in this pipeline,"requires a same-residue ClinVar lookup, disabled by the blinding protocol"
-PS3,131,0,,0,,routed to another factor by the partition,"routed to the functional factor by the partition, so the variant factor never applies it; this is the partition operating as specified"
-PS4,173,0,,0,,variant-intrinsic; no input in this pipeline,"requires case-control counts, which no public surface supplies at this scale"
+BP4,615,91,0.074,67,1.0,applied by both,the panels apply it more often than DISCERN does (615 against 91); DISCERN applies it only at the ClinGen benign-side threshold
+BP7,541,0,,0,,"engine scope gap: applies to synonymous variants, outside the missense scope here",
+BS2,5,0,,0,,engine scope gap: observation in healthy adults not implemented,
+PM1,53,0,,0,,engine scope gap: hotspot and critical-domain annotation not implemented,
+PM5,97,0,,0,,protocol choice: same-residue ClinVar lookup disabled by the blinding protocol,
+PS1,7,0,,0,,protocol choice: same-residue ClinVar lookup disabled by the blinding protocol,
+PS3,131,0,,0,,protocol choice: routed to the functional factor by the partition,
+PS4,173,0,,0,,data-availability limit: no public surface supplies case-control counts at this scale,
 
 "NOTE: Computed on the 1,265 variants of the bleeding-panel surface carrying a pathogenic or benign expert classification, not on all 2,239: agreement requires a graded variant on both sides. Every kappa here reconciles with the applied counts in the same row at that denominator. Criteria applied by neither the expert panels nor DISCERN are omitted (PS2, PM3, PM4, PM6, PP1, PP2, PP4, PP5, BP1, BP2, BP3, BP5, BP6), so these thirteen rows are not the whole of ACMG/AMP. Agreement is reported at two levels: kappa asks whether the criterion was applied at all, and strength_agreement asks, among variants where both applied it, how often they applied it at the same ClinGen strength. An unmodified code is resolved to its criterion's default strength before comparison."
