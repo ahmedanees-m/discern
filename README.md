@@ -207,7 +207,7 @@ make test        # ruff and pytest
 make ci          # lint and tests against tracked files only, as CI sees them
 ```
 
-The suite has 241 tests. Several are regression guards rather than unit tests: they fail if a
+The suite has 242 tests. Several are regression guards rather than unit tests: they fail if a
 reported value drifts from its harness output, if a likelihood ratio loses its source, if a
 claim the results do not support reappears in the documentation, or if an ACMG criterion changes factor.
 
