@@ -302,6 +302,10 @@ def build(out_root, skip_vm=False):
                 "eval/coupling_poc.py", "rules/vcep/partition.py", "jointdx/factorgraph.py",
                 "figures/make_figures.py", "figures/make_tables.py"):
         copy(os.path.join(ROOT, src), code)
+    # One module per figure, plus the shared style that carries the journal's geometry: a reader
+    # who wants to know how a panel was drawn should not have to clone the repository.
+    copy(os.path.join(ROOT, "figures", "scripts"), code, name="figure_scripts")
+    shutil.rmtree(os.path.join(code, "figure_scripts", "__pycache__"), ignore_errors=True)
 
     # ---- deposit: docs ------------------------------------------------------------------
     print("deposit: docs")
@@ -557,10 +561,10 @@ The numbered directories are the upload order.
 | Item | What it is |
 |---|---|
 | `01_manuscript/` | `DISCERN_Paper1_BMC_HumanGenomics_SUBMISSION.md`, the manuscript to submit, in Human Genomics format (structured abstract, Background/Methods/Results/Discussion/Conclusions, the mandatory Declarations block, BMC Vancouver references with web links numbered), and its cover letter. The HGG Advances variant of the same science is in `archive/`: unstructured abstract, Material and methods, Web resources, every display item cited. Alongside it, the cover letter. The by-line, affiliations, e-mail addresses and ORCID identifiers are filled in; the remaining placeholders are the funding sanction number, the computing-resource attribution, and the code and data DOIs, which cannot be minted until the release is tagged |
-| `02_figures/` | `Figure1.pdf` to `Figure6.pdf`, vector, with 300 dpi PNG alongside each. Upload individually |
+| `02_figures/` | `Figure1` to `Figure6` in three formats: vector PDF for typesetting, 400 dpi PNG for review, and LZW-compressed RGB TIFF for production. Upload individually. Each figure is drawn by its own module in `zenodo_deposit/.../code/harnesses/figure_scripts/`, on the shared `style.py` that holds the journal's geometry, palette and resolution |
 | `03_tables/` | `Table1.csv` to `Table3.csv`. These are embedded in the manuscript as formatted tables; the CSVs are the machine-readable source |
-| `04_additional_files/` | exactly what is uploaded as supplemental material, named as the portal expects: `Additional_file_1.pdf` (the compiled supplement) through `Additional_file_5.xlsx`. Its README maps each file to the S-numbers used in the text. `components/` holds the individual figures and tables compiled into Additional file 1, for editing rather than upload |
-| `05_graphical_abstract/` | `graphical_abstract.png`, 920 x 300 px landscape, required by BMC Human Genomics at submission |
+| `04_additional_files/` | exactly what is uploaded as supplemental material, named as the portal expects: `Additional_file_1.pdf` (the compiled supplement) through `Additional_file_5.xlsx`. Its README maps each file to the S-numbers used in the text. `components/` holds the individual figures and tables compiled into Additional file 1, in the same three formats, for editing rather than upload |
+| `05_graphical_abstract/` | `graphical_abstract.png`, 920 x 300 px landscape, required by BMC Human Genomics at submission, and the same image as TIFF |
 | `zenodo_deposit/` | the supporting-data record, ready to upload to Zenodo. `MANIFEST.md` inside it lists every file with its md5 and a one-line description. It deliberately contains no figures or tables: those are display items published with the article, and each regenerates from the data in the deposit |
 | `archive/` | superseded drafts and the planning documents, kept for provenance and not part of the submission: the v3 draft this was assembled from, the preceding generic-journal v2, the display-item and deposit audits, the pre-submission analysis plan, and the original deposit design |
 
@@ -609,6 +613,8 @@ deposit records every disposition, including the unfavourable ones.
 # "Figure3.pdf" is what the upload form asks for and "fig3_per_criterion_kappa.pdf" is not.
 # Numbered directories put the upload in order: manuscript, then figures, then tables, then
 # supplemental, then the data record.
+FIGURE_FORMATS = ("pdf", "png", "tif")
+
 MAIN_FIGURES = ["fig1_architecture_and_partition", "fig2_discrimination_and_calibration",
                 "fig3_per_criterion_kappa", "fig4_intrinsic_ceiling",
                 "fig5_clinvar_circularity", "fig6_diagnosis_baselines"]
@@ -664,12 +670,13 @@ def lay_out_submission(pkg):
 
     src_f, src_t = os.path.join(pkg, "figures"), os.path.join(pkg, "tables")
     n = 0
+    # PDF for typesetting, PNG for review copies, TIFF because production asks for it.
     for i, stem in enumerate(MAIN_FIGURES, 1):
-        for ext in ("pdf", "png"):
+        for ext in FIGURE_FORMATS:
             if copy(os.path.join(src_f, f"{stem}.{ext}"), d_fig, name=f"Figure{i}.{ext}"):
                 n += 1
     for i, stem in enumerate(SUPP_FIGURES, 1):
-        for ext in ("pdf", "png"):
+        for ext in FIGURE_FORMATS:
             if copy(os.path.join(src_f, f"{stem}.{ext}"), d_sup_f, name=f"FigureS{i}.{ext}"):
                 n += 1
     for i, stem in enumerate(MAIN_TABLES, 1):
@@ -700,12 +707,14 @@ def lay_out_submission(pkg):
                  "Additional file 1 is the compiled supplement: one PDF rather than loose files, "
                  "so that a reader following a citation lands in a single document.\n")
 
-    # The graphical abstract is a separate, required upload rather than a numbered figure.
-    ga = os.path.join(pkg, "figures", "graphical_abstract.png")
-    if copy(ga, d_ga):
+    # The graphical abstract is a separate, required upload rather than a numbered figure. The PNG
+    # is the one specified at 920 x 300 px; the TIFF travels beside it for production.
+    if copy(os.path.join(pkg, "figures", "graphical_abstract.png"), d_ga):
         n += 1
     else:
         print("  ! graphical_abstract.png not found; BMC requires it at submission")
+    if copy(os.path.join(pkg, "figures", "graphical_abstract.tif"), d_ga):
+        n += 1
 
     for fn in MANUSCRIPT_DOCS:
         copy(os.path.join(pkg, fn), d_ms)

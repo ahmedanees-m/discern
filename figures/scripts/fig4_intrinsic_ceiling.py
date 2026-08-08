@@ -38,15 +38,22 @@ def build(outdir):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(st.FULL_W, 3.0))
 
     lo, hi = int(min(pts)) - 1, 8
-    ax1.hist(pts, bins=np.arange(lo, hi + 1) - 0.5, color=st.BLUE, alpha=0.85, edgecolor="white")
+    counts, _, _ = ax1.hist(pts, bins=np.arange(lo, hi + 1) - 0.5, color=st.BLUE, alpha=0.85,
+                            edgecolor="white")
     ax1.axvline(6, color=st.VERMILION, lw=1.4, ls="--")
-    ax1.text(6.15, ax1.get_ylim()[1] * 0.92, "Likely Pathogenic\nthreshold (6 points)",
-             color=st.VERMILION, fontsize=6.5, va="top")
     ax1.axvspan(6, hi, color=st.VERMILION, alpha=0.06)
-    ax1.text((6 + hi) / 2, ax1.get_ylim()[1] * 0.45, f"zero of {ca['n']}", color=st.VERMILION,
-             fontsize=8, ha="center", fontweight="bold")
+    # Headroom above the tallest bar, so the labels sit in empty space. All three are right-aligned
+    # just short of the threshold line: to its right they ran off the axis, and on it they touched.
+    top = max(counts) * 1.42
+    ax1.set_ylim(0, top)
+    label_x = 5.75
+    ax1.text(label_x, top * 0.97, "Likely Pathogenic\nthreshold\n(6 points)", color=st.VERMILION,
+             fontsize=st.MICRO, va="top", ha="right", linespacing=1.45)
+    ax1.text(label_x, top * 0.60, f"zero of {ca['n']}", color=st.VERMILION, fontsize=st.SMALL,
+             ha="right", va="center", fontweight="bold")
     ax1.annotate("observed\nmaximum {:.0f}".format(ic["max_discern_points_on_missense"]),
-                 xy=(3, 10), xytext=(4.3, ax1.get_ylim()[1] * 0.28), fontsize=6.5, ha="center",
+                 xy=(3, 10), xytext=(label_x, top * 0.34), fontsize=st.MICRO, ha="right",
+                 va="center", linespacing=1.45, color=st.INK,
                  arrowprops=dict(arrowstyle="->", color=st.GREY, lw=0.8,
                                  connectionstyle="arc3,rad=0.25"))
     ax1.set_xlabel("total ACMG points, intrinsic evidence only")

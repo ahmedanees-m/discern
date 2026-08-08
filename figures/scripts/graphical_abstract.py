@@ -73,12 +73,15 @@ def build(outdir):
 
     os.makedirs(outdir, exist_ok=True)
     out = os.path.join(outdir, "graphical_abstract.png")
+    tif = os.path.join(outdir, "graphical_abstract.tif")
     # The shared style saves every figure on a tight bounding box, which is right for a manuscript
     # figure and wrong here: the journal asks for exactly 920 x 300 px, so the canvas is saved whole.
     with plt.rc_context({"savefig.bbox": "standard", "savefig.pad_inches": 0.0}):
         fig.savefig(out, dpi=DPI, facecolor="white")
+        fig.savefig(tif, dpi=DPI, facecolor="white", pil_kwargs={"compression": "tiff_lzw"})
+    st.flatten_tiff(tif, DPI)
     plt.close(fig)
-    return [out]
+    return [out, tif]
 
 
 if __name__ == "__main__":

@@ -47,10 +47,16 @@ ROUTED = GREEN             # routed away by the partition
 NO_INPUT = ORANGE          # variant-intrinsic, no input available
 NOT_IMPL = GREY            # not implemented
 
-# Type sizes. Small, because a full-width figure is reproduced at 170 mm and anything below about
-# 6 pt stops being legible in print.
+# Type sizes. Small, because a full-width figure is reproduced at 170 mm. MICRO is reserved for
+# in-panel annotation blocks, which sit beside the data and read better a little under the label
+# size; axis labels and tick labels never go below SMALL.
 BASE, SMALL, TINY = 8.0, 7.0, 6.2
+MICRO = 5.8
 TITLE = 9.0
+
+# Annotation text on a light background. GREY is right for rules and de-emphasised marks but too
+# pale for words a reader has to read.
+INK = "#333333"
 
 RC = {
     "figure.dpi": 150,
@@ -120,15 +126,39 @@ def fit(fig):
     return total
 
 
+def flatten_tiff(path, dpi):
+    """Rewrite a TIFF as opaque RGB.
+
+    matplotlib writes RGBA. The alpha channel is fully opaque, but production workflows treat an
+    alpha channel as a transparency to resolve, and resolve it against whatever the page is; RGB
+    composited over white removes the question and is smaller.
+    """
+    from PIL import Image
+    with Image.open(path) as im:
+        if im.mode == "RGB":
+            return
+        rgba = im.convert("RGBA")
+        flat = Image.new("RGB", rgba.size, (255, 255, 255))
+        flat.paste(rgba, mask=rgba.split()[3])
+    flat.save(path, format="TIFF", compression="tiff_lzw", dpi=(dpi, dpi))
+
+
 def save(fig, outdir, name):
-    """Write the vector PDF the journal prefers plus a high-resolution PNG."""
+    """Write the vector PDF the journal prefers, plus a high-resolution PNG and TIFF.
+
+    TIFF is LZW-compressed: production systems ask for it, it is lossless, and an uncompressed
+    400 dpi full-page figure would be tens of megabytes.
+    """
     import os
     os.makedirs(outdir, exist_ok=True)
     fit(fig)
+    dpi = RC["savefig.dpi"]
     paths = []
-    for ext in ("pdf", "png"):
+    for ext in ("pdf", "png", "tif"):
         p = os.path.join(outdir, f"{name}.{ext}")
-        fig.savefig(p)
+        fig.savefig(p, **({"pil_kwargs": {"compression": "tiff_lzw"}} if ext == "tif" else {}))
+        if ext == "tif":
+            flatten_tiff(p, dpi)
         paths.append(p)
     plt.close(fig)
     return paths

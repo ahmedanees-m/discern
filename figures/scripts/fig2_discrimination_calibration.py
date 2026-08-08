@@ -62,12 +62,14 @@ def build(outdir):
     ax.set_ylabel("true positive rate")
     ax.set_xlim(-0.02, 1.02)
     ax.set_ylim(-0.02, 1.04)
+    # The block starts high enough that the last line clears the x axis: at the previous spacing
+    # the DeLong line sat on the spine.
     for i, (c, line) in enumerate(auroc_lines):
-        ax.text(0.50, 0.30 - i * 0.095, line, transform=ax.transAxes, fontsize=st.TINY,
+        ax.text(0.50, 0.345 - i * 0.082, line, transform=ax.transAxes, fontsize=st.MICRO,
                 color=c, ha="left", va="center")
-    ax.text(0.50, 0.30 - len(auroc_lines) * 0.095,
+    ax.text(0.50, 0.345 - len(auroc_lines) * 0.082,
             f"DeLong p={dv['p_value']:.2f} (ns)", transform=ax.transAxes,
-            fontsize=st.TINY, style="italic", color=st.GREY, ha="left", va="center")
+            fontsize=st.MICRO, style="italic", color=st.INK, ha="left", va="center")
 
     # Panels B and C - reliability, both surfaces
     for ax, surf, letter, title in (
@@ -100,12 +102,12 @@ def build(outdir):
         # Which curve is which goes in a short key at the top left; the numbers go alone at the
         # bottom right. Split this way neither block is wide enough to reach the curve, which a
         # combined "name + value + interval" line was.
-        ax.legend(loc="upper left", frameon=False, fontsize=st.TINY, handlelength=1.2,
+        ax.legend(loc="upper left", frameon=False, fontsize=st.MICRO, handlelength=1.2,
                   borderpad=0.1, labelspacing=0.25)
-        ax.text(0.97, 0.315, "ECE (95% CI)", transform=ax.transAxes, fontsize=st.TINY,
+        ax.text(0.97, 0.300, "ECE (95% CI)", transform=ax.transAxes, fontsize=st.MICRO,
                 ha="right", va="center", fontweight="bold")
         for i, (c, line) in enumerate(ece_lines):
-            ax.text(0.97, 0.235 - i * 0.072, line, transform=ax.transAxes, fontsize=st.TINY,
+            ax.text(0.97, 0.222 - i * 0.062, line, transform=ax.transAxes, fontsize=st.MICRO,
                     color=c, ha="right", va="center")
         ax.set_title(title, loc="left", fontweight="bold", pad=6)
         st.panel_label(ax, letter, dx=-0.26, dy=1.16)

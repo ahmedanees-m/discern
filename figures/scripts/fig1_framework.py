@@ -100,8 +100,6 @@ def build(outdir):
     ax2.set_xlabel("number of ACMG/AMP criteria owned")
     ax2.set_xlim(0, 34)
     ax2.set_ylim(-0.7, len(order) - 0.3)
-    ax2.grid(axis="x", color=st.LIGHT, zorder=0)
-    ax2.set_axisbelow(True)
 
     return st.save(fig, outdir, "fig1_architecture_and_partition")
 

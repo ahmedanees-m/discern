@@ -1,7 +1,10 @@
 """Figure 6: differential diagnosis against phenotype-blind and external baselines.
 
-Rendered from the committed benchmark JSON, on the shared journal
-style in style.py.
+Rendered from the committed benchmark JSON, on the shared journal style in style.py.
+
+The comparators are drawn in vermilion rather than the palette's amber. Against the blue of
+DISCERN and the grey of the floors, the amber read as washed-out yellow at figure size; vermilion
+is the same Okabe-Ito set, so the panel stays safe under the common colour vision deficiencies.
 """
 from __future__ import annotations
 
@@ -36,7 +39,7 @@ def build(outdir):
     ax = axes[0]
     bars = [("uniform random", p["random_within_cluster"]["top1"]["expected"], st.GREY, False),
             ("prior only", p["prior_only"]["top1"], st.GREY, False),
-            ("gene lookup", p["gene_lookup"]["top1"], st.ORANGE, False),
+            ("gene lookup", p["gene_lookup"]["top1"], st.VERMILION, False),
             ("DISCERN pre-corr.", 0.81, st.SKY, False),
             ("DISCERN post-corr.", p["DISCERN"]["top1"], st.BLUE, True)]
     for i, (_lab, v, c, hatch) in enumerate(bars):
@@ -65,7 +68,7 @@ def build(outdir):
     x = 0
     ticks, labels = [], []
     for lab, t, sig in groups:
-        ax.bar(x, t["lirical_recall@1"] * 100, color=st.ORANGE, alpha=0.85, width=0.38)
+        ax.bar(x, t["lirical_recall@1"] * 100, color=st.VERMILION, alpha=0.85, width=0.38)
         ax.bar(x + 0.4, t["discern_recall@1"] * 100, color=st.BLUE, alpha=0.85, width=0.38)
         star = f"p={t['mcnemar']['p_value_exact']:.2f}" + ("*" if sig else " (ns)")
         ax.text(x + 0.2, max(t["discern_recall@1"], t["lirical_recall@1"]) * 100 + 6, star,
@@ -80,14 +83,14 @@ def build(outdir):
     ax.set_title(f"vs LIRICAL (n={matched.get('n', 23) if isinstance(matched, dict) else 23})",
                  loc="left", fontweight="bold", pad=14)
     st.panel_label(ax, "B", dx=-0.24, dy=1.20)
-    ax.legend(handles=[mpatches.Patch(color=st.ORANGE, alpha=0.85, label="LIRICAL"),
+    ax.legend(handles=[mpatches.Patch(color=st.VERMILION, alpha=0.85, label="LIRICAL"),
                        mpatches.Patch(color=st.BLUE, alpha=0.85, label="DISCERN")],
               loc="upper left", frameon=False)
 
     ax = axes[2]
     codable = cov["features_expressible_as_hpo"]
     total = cov["distinct_features_used"]
-    ax.pie([codable, total - codable], colors=[st.GREEN, st.ORANGE],
+    ax.pie([codable, total - codable], colors=[st.GREEN, st.VERMILION],
            labels=[f"{codable} codable\nin HPO",
                    f"{total - codable} laboratory findings\nHPO cannot express"],
            autopct="%1.0f%%", startangle=90, textprops={"fontsize": st.TINY},
