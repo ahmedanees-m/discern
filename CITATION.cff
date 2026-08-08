@@ -7,6 +7,10 @@ authors:
     alias: "ahmedanees-m"
     email: "ahmedaneesm@gmail.com"
 repository-code: "https://github.com/ahmedanees-m/discern"
+identifiers:
+  - type: doi
+    value: "10.17605/OSF.IO/NUZT9"
+    description: "Pre-registered analysis plan for the disease-variant coupling"
 license: MIT
 type: software
 keywords:

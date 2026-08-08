@@ -441,6 +441,10 @@ authors:
     given-names: "Anees Ahmed"
     alias: "ahmedanees-m"
 repository-code: "https://github.com/ahmedanees-m/discern"
+identifiers:
+  - type: doi
+    value: "10.17605/OSF.IO/NUZT9"
+    description: "Pre-registered analysis plan for the disease-variant coupling"
 keywords:
   - variant interpretation
   - ACMG/AMP
@@ -574,8 +578,8 @@ before, and every item here needs the author - none can be produced from the rep
    institutional PIN and email the submission form asks for.
 2. Supply the VIT funding sanction number, then complete the remaining declarations: ethics,
    consent, competing interests, CRediT contributions, acknowledgements.
-3. Time-stamp the OSF pre-registration -> **OSF DOI**. This also clears Gate G12 and must precede any
-   cohort analysis.
+3. OSF pre-registration time-stamped: **10.17605/OSF.IO/NUZT9** (https://osf.io/nuzt9/). Gate G12 is cleared; no cohort
+   analysis may precede this registration.
 4. Enable the repository in Zenodo, then cut GitHub release `{version}-paper1` -> **code DOI**.
    Order matters: Zenodo only snapshots releases created after the integration is switched on.
 5. Upload `zenodo_deposit/` as a Zenodo Dataset record -> **data DOI**.

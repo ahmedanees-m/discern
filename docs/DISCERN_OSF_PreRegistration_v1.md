@@ -1,6 +1,6 @@
-# DISCERN - Pre-Registration Protocol v1 (DRAFT for OSF)
+# DISCERN - Pre-Registration Protocol v1
 
-**Status:** Registered on the Open Science Framework. The registration timestamp is the
+**Status:** Registered on the Open Science Framework, DOI **10.17605/OSF.IO/NUZT9** (https://osf.io/nuzt9/). The registration timestamp is the
 authoritative date; this document is frozen at registration and is not edited afterwards.
 **Author:** Anees Ahmed Mahaboob Ali (`ahmedanees-m`). **Date drafted:** 2026-06-13.
 
