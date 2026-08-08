@@ -1,7 +1,8 @@
 """Compile Document S1: all supplemental information as a single PDF.
 
-Cell Press requires supplemental information to arrive as one compiled PDF rather than as loose
-files, aside from large data tables which may be separate spreadsheets. This assembles the contents
+Human Genomics takes supplementary material as individually cited Additional files. The methods,
+figures and smaller tables travel together as one PDF, so a reader following a citation lands in a
+single document; the four large data tables stay separate spreadsheets. This assembles the contents
 page, the supplemental methods, the five supplemental figures with their legends, and the smaller
 supplemental tables, in that order.
 

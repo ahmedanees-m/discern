@@ -8,7 +8,10 @@ explicitly excluded, thrombocytopenia, and desmopressin as the planned therapy.
 the disease and functional factors and are not available from sequence; PM5 and PS4 are
 variant-intrinsic but have no input under this protocol. The variant therefore remains of uncertain
 significance.
-(C) The ranked differential, in which platelet-type von Willebrand disease leads at 99.3%.
+(C) The ranked differential, in which platelet-type von Willebrand disease leads with a posterior
+mean of 99.6%; bars carry the 95% credible interval from Monte-Carlo resampling of the source
+frequencies. Panel D reports 99.7% for the same disease because the decision layer uses the
+analytic estimate at the nominal frequencies rather than the mean over resampled ones.
 (D) The decision output. Desmopressin is contraindicated in type 2B von Willebrand disease, a VWF
 disease, whereas the variant here is in GP1BA. Because safety is adjudicated gene-blind, type 2B
 retains 0.9% in the safety view and the hard stop fires, together with the sequencing test that
@@ -20,7 +23,8 @@ Curated Top-1 accuracy, hard-stop sensitivity and hard-stop specificity across t
 P(G|D) likelihood ratio, from an inert gene term (ratio 1) to a ratio of 19. Safety behavior is
 invariant throughout. The diagnosis result is flat above the committed value of 4, which is the
 largest ratio at which a cluster's deciding observation can still overturn the gene; shaded regions
-mark ratios at which it cannot. Related to Figure 4 and the Material and methods.
+mark ratios at which it cannot. The vertical axis begins at 70% so that the range the three series
+occupy is legible. Related to Figure 4 and the Material and methods.
 
 **Figure S3. Treatment-divergence safety interlock, by scenario.**
 Each of five treatment-divergent scenarios against the two behaviors the interlock must exhibit:

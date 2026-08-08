@@ -286,7 +286,7 @@ def tableS5(outdir):
 
 
 def tableS6(outdir):
-    from figures.make_figures import CHAMP
+    from figures.scripts.figS4_champ_chbmp import CHAMP
     rows = [["F8", CHAMP["F8"], "NMD-triggering nulls resolved by PVS1"],
             ["F9", CHAMP["F9"], "gap is the large terminal exon: last-exon PTCs escape NMD and are "
                                 "correctly held at VUS"],

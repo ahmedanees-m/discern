@@ -1,10 +1,13 @@
 """Export the large supplemental tables as formatted Excel workbooks.
 
-Cell Press cannot typeset a CSV: a comma-separated file is a data file, not a display item. Tables
-S3 (every discrimination likelihood ratio with its source), S5 (the curated case set) and S7 (the
-data source manifest) are legitimately large data tables, which the journal permits as separate
-Excel files. The CSVs stay in the Zenodo deposit as the machine-readable archive; these are the
-journal artifacts.
+Human Genomics asks for tables wider than a landscape page to be supplied as additional files, in
+Excel or CSV, rather than typeset in the article. Tables S3 (every discrimination likelihood ratio
+with its source), S5 (the curated case set), S7 (the data source manifest) and S9 (software
+versions) are legitimately large data tables and go that route. The CSVs stay in the Zenodo deposit
+as the machine-readable archive; these workbooks are the submission artifacts.
+
+No colour or shading: the journal does not permit either in tables, so the header row is
+distinguished by bold text and a rule, not by a fill.
 
 Run:  python -m figures.make_excel_tables [--csv DIR] [--out DIR]
 """
@@ -15,17 +18,18 @@ import csv
 import os
 
 from openpyxl import Workbook
-from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.styles import Alignment, Border, Font, Side
 from openpyxl.utils import get_column_letter
 
 HERE = os.path.dirname(__file__)
 
-HEADER_FILL = PatternFill("solid", fgColor="1F3864")
-HEADER_FONT = Font(bold=True, color="FFFFFF", size=10)
+HEADER_FONT = Font(bold=True, size=10)
 BODY_FONT = Font(size=10)
 NOTE_FONT = Font(size=9, italic=True)
-THIN = Side(style="thin", color="BFBFBF")
+THIN = Side(style="thin", color="000000")
+MEDIUM = Side(style="medium", color="000000")
 BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
+HEADER_BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=MEDIUM)
 
 # csv stem -> (workbook name, sheet title, caption placed above the table)
 EXPORTS = {
@@ -74,7 +78,7 @@ def export(csv_path, out_dir, book, sheet, caption):
 
     for j, h in enumerate(header, start=1):
         c = ws.cell(row=3, column=j, value=h)
-        c.fill, c.font, c.border = HEADER_FILL, HEADER_FONT, BORDER
+        c.font, c.border = HEADER_FONT, HEADER_BORDER
         c.alignment = Alignment(wrap_text=True, vertical="center", horizontal="center")
     ws.row_dimensions[3].height = 30
 

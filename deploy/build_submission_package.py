@@ -556,7 +556,7 @@ The numbered directories are the upload order.
 
 | Item | What it is |
 |---|---|
-| `01_manuscript/` | `DISCERN_Paper1_BMC_HumanGenomics_SUBMISSION.md`, the manuscript to submit, in Human Genomics format (structured abstract, Background/Methods/Results/Discussion/Conclusions, the mandatory Declarations block, BMC Vancouver references with web links numbered), and its cover letter. The HGG Advances variant of the same science is in `archive/`: unstructured abstract, Material and methods, Web resources, every display item cited. Alongside it, the cover letter. The remaining placeholders in both are the by-line, the funding sanction number, and the three DOIs |
+| `01_manuscript/` | `DISCERN_Paper1_BMC_HumanGenomics_SUBMISSION.md`, the manuscript to submit, in Human Genomics format (structured abstract, Background/Methods/Results/Discussion/Conclusions, the mandatory Declarations block, BMC Vancouver references with web links numbered), and its cover letter. The HGG Advances variant of the same science is in `archive/`: unstructured abstract, Material and methods, Web resources, every display item cited. Alongside it, the cover letter. The by-line, affiliations, e-mail addresses and ORCID identifiers are filled in; the remaining placeholders are the funding sanction number, the computing-resource attribution, and the code and data DOIs, which cannot be minted until the release is tagged |
 | `02_figures/` | `Figure1.pdf` to `Figure6.pdf`, vector, with 300 dpi PNG alongside each. Upload individually |
 | `03_tables/` | `Table1.csv` to `Table3.csv`. These are embedded in the manuscript as formatted tables; the CSVs are the machine-readable source |
 | `04_additional_files/` | exactly what is uploaded as supplemental material, named as the portal expects: `Additional_file_1.pdf` (the compiled supplement) through `Additional_file_5.xlsx`. Its README maps each file to the S-numbers used in the text. `components/` holds the individual figures and tables compiled into Additional file 1, for editing rather than upload |
@@ -605,7 +605,7 @@ deposit records every disposition, including the unfavourable ones.
 """
 
 
-# The submission tree. Display items are renamed to what a Cell Press portal expects, because
+# The submission tree. Display items are renamed to what the submission portal expects, because
 # "Figure3.pdf" is what the upload form asks for and "fig3_per_criterion_kappa.pdf" is not.
 # Numbered directories put the upload in order: manuscript, then figures, then tables, then
 # supplemental, then the data record.
@@ -635,11 +635,11 @@ HGG_DOCS = ["DISCERN_Paper1_HGG_Advances_SUBMISSION.md",
 # citation order. The mapping to the S-numbering used in the text is written into the directory.
 ADDITIONAL_FILES = [
     ("Document_S1_Supplemental_Information.pdf", "Additional_file_1.pdf",
-     "Supplementary methods, Figures S1-S5, and Tables S1, S2, S4, S6, S8"),
-    ("Table_S3.xlsx", "Additional_file_2.xlsx", "Table S3, cluster likelihood ratios"),
-    ("Table_S5.xlsx", "Additional_file_3.xlsx", "Table S5, the curated published-case benchmark"),
-    ("Table_S7.xlsx", "Additional_file_4.xlsx", "Table S7, third-party data sources"),
-    ("Table_S9.xlsx", "Additional_file_5.xlsx", "Table S9, software and database versions"),
+     "Supplementary methods, Figures S1-S5, and Tables S5-S9"),
+    ("Table_S1.xlsx", "Additional_file_2.xlsx", "Table S1, cluster likelihood ratios"),
+    ("Table_S2.xlsx", "Additional_file_3.xlsx", "Table S2, the curated published-case benchmark"),
+    ("Table_S3.xlsx", "Additional_file_4.xlsx", "Table S3, third-party data sources"),
+    ("Table_S4.xlsx", "Additional_file_5.xlsx", "Table S4, software and database versions"),
 ]
 ARCHIVE_DOCS = HGG_DOCS + ["DISCERN_Paper1_HGG_Advances_v3.md", "DISCERN_Paper1_Manuscript_v2.md",
                 "DISCERN_Display_Items_and_Deposit_Audit.md",
@@ -697,8 +697,8 @@ def lay_out_submission(pkg):
                  "refers to the items inside them by their S-numbers, which are kept because "
                  "readers and reviewers use them; this table maps the two.\n\n"
                  "| File | Contents |\n|---|---|\n" + "\n".join(rows) + "\n\n"
-                 "Additional file 1 is the same compiled supplement that a Cell Press submission "
-                 "would call Document S1.\n")
+                 "Additional file 1 is the compiled supplement: one PDF rather than loose files, "
+                 "so that a reader following a citation lands in a single document.\n")
 
     # The graphical abstract is a separate, required upload rather than a numbered figure.
     ga = os.path.join(pkg, "figures", "graphical_abstract.png")
