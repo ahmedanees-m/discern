@@ -106,21 +106,25 @@ gene alone.
 
 ## Discrimination clusters
 
-| Cluster | Confusable diseases | Deciding observation | Management difference |
-|---|---|---|---|
-| C1 integrin | Glanzmann, LAD-III, RASGRP2, LAD-I | leukocytosis, integrin activation | LAD-III and LAD-I require transplant |
-| C2 VWF and GPIb | VWD 2B, platelet-type VWD, VWD 2A | RIPA mixing, plasma against platelet | desmopressin generally contraindicated in 2B |
-| C3 macrothrombocytopenia | Bernard-Soulier, MYH9, ITP | blood smear, CD42 flow cytometry | avoids steroids and splenectomy |
-| C4 thrombocytopenia with leukaemia risk | RUNX1, ETV6, ANKRD26, ITP | germline panel, pedigree, platelet size | leukaemia surveillance; an affected relative is not a donor |
-| C5 VWD 2N against mild haemophilia A | VWD 2N, mild haemophilia A | VWF:FVIII binding assay | inheritance counselling and product choice |
-| C6 granule and storage pool | Hermansky-Pudlak, Chediak-Higashi, delta storage pool | electron microscopy, smear, HLH workup | Chediak-Higashi carries HLH risk |
-| C7 alpha-granule | gray platelet (NBEAL2), GFI1B, ARC, Quebec | smear, electron microscopy, urokinase assay | Quebec requires antifibrinolytics, not platelets |
-| C8 coagulation factor | F8, F9, F11, F13A1, F13B, fibrinogen | factor assays, FXIII activity | recombinant FXIII-A2 treats F13A1 but not F13B |
-| C9 mild bleeding and low VWF | type 1 and low VWF, mild platelet defect, normal | repeat VWF, aggregometry, bleeding score | over-diagnosis and under-diagnosis |
-| C10 Scott syndrome | Scott syndrome (ANO6), normal workup | phosphatidylserine exposure assay | routine tests are normal |
+Generated from `diseases/clusters/`, so the gene lists, condition names and likelihood-ratio counts cannot drift from the model that runs.
 
-Every likelihood ratio carries a source PMID and a sample size. A continuous integration check
-fails if any entry lacks one.
+| Cluster | Confusable conditions | Genes | Deciding observation | Consequence of confusion | LRs |
+|---|---|---|---|---|---|
+| C1 | Glanzmann thrombasthenia; Leukocyte adhesion deficiency type III; RASGRP2 (CalDAG-GEFI) platelet dysfunction; Leukocyte adhesion deficiency type I | `FERMT3`, `ITGA2B`, `ITGB2`, `ITGB3`, `RASGRP2` | platelet aggregometry with alphaIIbbeta3 expression and activation; leukocytosis and delayed umbilical separation | leukocyte adhesion deficiency types I and III need hematopoietic stem cell transplantation; Glanzmann thrombasthenia does not | 20 |
+| C2 | Type 2B von Willebrand disease; Platelet-type von Willebrand disease; Type 2A von Willebrand disease | `GP1BA`, `VWF` | ristocetin-induced platelet aggregation (RIPA) mixing study, distinguishing plasma from platelet origin | desmopressin is contraindicated in type 2B von Willebrand disease (VWD) and can worsen thrombocytopenia | 11 |
+| C3 | Bernard-Soulier syndrome; MYH9-related disorder; Immune thrombocytopenia* | `GP1BA`, `GP1BB`, `GP9`, `MYH9` | blood smear and flow cytometry for CD42 (GPIb-IX-V) | corticosteroids and splenectomy are inappropriate for an inherited macrothrombocytopenia misread as immune thrombocytopenia (ITP) | 12 |
+| C4 | RUNX1 familial platelet disorder with myeloid malignancy; ETV6 thrombocytopenia with malignancy predisposition; ANKRD26-related thrombocytopenia; Immune (idiopathic) thrombocytopenia* | `ANKRD26`, `ETV6`, `RUNX1` | germline panel, pedigree, platelet size and dysmegakaryopoiesis | myeloid malignancy surveillance is required, and an affected relative must not be used as a transplant donor | 23 |
+| C5 | von Willebrand disease type 2N; Mild/moderate hemophilia A | `F8`, `VWF` | von Willebrand factor to factor VIII binding assay | recombinant factor VIII monotherapy fails in type 2N VWD, which needs a VWF-containing concentrate | 10 |
+| C6 | Chediak-Higashi syndrome; Hermansky-Pudlak syndrome; Gray platelet syndrome | `AP3B1`, `HPS1`, `HPS3`, `HPS4`, `HPS5`, `HPS6`, `LYST`, `NBEAL2` | electron microscopy, blood smear for giant granules, and workup for hemophagocytic lymphohistiocytosis (HLH) | Chediak-Higashi syndrome carries HLH risk and is treated by transplantation | 10 |
+| C7 | Gray platelet syndrome; GFI1B-related platelet disorder; Quebec platelet disorder; ARC syndrome | `GFI1B`, `NBEAL2`, `PLAU`, `VPS33B` | blood smear, alpha-granule electron microscopy, and the urokinase overexpression assay | Quebec platelet disorder requires antifibrinolytics; platelet transfusion is ineffective and is contraindicated | 12 |
+| C8 | Factor XIII deficiency; Hemophilia A; Hemophilia B | `F13A1`, `F13B`, `F8`, `F9` | individual factor activity assays, with a normal prothrombin time and activated partial thromboplastin time in factor XIII deficiency | recombinant factor XIII-A2 treats F13A1 deficiency but not F13B deficiency | 10 |
+| C9 | Type 1 von Willebrand disease / low von Willebrand factor; Mild platelet function defect; no identifiable disorder | `VWF` | repeat von Willebrand factor measurement, light transmission aggregometry, and a standardized bleeding assessment score | risk of both over-treatment and under-treatment | 10 |
+| C10 | Scott syndrome; a normal routine hemostatic workup | `ANO6` | platelet phosphatidylserine exposure and a prothrombinase-based assay | routine coagulation and platelet studies are normal; the diagnosis is missed without a specific assay | 10 |
+
+Conditions marked * are acquired rather than inherited, and are included because inherited
+thrombocytopenias are frequently misdiagnosed as immune thrombocytopenia. Every likelihood
+ratio carries a source PMID and a sample size; a continuous integration check fails if any
+entry lacks one.
 
 ## Results
 
