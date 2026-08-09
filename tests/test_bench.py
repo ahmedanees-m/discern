@@ -87,7 +87,7 @@ def test_criterion_parsing_matches_the_partition_vocabulary():
     does not match "PM2_Supporting", so every strength-modified code was silently dropped from the
     agreement analysis while the coverage analysis, which normalizes with base_code, kept them.
     Two paths over one input, one normalized and one not, is invisible until someone reads the
-    supplementary table. This asserts they agree.
+    S-numbered table. This asserts they agree.
     """
     from rules.vcep.partition import applied_codes, base_code
 
