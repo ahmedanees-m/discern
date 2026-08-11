@@ -174,7 +174,7 @@ result when the discriminating channel is absent from the corpus rather than evi
 mechanism.
 
 Harness: `eval/coupling_poc.py`. Detail: `DISCERN_Coupling_PoC_Results.md`. Protocol:
-the Open Science Framework registration, doi:10.17605/OSF.IO/NUZT9.
+the Open Science Framework registration, [OSF DOI TO BE INSERTED].
 
 ## Scope of claims
 
