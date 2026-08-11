@@ -1,11 +1,12 @@
 cff-version: 1.2.0
 message: "If you use DISCERN, please cite it as below."
-title: "DISCERN: a coupled disease x variant engine for differential diagnosis, misdiagnosis-prevention, and VUS resolution in inherited bleeding & platelet disorders"
+title: "DISCERN: a coupled disease-variant model for variant interpretation and differential diagnosis in inherited bleeding and platelet disorders"
 authors:
   - family-names: "Mahaboob Ali"
     given-names: "Anees Ahmed"
     alias: "ahmedanees-m"
     email: "ahmedaneesm@gmail.com"
+    orcid: "https://orcid.org/0000-0002-2135-0865"
 repository-code: "https://github.com/ahmedanees-m/discern"
 identifiers:
   - type: doi
@@ -16,7 +17,6 @@ type: software
 keywords:
   - clinical genomics
   - differential diagnosis
-  - misdiagnosis prevention
   - variant classification
   - ClinGen VCEP
   - inherited bleeding and platelet disorders

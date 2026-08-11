@@ -31,7 +31,7 @@ DISCERN does two coupled jobs; each needs a different kind of truth set:
 | **LOVD** (Leiden Open Variation Database) | Gene-specific variant records (VWF and others; EAHAD mirrors here) | **public** | Cross-reference / additional per-gene truth |
 | **HGMD** | Large curated disease-variant catalog | **licensed** (academic version limited) | Optional; cite-only unless licensed |
 
-**Bottom line for Part 1:** between eRepo + ClinVar + gnomAD (in hand) and **GoldVariants + EAHAD + LOVD** (public, not yet used), DISCERN's **VUS-classification ability can be validated broadly and immediately** across essentially all covered genes - well beyond the current run. This is the strongest near-term expansion and needs no permissions.
+Between eRepo, ClinVar and gnomAD (used here) and GoldVariants, EAHAD and LOVD (public, not used here), variant classification can be validated across the covered genes well beyond the present run, without controlled access.
 
 ---
 
@@ -49,7 +49,7 @@ DISCERN does two coupled jobs; each needs a different kind of truth set:
 | **UDN - Solve-RD** | Undiagnosed/rare-disease paired data | **controlled** | Off-critical-path secondary |
 | **Disease registries** (WBDR clinical hemophilia/VWD registry; VWD/ITP/Glanzmann registries). *Note: EUHASS is treatment-safety pharmacovigilance, NOT a genomic/phenotype cohort - verified.* | Phenotype +/- genotype at scale | **controlled access** | A controlled-access paired cohort is the nearest-term paired source |
 
-**Bottom line for Part 2:** case-level paired data for **diagnostic-accuracy and the coupling** is largely behind DAC/IRB. What is doable now: **expand the curated published-case benchmark** (Part 2, public rows) from ~10 to dozens. The headline coupling validation still requires the gated cohorts - unchanged.
+Case-level paired data for diagnostic accuracy and for the coupling is largely behind data-access or ethics approval. The curated published-case benchmark can be extended from public reports; the coupling endpoint still requires the controlled-access cohorts.
 
 ---
 
@@ -82,7 +82,7 @@ DISCERN does two coupled jobs; each needs a different kind of truth set:
 
 ## Part 5. Conclusion
 
-- **VUS / variant classification - YES, broadly, now.** Public resources (GoldVariants, EAHAD F7/F8/F9/VWF, LOVD) plus what's in hand (eRepo, ClinVar, gnomAD) cover essentially all common covered genes. The variant engine can be validated *much* more broadly than the current run, with no permissions. **This is the recommended next validation expansion.**
+- **Variant classification.** Public resources (GoldVariants, EAHAD F7/F8/F9/VWF, LOVD) together with eRepo, ClinVar and gnomAD cover the common genes in scope, so the variant engine can be validated more broadly than in the present run without controlled access.
 - **Differential diagnosis & the coupling - PARTIALLY now, fully only gated.** The curated published-case benchmark can grow from ~10 to dozens from public cohort/case literature (improves the diagnosis-accuracy evidence). But the **coupling's headline validation** - calibrated phenotype sharpening the variant call on paired data - still requires the controlled cohorts (BRIDGE-BPD DAC, local Glanzmann IRB). No public dataset substitutes for it.
 - **Ultra-rare clusters (C7/C10)** are data-thin in every database; validated weakly and tagged reduced-confidence.
 
