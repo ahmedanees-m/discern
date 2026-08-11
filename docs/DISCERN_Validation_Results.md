@@ -107,19 +107,13 @@ Full narrative in `DISCERN_CHAMP_CHBMP_Benchmark_v1.md`.
 | No double-counting (G3) | real ERepo per-code variants | invariant marginal (unit test) + 100% partition coverage on 2,653; owned codes in 31.7%, naive over-classifies 549 (20.7%) | **DONE (A); coupling calibration pending (B/C)** |
 | ACMG combining-rule fidelity | real ERepo bleeding genes | 93.0% exact / 100% within-1-bin (arithmetic only) | **DONE (A)** |
 | Per-code strengths are real, not placeholders | real ERepo | extracted true strength distribution | **DONE (A)** |
-| Differential-diagnosis accuracy | Phenopacket Store bleeding subset | 4/4 Top-1 (small N; corpus thin) | **partial (A); needs cohorts** |
-| Differential-diagnosis accuracy (curated) | **42 PMID-verified published cases, all 10 clusters** (`eval/cases/curated_cases.yaml`) | **Top-1 81% / Top-3 100% / abstention 10%**; every non-Top-1 is a same-gene/same-cluster confusable held in the Top-3. Expansion fixed a latent pertinent-negative bug + 2 misattributed PMIDs | **DONE (A, expanded 2026-06-17); cohorts carry the headline (B/C)** |
-| VUS reclassification rate | ClinVar 3-star + cohorts | variant layer done; rate needs cohorts | pending (B/C) |
-| Misdiagnosis rescue | ITP cohort (Blood Adv 2025), BRIDGE-BPD | harness built; needs DAC access | pending (B) |
-| Equity / real patient | a controlled-access paired cohort | harness built; needs IRB | pending (C) |
+| Differential-diagnosis accuracy | Phenopacket Store bleeding subset | 4/4 Top-1 (small N; corpus thin) | partial; corpus thin |
+| Differential-diagnosis accuracy (curated) | **42 PMID-verified published cases, all 10 clusters** (`eval/cases/curated_cases.yaml`) | **Top-1 81% / Top-3 100% / abstention 10%**; every non-Top-1 is a same-gene/same-cluster confusable held in the Top-3. Expansion fixed a latent pertinent-negative bug + 2 misattributed PMIDs | **done** |
+| VUS reclassification rate | ClinVar 3-star plus paired cohort | variant layer done | not evaluable on open data |
+| Misdiagnosis rescue | paired cohort under controlled access | harness built | not evaluable on open data |
+| Equity analysis | paired cohort under controlled access | harness built | not evaluable on open data |
 | Calibration / abstention | labeled sets | harness built (eval/calibration.py, abstain.py) | runs on labeled cohorts |
 
-## What remains (external access, not missing code)
+## Not evaluable on open data
 
-Tier B (BRIDGE-BPD `EGAS00001001172`, the 80-patient ITP cohort): apply to the NIHR
-BioResource DAC (`dac@bioresource.nihr.ac.uk`) - institutional affiliation, IRB, proposal,
-signed DAA; weeks to months. Tier C (a controlled-access paired cohort): controlled access,
-aggregate-only, no patient data in public artifacts. Pre-register the full protocol and the
-reader study on OSF before those analyses. The harnesses (`eval/misdx_rescue.py`,
-`eval/vus_reclass.py`, `eval/reader_study.py`, `eval/phenopacket_benchmark.py`) run as soon
-as access clears.
+Reclassification rate, misdiagnosis rescue, the equity analysis and the coupling endpoint require paired phenotype-genotype data under controlled access. The harnesses for each are implemented and tested; the protocol is pre-registered.

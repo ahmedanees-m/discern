@@ -2,10 +2,9 @@
 
 In action selection, the engine penalizes actions whose only yield is a
 low-reliability (ancestry-biased) code, and prefers ancestry-robust actions
-(functional assays, segregation) for under-represented-ancestry patients - turning
-the documented equity gap into a routing rule. Concretely relevant: Glanzmann / BSS /
-LAD cohorts are enriched in consanguineous populations where allele-frequency
-evidence is least reliable.
+(functional assays, segregation) for patients from under-represented ancestries, turning
+the documented equity gap into a routing rule. Allele-frequency evidence is least
+reliable exactly where reference databases under-represent the population.
 """
 from __future__ import annotations
 

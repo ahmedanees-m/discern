@@ -6,7 +6,7 @@
 **What this is.** The first real-data, public, circularity-safe test of H6: does the clinical-phenotype
 coupling resolve variants that sequence evidence alone leaves as VUS, and ONLY when phenotype and gene
 agree? It is a proof-of-concept that de-risks and motivates the confirmatory cohort study; it is NOT
-the confirmatory validation (that remains the pre-registered, controlled-access cohort study).
+the confirmatory validation, which follows the pre-registered protocol.
 
 > The continuous secondary value is +0.252 (matched 0.334). The pre-registered primary
 > endpoint is the binary one and stands at 0.0. With n=2 usable cases neither value

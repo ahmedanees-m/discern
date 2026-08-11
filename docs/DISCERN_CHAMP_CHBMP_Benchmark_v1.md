@@ -59,7 +59,7 @@ With the CFD-VCEP F8/F9 spec, a missense variant tops out at **PP3_Supporting + 
 2 points = VUS**, even with a maximal predictor (REVEL 0.95) and absence from gnomAD. So all
 2,558 catalogued missense (1,803 F8 + 755 F9) are **VUS on intrinsic+predictor evidence alone** -
 they require routed PS3 (functional) / PP1 (segregation) / **PP4 (the disease<->variant coupling)**
-to reach LP. This is the designed limitation that motivates Paper 2, demonstrated on real disease
+to reach LP. This is the designed limitation of sequence-only evidence, shown here on real disease
 alleles: the variant engine confidently resolves LOF/null variants, but missense resolution is
 coupling-gated. (The H4 benchmark already showed that *with* REVEL PP3 + ClinVar PS1/PM5,
 DISCERN's gene-specific scoring beats literal InterVar - AUC 0.912 vs 0.874 - on the ClinVar

@@ -13,7 +13,7 @@ benchmark of DISCERN's gene-specific (CFD-VCEP F8/F9) scoring, broken out by var
     (PVS1 decision tree, Abou Tayoun 2018) - no predictor/frequency input needed. Expect LP/P.
   * MISSENSE / in-frame / synonymous / UTR / promoter: intrinsic-only CEILING. With the CFD-VCEP
     F8/F9 spec a missense tops out at PP3_Supporting+PM2_Supporting = 2 pts = VUS without routed
-    PS3/PP1/PP4 - this is the designed limitation the disease<->variant coupling (Paper 2) fills.
+    PS3/PP1/PP4 - this is the designed limitation the disease-variant coupling addresses.
 
 No PHI, no patient-level data - a public variant catalog. Run: `python -m eval.champ_chbmp_benchmark`.
 """
