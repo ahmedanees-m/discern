@@ -1,7 +1,7 @@
 """v3.1 Track B2: Mondrian split-conformal selective prediction.
 
 Synthetic-sampling SANITY check of the coverage guarantee (not a clinical validation - real
-coverage is cohort-gated, H5/G11). Cases are drawn from the cluster's own feature frequencies,
+coverage requires a labelled cohort). Cases are drawn from the cluster's own feature frequencies,
 so conformal coverage must hold at >= 1 - alpha (minus finite-sample slack).
 """
 import random

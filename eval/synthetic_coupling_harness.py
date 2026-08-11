@@ -5,7 +5,7 @@ reclassification) on SIMULATED paired phenotype+variant data, so the analysis pi
 circularity guard are ready and tested BEFORE any real cohort data is seen. It
 proves the pipeline executes and the coupling channel is wired; it makes NO claim that the
 coupling works - that is provable only on paired cohorts and is reported regardless of outcome
-(Gate G13, H6 with its explicit falsification condition).
+(the pre-registered endpoint, with its explicit falsification condition).
 
 Run:  python3 -m eval.synthetic_coupling_harness
 """

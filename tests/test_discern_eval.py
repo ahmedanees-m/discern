@@ -1,4 +1,4 @@
-"""DISCERN Phases 9-10: VUS-reclassification, misdx-rescue, reader study, VUS-triage."""
+"""VUS reclassification, misdiagnosis rescue, vignette scoring, and VUS triage."""
 from core.dx_schemas import Feature, FeatureKind, VariantState
 from eval.misdx_rescue import MisdxCase
 from eval.misdx_rescue import evaluate as eval_rescue

@@ -1,11 +1,10 @@
-"""Reader-study harness (coupling-proof plan, Track 4 - the lead "does it help" validation).
+"""Vignette harness for with-and-without evaluation.
 
-The randomized with-vs-without reader study (non-specialist readers, vignette bank in
-`eval/cases/reader_vignettes.yaml`) is run on top of this harness. Here we (a) load the bank,
-(b) build the DISCERN-side card a reader sees in the aided arm (ranked diagnosis, the recommended
-deciding test, and any management hard-stop), and (c) compute the DISCERN-side ceiling: does DISCERN
-identify the correct disease, recommend the correct next test, and fire the safety flag on the
-treatment-divergent confusable pairs. Gate G7: vignettes are citation-only, no patient identifiers.
+Loads the vignette bank in `eval/cases/reader_vignettes.yaml`, builds the card the engine would
+present for a case (ranked diagnosis, recommended deciding test, any management hard stop), and
+measures the engine-side ceiling: whether it identifies the disease, recommends the deciding
+test, and raises the safety flag on treatment-divergent pairs. Vignettes are citation-only and
+carry no patient identifiers.
 
 Run:  python3 -m eval.reader_study
 """

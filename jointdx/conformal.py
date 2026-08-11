@@ -7,7 +7,7 @@ and defers to the next-observation module (composing with jointdx/abstain.py).
 
 Nonconformity score = 1 - P(disease | evidence). Calibration uses the standard split-conformal
 quantile k = ceil((n+1)(1-alpha)). Coverage on REAL labels (H5 diagnosis half / Gate G11) is
-cohort-gated; the synthetic-sampling sanity test verifies the machinery's guarantee, NOT
+requires a labelled cohort; the synthetic-sampling sanity test verifies the guarantee, not
 clinical accuracy (no synthetic result is reported as a headline).
 """
 from __future__ import annotations

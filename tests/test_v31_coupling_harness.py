@@ -14,6 +14,6 @@ def test_harness_runs_and_guard_holds():
 
 def test_coupling_channel_is_active():
     # on synthetic disease-specific phenotype, the coupled arm should move P(PATH) vs genetics-only
-    # (a wiring sanity check, NOT evidence the coupling is correct - that is cohort-gated, G13)
+    # (a wiring sanity check, not evidence the coupling is correct; that needs a paired cohort)
     r = run("integrin", n=200, seed=2)
     assert r.coupled_path_mass != r.intrinsic_only_path_mass
