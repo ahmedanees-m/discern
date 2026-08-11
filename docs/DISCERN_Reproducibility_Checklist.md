@@ -64,7 +64,7 @@ appears in a document.
 ## Not reproducible from open data
 
 The following require controlled-access data and are not part of any reported result. Their
-evaluation is pre-registered on the Open Science Framework ([OSF DOI TO BE INSERTED])
+evaluation is pre-registered on the Open Science Framework (doi:10.17605/OSF.IO/5MQCV)
 and will be reported regardless of outcome.
 
 - The disease-variant coupling endpoint on paired phenotype-genotype data.

@@ -8,6 +8,10 @@ authors:
     email: "ahmedaneesm@gmail.com"
     orcid: "https://orcid.org/0000-0002-2135-0865"
 repository-code: "https://github.com/ahmedanees-m/discern"
+identifiers:
+  - type: doi
+    value: "10.17605/OSF.IO/5MQCV"
+    description: "Pre-registered analysis plan for the disease-variant coupling"
 license: MIT
 type: software
 keywords:
