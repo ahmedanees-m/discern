@@ -1,9 +1,7 @@
 """ACMG combining-rule fidelity + per-code partition on real ClinGen ERepo (Tier A).
 
 Runs on the REAL ClinGen Evidence Repository export, restricted to the DISCERN
-bleeding-cluster genes. It reports FOUR falsifiable metrics (the earlier "no-inflation
-rate" was a tautology - it summed the same points twice and returned 100% for any input -
-and has been removed):
+bleeding-cluster genes. It reports FOUR falsifiable metrics:
 
   1. acmg_combining_exact - given the experts' OWN applied codes, does the Tavtigian point
      engine reproduce the VCEP's bottom-line label? This validates the point values and

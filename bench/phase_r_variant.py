@@ -16,8 +16,8 @@ R3  Is the gap to REVEL real, and what does the pipeline add that a ranking scor
     agreement with the expert panel, decision quality at matched coverage against a REVEL threshold
     rule, and the rate at which each rule moves an expert-called VUS.
 
-REVEL is DISCERN's own PP3 input, so the correct reading of the discrimination result is "tracks"
-rather than "beats"; the point of R3 is to say so with a confidence interval attached.
+REVEL is DISCERN's own PP3 input, so the discrimination result is expected to track it rather
+than beat it; R3 reports that with a confidence interval attached.
 
 Run:  python -m bench.phase_r_variant     (needs bench/data/genebe_erepo.jsonl)
 """

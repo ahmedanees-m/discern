@@ -1,6 +1,6 @@
 # Independent sensitivity on the CDC hemophilia mutation projects
 
-**Date:** 2026-06-16 - **Code:** `eval/champ_chbmp_benchmark.py` - **Track:** A2 extension (variant engine).
+**Date:** 2026-06-16 - **Code:** `eval/champ_chbmp_benchmark.py`
 **Datasets (verified, public, PHI-free):** CDC **CHAMP** (Hemophilia A Mutation Project, F8) and
 **CHBMP** (Hemophilia B Mutation Project, F9), 2022 lists, downloaded 2024-11-07 from
 `cdc.gov/hemophilia/mutation-project`. Citations: Payne 2013 (PMID 23280990), Li 2013 (PMID 24498619).

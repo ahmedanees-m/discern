@@ -18,7 +18,7 @@ observed the expert classification.
 |---|---|---|---|
 | AUROC, DISCERN | eRepo-primary, missense | 425 | 0.939 (95% CI 0.906 to 0.967) |
 | AUROC, REVEL | eRepo-primary, missense | 425 | 0.954 (95% CI 0.931 to 0.972) |
-| AUROC, AlphaMissense | eRepo-primary, missense | 424 | 0.932 (95% CI 0.906 to 0.953) |
+| AUROC, AlphaMissense | eRepo-primary, missense | 424 | 0.931 (95% CI 0.906 to 0.953) |
 | AUROC, DISCERN | time-split, missense | 383 | 0.927 (95% CI 0.882 to 0.961) |
 | ECE, DISCERN | eRepo-primary | 425 | 0.017 (95% CI 0.011 to 0.047) |
 | ECE, REVEL calibrated | eRepo-primary | 425 | 0.043 (95% CI 0.030 to 0.073) |
@@ -85,7 +85,7 @@ Harness: `bench/track1b_erepo_headtohead.py`.
 
 ## Independent sensitivity
 
-The CDC hemophilia mutation projects supply an F8 and F9 truth set independent of the expert-panel
+The CDC Hemophilia Mutation Projects supply an F8 and F9 truth set independent of the expert-panel
 surface. Recall is scored on consequence alone, with no frequency or predictor input.
 
 | Gene | Result |
@@ -180,7 +180,7 @@ the Open Science Framework registration, doi:10.17605/OSF.IO/5MQCV.
 
 The following are measured and reported above: discrimination and calibration on the expert-panel
 surface, partition coverage and exclusivity, the intrinsic-evidence ceiling and its attribution,
-independent sensitivity on the CDC catalogs, differential diagnosis against phenotype-blind and
+independent sensitivity on the CDC datasets, differential diagnosis against phenotype-blind and
 external baselines, and the treatment-safety interlock.
 
 The following are not claimed. DISCERN is not the only tool that can emit a calibrated

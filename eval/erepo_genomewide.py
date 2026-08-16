@@ -2,7 +2,7 @@
 
 Generalizes eval/erepo_reconstruction.py by dropping the bleeding-cluster gene restriction:
 the partition (rules/vcep/partition.owner) is gene-agnostic, so it runs over EVERY eRepo
-variant. Reports the two A1 hypotheses:
+variant. Reports two genome-wide checks:
 
   H1 - partition vocabulary coverage genome-wide: recognized_codes / total_codes,
      with the ENUMERATED uncovered code vocabulary (the <=1% the partition does not map).

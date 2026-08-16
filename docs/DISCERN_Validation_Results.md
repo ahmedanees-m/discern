@@ -3,7 +3,10 @@
 **Run:** 2026-06-13, on the VM, against real downloaded data. No synthetic data is used as
 a result. Sources verified against primary literature.
 
-## Tier A1 - ACMG combining fidelity + per-code partition on real ClinGen ERepo (headline variant result)
+This is the record of that run. Where a number here differs from `RESULTS.md`, `RESULTS.md`
+is the reported value: it reflects the disease-posterior correction made after this run.
+
+## ACMG combining fidelity and the per-code partition on the ClinGen Evidence Repository
 
 Ran `eval/erepo_reconstruction.py` over the real ClinGen Evidence Repository export
 (`erepo_classifications.tab`), restricted to the DISCERN bleeding/platelet cluster genes.
@@ -59,7 +62,7 @@ over-classify them). It is **not** a calibration of the disease-variant coupling
 awaits paired-phenotype cohorts. (The earlier "100% no-inflation rate" was a tautology -
 it summed the same points twice - and has been replaced.)
 
-## Tier A3 - diagnosis benchmark on the open GA4GH Phenopacket Store
+## Diagnosis benchmark on the GA4GH Phenopacket Store
 
 Ran `eval/phenopacket_benchmark.py` over the cloned `phenopacket-store` (11,155
 phenopackets). After extracting the causal gene from the interpretation and excluding
@@ -75,26 +78,26 @@ thrombophilia cases (elevated factor VIII / DVT / PE - outside DISCERN's bleedin
 inherited bleeding/platelet disorders - only 4 cases fall in DISCERN's clusters (consistent
 with the pre-registered protocol). DISCERN diagnoses all 4 correctly, but the diagnosis-accuracy
 headline cannot rest on n=4. The PhEval-compatible runner is in place; the diagnosis
-benchmark headline requires the curated published-case set (Tier A, hand-built) and the
-cohorts (Tier B/C).
+benchmark headline rests instead on the hand-built curated published-case set, and in the
+longer run on paired phenotype-genotype cohorts.
 
-## Tier A2 - VUS reclassification
+## VUS reclassification rate
 
-The variant-layer validation is delivered by A1 (ACMG combining fidelity + the per-code
-partition on real VCEP variants, including the uncertain ones). The per-patient VUS-reclassification
+The variant-layer validation is delivered by the combining-fidelity and per-code partition
+analysis above, which covers real VCEP variants including the uncertain ones. The per-patient VUS-reclassification
 *rate* concordant with 3-star truth requires per-patient phenotype paired with VUS, which
-the open variant databases do not provide standalone; it is run on the cohorts (Tier B/C)
-where phenotype + variant co-occur. ClinVar 3-star remains the truth label for that run.
+the open variant databases do not provide standalone; it is run on paired cohorts where
+phenotype and variant co-occur. ClinVar 3-star remains the truth label for that run.
 
 ## Expansion results (2026-06-13 to 06-16, real open data)
 
 | Benchmark | Dataset | Result | Code |
 |---|---|---|---|
-| Genome-wide partition (H1/H2) | full ClinGen ERepo, 12,240 variants / 170 genes | **100% partition coverage**; **33.2% inflation-prevented** (Wilson 95% CI 32.4-34.1) | `eval/erepo_genomewide.py` |
+| Genome-wide partition | full ClinGen ERepo, 12,240 variants / 170 genes | **100% partition coverage**; **33.2% inflation-prevented** (Wilson 95% CI 32.4-34.1) | `eval/erepo_genomewide.py` |
 | gnomAD per-variant freq cross-check | 629 curator-cited gnomAD AFs | gene-specific CSpec thresholds reproduce the VCEP freq code at **97.8%** | `eval/gnomad_freq_check.py` |
-| Intrinsic-only band vs ClinVar (H3) | 10,780 matched | **62.4% exact / 92.8% within-one-bin** (intrinsic-only is a designed lower bound; routed PP4/PS3/PP1/PM3 omitted) | `eval/clinvar_concordance.py` |
-| Variant calibration (H5) | 7,521 ClinVar-labelled | **deliverable = calibration: isotonic ECE 0.008 / Brier 0.0073** (from 0.201/0.060). AUC 0.999 is on P/B extremes (VUS dropped) where discrimination is trivial - reported only to confirm the monotonic isotonic map preserved ranking, NOT a discrimination claim | `eval/variant_calibration.py` |
-| Novel-variant scoring vs InterVar (H4, **full-DB run 2026-06-17**) | 1,015 ClinVar P/B spec-gene variants; literal InterVar re-run with its **complete default DB set** (1000g/esp/avsnp/dbnsfp42a/dbscsnv/clinvar_20210501/rmsk/gnomAD-exome + full intervardb - nothing dropped) | **Missense (n=364, the meaningful axis): DISCERN-full 0.944 BEATS InterVar 0.811 (+0.133), matches REVEL 0.942.** All P/B (easy null-dominated extremes): DISCERN 0.882 w/freq, 0.912 w/o ~ InterVar 0.887. **CORRECTION:** the earlier reduced-DB "+0.038 overall" overstated it (handicapped InterVar + DISCERN scored without frequency); overall AUCs actually converge, the real edge is on missense | `eval/intervar_full_eval.py` |
+| Intrinsic-only band vs ClinVar | 10,780 matched | **62.4% exact / 92.8% within-one-bin** (intrinsic-only is a designed lower bound; routed PP4/PS3/PP1/PM3 omitted) | `eval/clinvar_concordance.py` |
+| Variant calibration | 7,521 ClinVar-labelled | **deliverable = calibration: isotonic ECE 0.008 / Brier 0.0073** (from 0.201/0.060). AUC 0.999 is on P/B extremes (VUS dropped) where discrimination is trivial - reported only to confirm the monotonic isotonic map preserved ranking, NOT a discrimination claim | `eval/variant_calibration.py` |
+| Novel-variant scoring vs InterVar (**full-DB run 2026-06-17**) | 1,015 ClinVar P/B spec-gene variants; literal InterVar re-run with its **complete default DB set** (1000g/esp/avsnp/dbnsfp42a/dbscsnv/clinvar_20210501/rmsk/gnomAD-exome + full intervardb - nothing dropped) | **Missense (n=364, the meaningful axis): DISCERN-full 0.944 BEATS InterVar 0.811 (+0.133), matches REVEL 0.942.** All P/B (easy null-dominated extremes): DISCERN 0.882 w/freq, 0.912 w/o ~ InterVar 0.887. Overall AUCs converge on the null-dominated extremes; the edge is on missense | `eval/intervar_full_eval.py` |
 | **Independent LOF sensitivity (CHAMP/CHBMP)** | CDC F8/F9 disease-allele catalogs, 5,437 variants (non-ClinGen truth set) | **91.2% LP/P recall on 2,130 null variants by CONSEQUENCE ALONE** (F8 97.7%, F9 65.8%; F9 gap = large terminal exon / NMD-escape) | `eval/champ_chbmp_benchmark.py` |
 | **Novel-missense recovery arm (CHAMP/CHBMP)** | novel F8/F9 missense (cDNA not-in ClinVar) + routed PS1/PM5 + PP3 (REVEL, VM) + PM2 (gnomAD-verified absent) | LP recovery **1.5%** (F8 16/1307, F9 11/511), PS1-bounded; PM5 26-47% / no-hit 50-72% stay VUS by point arithmetic. Intrinsic to ACMG, not DISCERN-specific - quantifies the coupling's value | `eval/champ_chbmp_missense_arm.py` |
 
@@ -104,11 +107,11 @@ Full narrative in `DISCERN_CHAMP_CHBMP_Benchmark_v1.md`.
 
 | Claim | Dataset | Result | Status |
 |---|---|---|---|
-| No double-counting (G3) | real ERepo per-code variants | invariant marginal (unit test) + 100% partition coverage on 2,653; owned codes in 31.7%, naive over-classifies 549 (20.7%) | **DONE (A); coupling calibration pending (B/C)** |
-| ACMG combining-rule fidelity | real ERepo bleeding genes | 93.0% exact / 100% within-1-bin (arithmetic only) | **DONE (A)** |
-| Per-code strengths are real, not placeholders | real ERepo | extracted true strength distribution | **DONE (A)** |
+| No double-counting | real ERepo per-code variants | invariant marginal (unit test) + 100% partition coverage on 2,653; owned codes in 31.7%, naive over-classifies 549 (20.7%) | **Done on open data; coupling calibration pending paired cohorts** |
+| ACMG combining-rule fidelity | real ERepo bleeding genes | 93.0% exact / 100% within-1-bin (arithmetic only) | **Done on open data** |
+| Per-code strengths are real, not placeholders | real ERepo | extracted true strength distribution | **Done on open data** |
 | Differential-diagnosis accuracy | Phenopacket Store bleeding subset | 4/4 Top-1 (small N; corpus thin) | partial; corpus thin |
-| Differential-diagnosis accuracy (curated) | **42 PMID-verified published cases, all 10 clusters** (`eval/cases/curated_cases.yaml`) | **Top-1 81% / Top-3 100% / abstention 10%**; every non-Top-1 is a same-gene/same-cluster confusable held in the Top-3. Expansion fixed a latent pertinent-negative bug + 2 misattributed PMIDs | **done** |
+| Differential-diagnosis accuracy (curated) | **42 PMID-verified published cases, all 10 clusters** (`eval/cases/curated_cases.yaml`) | **Top-1 81% / Top-3 100% / abstention 10%** under the configuration that preceded the disease-posterior correction; every non-Top-1 is a same-gene/same-cluster confusable held in the Top-3. See `RESULTS.md` for the corrected arm | **superseded by `RESULTS.md`** |
 | VUS reclassification rate | ClinVar 3-star plus paired cohort | variant layer done | not evaluable on open data |
 | Misdiagnosis rescue | paired cohort under controlled access | harness built | not evaluable on open data |
 | Equity analysis | paired cohort under controlled access | harness built | not evaluable on open data |

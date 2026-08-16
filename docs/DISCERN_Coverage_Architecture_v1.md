@@ -15,7 +15,7 @@ Coverage is anchored to the bodies that define this space, so every disease/gene
 - **Rare bleeding disorders (coagulation):** ASH Education *Treatment of rare factor deficiencies* (2016); de Moerloose et al. (*Haemophilia* 2016, PMID 27405678); Franchini (*Ann Transl Med* 2018).
 - **Inherited-thrombocytopenia <-> ITP misdiagnosis & malignancy predisposition:** *Genetic sequencing in chronic ITP* (*Blood Adv* 2025;9(7):1497); Galera et al. (*Int J Lab Hematol* 2019, doi:10.1111/ijlh.12999); Zaninetti et al. (*J Thromb Haemost* 2017, doi:10.1111/jth.13855); WHO germline-predisposition category.
 
-**Design principle (from v3).** DISCERN's value has two faces, and "coverage" means something different for each:
+**Design principle.** DISCERN's value has two faces, and "coverage" means something different for each:
 1. **Variant engine ->** breadth: cover the **entire curated gene panel** (the partition + ACMG scoring is gene-agnostic, so wide coverage is nearly free and is the generalization claim).
 2. **Diagnosis engine ->** depth on the **confusable clusters**: the finite, well-documented set of look-alikes where misdiagnosis causes real harm. This set is bounded - covering *all* of it is what makes the tool great, not padding with non-confusable disorders.
 
@@ -49,7 +49,7 @@ Quantitative: **Type 1** (~75%), **1C** (accelerated clearance), **Type 3** (nea
 - *Rare bleeding disorders (RBDs, ~3-5% of factor deficiencies, mostly AR):* fibrinogen (**FGA/FGB/FGG**; a-/hypo-/dysfibrinogenemia), prothrombin (**F2**), **FV** (**F5**), **combined FV+FVIII** (**LMAN1/MCFD2**), **FVII** (**F7**), **FX** (**F10**), **FXIII** (**F13A1/F13B**), **FXII** (**F12**), **combined vitamin-K-dependent factors** (**GGCX/VKORC1**).
 
 ### 4. Fibrinolytic / vascular / connective-tissue bleeding (mimics & overlap)
-alpha2-antiplasmin deficiency (**SERPINF2**), PAI-1 deficiency (**SERPINE1**), hereditary hemorrhagic telangiectasia (**ENG/ACVRL1/SMAD4**), vascular Ehlers-Danlos (**COL3A1**). *(Lower priority for v1; relevant as differentials for "bleeding with normal coagulation tests.")*
+alpha2-antiplasmin deficiency (**SERPINF2**), PAI-1 deficiency (**SERPINE1**), hereditary hemorrhagic telangiectasia (**ENG/ACVRL1/SMAD4**), vascular Ehlers-Danlos (**COL3A1**). *(Relevant as differentials for "bleeding with normal coagulation tests.")*
 
 ---
 
@@ -101,15 +101,6 @@ The variant side targets the **full ISTH TIER1 curated panel** (Megy 2019, maint
 - **Vascular/fibrinolytic (catalog):** SERPINF2, SERPINE1, ENG, ACVRL1, SMAD4, COL3A1.
 
 **Gene-specific ACMG rules (ClinGen VCEPs) that anchor the coupled variant call** - already partly extracted (v2): Platelet Disorders VCEP (**ITGA2B/ITGB3**, **GP1BA**/BSS), Coagulation Factor Deficiency VCEP (**F8, F9**), von Willebrand Disease VCEP (**VWF**), RUNX1 VCEP (**RUNX1**). Genes outside a VCEP fall back to general ACMG with reduced confidence - and the genome-wide validation (A1) reports exactly how many panel variants that affects.
-
----
-
-## PART 5 - How this updates the v3 plan
-
-- **Variant panel:** panel = Part 4 (full TIER1), not the 38-gene bleeding subset; A1's genome-wide run and A2's novel-variant scoring use it. VCEP anchors per Part 4.
-- **the cluster catalog (clusters):** replace the sketched candidate list with the **C1-C10 catalog (Part 2)**, built in the **Part 3 priority order (C4 first)**. Each cluster's LRs and pertinent negatives are curated to the same `(freq, n_cases, PMID)` bar as the VCEP specs; each cluster's decisive observation and management divergence are encoded for the next-observation (EIG) and safety-interlock modules.
-- **Safety interlock (B3):** the divergence/contraindication map extends to every new cluster - at minimum: **DDAVP!->2B** (C2, fix the leading-call bug), **avoid splenectomy/immunosuppression** when an inherited thrombocytopenia is plausible (C3/C4), **recombinant FXIII-A2!->F13B** (C8), **antifibrinolytics-not-platelets** for Quebec (C7), and **HSCT-relevant** flags for LAD-III/Chediak (C1/C6). Every flag sourced.
-- **Benchmark (B4):** the curated published-case set is populated **per cluster** from the case literature cited above (e.g. ANKRD26-as-MDS, ANKRD26/RUNX1-as-ITP), giving real, cited cases across C3-C8.
 
 ---
 

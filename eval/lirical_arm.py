@@ -1,8 +1,6 @@
 """PHASE R - the LIRICAL head-to-head on the curated cases.
 
-Runs the comparison the pre-submission plan asked for rather than declining it, and is explicit
-about what the number can support. Two things make this comparison awkward, and both are reported
-instead of smoothed over:
+Two things make this comparison awkward, and both are reported:
 
   1. Only 13 of the benchmark's 48 discriminating features have any HPO representation, so 19 of
      the 42 cases carry no phenotype term at all and LIRICAL has nothing to rank them on. It is run
