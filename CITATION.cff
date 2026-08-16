@@ -1,14 +1,32 @@
 cff-version: 1.2.0
 message: "If you use DISCERN, please cite it as below."
 title: "DISCERN: a coupled disease-variant model for variant interpretation and differential diagnosis in inherited bleeding and platelet disorders"
+version: "0.1.0"
+date-released: 2026-08-16
 authors:
   - family-names: "Mahaboob Ali"
     given-names: "Anees Ahmed"
     alias: "ahmedanees-m"
     email: "ahmedaneesm@gmail.com"
     orcid: "https://orcid.org/0000-0002-2135-0865"
+    affiliation: "Gene Therapy Laboratory, School of Bio Sciences and Technology, Vellore Institute of Technology, Vellore, India"
+  - family-names: "Delhibabu"
+    given-names: "Radhakrishnan"
+    orcid: "https://orcid.org/0000-0001-6591-184X"
+    affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, India"
+  - family-names: "Nelson"
+    given-names: "Everette Jacob Remington"
+    orcid: "https://orcid.org/0000-0002-9781-526X"
+    affiliation: "Gene Therapy Laboratory, School of Bio Sciences and Technology, Vellore Institute of Technology, Vellore, India"
 repository-code: "https://github.com/ahmedanees-m/discern"
+doi: "10.5281/zenodo.21968626"
 identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21968626"
+    description: "Concept DOI, resolving to the latest archived version"
+  - type: doi
+    value: "10.5281/zenodo.21968627"
+    description: "The archived version deposited with the paper"
   - type: doi
     value: "10.17605/OSF.IO/5MQCV"
     description: "Pre-registered analysis plan for the disease-variant coupling"

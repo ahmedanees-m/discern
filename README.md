@@ -6,6 +6,7 @@ Diagnostic Inference from Shared-mechanism Coupling of Evidence in Rare Nosology
 [![codecov](https://codecov.io/gh/ahmedanees-m/discern/branch/main/graph/badge.svg)](https://codecov.io/gh/ahmedanees-m/discern)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21968626.svg)](https://doi.org/10.5281/zenodo.21968626)
 
 DISCERN computes a single joint posterior over disease and variant for inherited bleeding and
 platelet disorders, and reports four outputs from it: a ranked differential diagnosis, an ACMG
@@ -236,10 +237,18 @@ diagnose or treat without human sign-off.
 
 ## Citation
 
-Cite using [CITATION.cff](CITATION.cff).
+Mahaboob Ali AA, Delhibabu R, Nelson EJR. DISCERN: a coupled disease-variant model for
+variant interpretation and differential diagnosis in inherited bleeding and platelet
+disorders. 2026. doi:10.5281/zenodo.21968626
+
+`10.5281/zenodo.21968626` is the concept DOI and always resolves to the latest archived
+version. The version deposited with the paper is `10.5281/zenodo.21968627`. Machine-readable
+metadata is in [CITATION.cff](CITATION.cff), and the pre-registered analysis plan for the
+coupling endpoint is at <https://doi.org/10.17605/OSF.IO/5MQCV>.
 
 ## License
 
 MIT, see [LICENSE](LICENSE). Reference datasets retain their upstream licences.
 
-Author: Anees Ahmed Mahaboob Ali ([@ahmedanees-m](https://github.com/ahmedanees-m)).
+Authors: Anees Ahmed Mahaboob Ali ([@ahmedanees-m](https://github.com/ahmedanees-m)),
+Radhakrishnan Delhibabu, Everette Jacob Remington Nelson.
